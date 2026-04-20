@@ -19,11 +19,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans
 .logo-bar{background:#2a2a2a;padding:12px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #333}
 .logo{font-size:19px;font-weight:700;letter-spacing:1px;color:#f9a825;flex:1}
 .logo span{color:#fff}
+.sync-badge{font-size:10px;background:rgba(76,175,80,0.2);border:0.5px solid #4caf50;border-radius:12px;padding:3px 9px;color:#4caf50;display:flex;align-items:center;gap:4px}
+.sync-dot{width:5px;height:5px;border-radius:50%;background:#4caf50;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+
+/* 分類篩選 */
 .filter-bar{background:#2a2a2a;padding:10px 12px;border-bottom:1px solid #333;overflow-x:auto}
 .filter-bar::-webkit-scrollbar{display:none}
 .filter-chips{display:flex;gap:7px}
 .filter-chip{padding:5px 13px;border-radius:20px;font-size:11px;background:#3a3a3a;color:#aaa;border:1px solid #444;cursor:pointer;white-space:nowrap;transition:all 0.2s;flex-shrink:0}
 .filter-chip.active{background:#f9a825;color:#2a2a2a;border-color:#f9a825;font-weight:600}
+
+/* 書籍卡片 */
 .content{padding:12px 16px}
 .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;margin-top:12px}
 .section-title{font-size:15px;font-weight:600;color:#f9a825}
@@ -32,7 +39,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans
 .book-card:active{transform:scale(0.98)}
 .rank-badge{min-width:28px;text-align:center;flex-shrink:0}
 .rank-num{font-size:15px;font-weight:700;color:#555;line-height:1}
-.rank-num.top1{color:#ffd700}.rank-num.top2{color:#c0c0c0}.rank-num.top3{color:#cd7f32}
+.rank-num.top1{color:#ffd700}
+.rank-num.top2{color:#c0c0c0}
+.rank-num.top3{color:#cd7f32}
 .book-cover{width:48px;height:66px;border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 2px 8px rgba(0,0,0,0.4)}
 .book-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
 .book-title{font-size:14px;font-weight:600;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -42,19 +51,25 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans
 .book-meta{display:flex;gap:8px;font-size:10px;color:#777;margin-top:auto}
 .book-actions{display:flex;flex-direction:column;gap:5px;align-items:flex-end;justify-content:center;min-width:54px}
 .btn-read{background:#f9a825;color:#2a2a2a;border:none;border-radius:6px;padding:6px 10px;font-size:11px;font-weight:600;cursor:pointer;width:100%}
+
+/* 大師列表 */
 .master-list{display:flex;flex-direction:column;gap:10px}
 .master-row{display:flex;align-items:center;gap:14px;padding:14px;border-radius:12px;background:#2a2a2a;border:1px solid #333;cursor:pointer;transition:all 0.2s}
 .master-row:active{transform:scale(0.98);border-color:#f9a825}
-.master-avatar-lg{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#f9a825,#f57f17);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:#1a1a1a;flex-shrink:0}
+.master-avatar-lg{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#f9a825,#f57f17);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:#1a1a1a;flex-shrink:0;box-shadow:0 4px 12px rgba(249,168,37,0.3)}
 .master-info{flex:1;min-width:0}
 .master-name-lg{font-size:15px;font-weight:600;color:#f9a825;margin-bottom:3px}
 .master-desc{font-size:11px;color:#999;line-height:1.5;margin-bottom:5px}
 .master-stats{display:flex;gap:10px;font-size:10px;color:#777}
 .master-arrow{color:#666;font-size:18px}
+
+/* 彈窗 */
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:200}
 .modal.active{display:flex}
 .modal-bottom{align-items:flex-end}
-.modal-content-bottom{background:#1a1a1a;border-radius:20px 20px 0 0;width:100%;max-height:90vh;overflow-y:auto;border-top:3px solid #f9a825}
+.modal-center{align-items:center;justify-content:center}
+.modal-content-bottom{background:#1a1a1a;border-radius:20px 20px 0 0;width:100%;max-height:90vh;overflow-y:auto;animation:slideUp 0.3s ease;border-top:3px solid #f9a825}
+.modal-content-center{background:#1a1a1a;border-radius:20px;width:92%;max-width:420px;max-height:88vh;overflow-y:auto;animation:fadeIn 0.2s ease;border:2px solid #f9a825}
 @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
 @keyframes fadeIn{from{opacity:0;transform:scale(0.95)}to{opacity:1;transform:scale(1)}}
 .modal-header{position:sticky;top:0;background:#2a2a2a;padding:14px 16px;border-bottom:1px solid #333;display:flex;align-items:center;justify-content:space-between;z-index:10}
@@ -75,65 +90,35 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans
 .modal-btn{padding:12px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;text-align:center}
 .btn-primary{background:#f9a825;color:#2a2a2a}
 .btn-secondary{background:#3a3a3a;color:#ccc;border:1px solid #444}
+
+/* Toast */
 .toast{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.9);color:#fff;font-size:13px;padding:11px 22px;border-radius:24px;opacity:0;pointer-events:none;transition:opacity 0.3s;z-index:9999;border:1px solid rgba(249,168,37,0.3)}
 .toast.show{opacity:1}
-#reader-page{background:#f7f3eb;flex-direction:column}
-.reader-topbar{background:#2a2a2a;padding:10px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #333;flex-shrink:0}
-.reader-back-btn,.reader-settings-btn{width:36px;height:36px;border-radius:8px;background:#3a3a3a;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;color:#ccc;flex-shrink:0}
-.reader-title-bar{flex:1;font-size:13px;color:#f9a825;font-weight:600;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.reader-body{flex:1;display:flex;flex-direction:column;overflow:hidden}
-.chapter-list-panel{flex:1;overflow-y:auto;background:#1a1a1a}
-.chapter-loading{text-align:center;padding:40px 20px;color:#999;font-size:13px}
-.chapter-loading .spin-big{width:32px;height:32px;border:3px solid #333;border-top-color:#f9a825;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 12px}
-.chapter-item{padding:14px 16px;border-bottom:1px solid #2a2a2a;cursor:pointer;display:flex;align-items:center;gap:10px}
-.chapter-item:hover,.chapter-item:active{background:#2a2a2a}
-.chapter-item.current{background:rgba(249,168,37,0.1);border-left:3px solid #f9a825}
-.chapter-num-badge{font-size:10px;color:#666;min-width:36px}
-.chapter-name{font-size:13px;color:#ddd;flex:1;line-height:1.4}
-.chapter-read-mark{font-size:10px;color:#4caf50}
-.reading-area{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
-.reading-content{padding:24px 18px 100px;max-width:680px;margin:0 auto}
-.ch-header{text-align:center;margin-bottom:22px;padding-bottom:14px;border-bottom:1px solid rgba(0,0,0,0.12)}
-.ch-num-label{font-size:11px;color:#aaa;letter-spacing:2px;margin-bottom:6px}
-.ch-name-label{font-size:17px;font-weight:600;color:#2a2a2a}
-.novel-text{font-size:17px;line-height:1.9;color:#2c2010;font-family:Georgia,'Noto Serif TC',serif}
-.novel-text p{margin-bottom:1.4em;text-indent:2em}
-.text-loading{text-align:center;padding:60px 20px;color:#999;font-size:13px}
-.text-loading .spin-big{width:36px;height:36px;border:3px solid #ddd;border-top-color:#8B6340;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 16px}
-.text-error{text-align:center;padding:40px 20px}
-.text-error-icon{font-size:40px;margin-bottom:12px}
-.text-error-msg{color:#999;font-size:13px;margin-bottom:16px;line-height:1.6}
-.retry-btn{background:#f9a825;color:#2a2a2a;border:none;border-radius:8px;padding:10px 24px;font-size:13px;font-weight:600;cursor:pointer}
-.reader-bottom{background:#2a2a2a;padding:10px 14px;display:flex;align-items:center;gap:8px;border-top:1px solid #333;flex-shrink:0}
-.ch-nav-btn{padding:8px 14px;border-radius:8px;background:#3a3a3a;color:#ccc;font-size:12px;cursor:pointer;border:none;display:flex;align-items:center;gap:4px;white-space:nowrap}
-.ch-nav-btn:disabled{opacity:0.4;cursor:not-allowed}
-.ch-progress{flex:1;text-align:center}
-.ch-progress-text{font-size:11px;color:#888;display:block}
-.ch-progress-bar{height:3px;background:#3a3a3a;border-radius:2px;margin-top:4px}
-.ch-progress-fill{height:100%;background:#f9a825;border-radius:2px;transition:width 0.3s}
-.toc-btn{padding:8px 12px;border-radius:8px;background:#3a3a3a;color:#ccc;font-size:12px;cursor:pointer;border:none}
-.reader-settings-panel{position:fixed;bottom:0;left:0;right:0;background:#2a2a2a;border-top:2px solid #f9a825;border-radius:16px 16px 0 0;padding:16px;z-index:300;transform:translateY(100%);transition:transform 0.3s}
-.reader-settings-panel.open{transform:translateY(0)}
-.settings-title{font-size:13px;font-weight:600;color:#f9a825;margin-bottom:14px;text-align:center}
-.settings-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.settings-label{font-size:12px;color:#aaa}
-.font-size-ctrl{display:flex;align-items:center;gap:10px}
-.font-btn{width:32px;height:32px;border-radius:8px;background:#3a3a3a;border:1px solid #555;color:#ccc;font-size:16px;cursor:pointer}
-.font-size-val{font-size:14px;color:#f9a825;min-width:30px;text-align:center}
-.bg-options{display:flex;gap:8px}
-.bg-opt{width:36px;height:28px;border-radius:6px;cursor:pointer;border:2px solid transparent}
-.bg-opt.active{border-color:#f9a825}
-.source-bar{background:#252525;border-bottom:1px solid #2a2a2a;padding:8px 14px;display:flex;align-items:center;gap:8px;flex-shrink:0}
-.source-label{font-size:10px;color:#666;white-space:nowrap}
-.source-chips{display:flex;gap:6px;overflow-x:auto;flex:1}
-.source-chips::-webkit-scrollbar{display:none}
-.source-chip{padding:3px 10px;border-radius:12px;font-size:10px;background:#333;color:#888;border:1px solid #444;cursor:pointer;white-space:nowrap;flex-shrink:0}
-.source-chip.active{background:rgba(249,168,37,0.15);color:#f9a825;border-color:#f9a825}
+
+/* 閱讀器 */
+#reader-page{background:#f7f3eb}
+.reader-topbar{background:#2a2a2a;padding:12px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #333}
+.reader-back{width:34px;height:34px;border-radius:8px;background:#3a3a3a;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none}
+.reader-title{flex:1;font-size:13px;color:#f9a825;font-weight:600;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.reader-content{flex:1;overflow-y:auto;padding:24px 18px}
+.text-col{max-width:640px;margin:0 auto}
+.ch-header{text-align:center;margin-bottom:22px;padding-bottom:14px;border-bottom:1px solid rgba(0,0,0,0.1)}
+.ch-num{font-size:11px;color:#aaa;letter-spacing:2px;margin-bottom:6px}
+.ch-name{font-size:17px;font-weight:600;color:#2a2a2a}
+.novel-text{font-size:17px;line-height:1.85;color:#2c2010;font-family:Georgia,'Noto Serif TC',serif}
+.novel-text p{margin-bottom:1.5em;text-indent:2em;text-align:justify}
+.novel-text p:first-child::first-letter{float:left;font-size:2.2em;line-height:0.9;margin:4px 4px 0 0;font-weight:600;color:#8B6340}
+.reader-bottombar{background:#2a2a2a;padding:10px 16px;display:flex;align-items:center;gap:10px;border-top:1px solid #333}
+.nav-btn{display:flex;align-items:center;gap:5px;padding:8px 14px;border-radius:8px;background:#3a3a3a;color:#ccc;font-size:12px;cursor:pointer;border:none}
+.empty-state{text-align:center;padding:60px 20px;color:#666;font-size:13px;line-height:2}
+
+/* 登入 / 同步 UI */
 .user-badge{font-size:10px;background:rgba(76,175,80,0.2);border:0.5px solid #4caf50;border-radius:12px;padding:3px 9px;color:#4caf50;display:flex;align-items:center;gap:5px;cursor:pointer}
 .user-avatar{width:18px;height:18px;border-radius:50%;object-fit:cover}
 .login-modal-wrap{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:300;align-items:center;justify-content:center}
 .login-modal-wrap.active{display:flex}
-.login-box{background:#1a1a1a;border-radius:20px;width:90%;max-width:380px;border:2px solid #f9a825;overflow:hidden}
+.login-box{background:#1a1a1a;border-radius:20px;width:90%;max-width:380px;border:2px solid #f9a825;overflow:hidden;animation:fadeIn 0.2s ease}
+@keyframes fadeIn{from{opacity:0;transform:scale(0.95)}to{opacity:1;transform:scale(1)}}
 .login-box-head{background:#2a2a2a;padding:16px;border-bottom:1px solid #333;display:flex;align-items:center;justify-content:space-between}
 .login-box-title{font-size:16px;font-weight:600;color:#f9a825}
 .login-box-close{font-size:26px;color:#999;cursor:pointer}
@@ -143,643 +128,1077 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans
 .login-main-desc{font-size:12px;color:#999;line-height:1.7;margin-bottom:24px}
 .login-feature-list{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:24px}
 .login-feature-item{background:#2a2a2a;border-radius:8px;padding:10px;border:1px solid #333;font-size:11px;color:#ccc;text-align:left;display:flex;align-items:center;gap:6px}
-.google-login-btn{background:#fff;color:#2a2a2a;border:none;border-radius:10px;padding:13px 24px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:10px;margin:0 auto;box-shadow:0 2px 8px rgba(0,0,0,0.4)}
-.sync-indicator{position:fixed;bottom:80px;right:16px;background:#2a2a2a;border:1px solid #4caf50;border-radius:20px;padding:6px 12px;font-size:11px;color:#4caf50;display:none;align-items:center;gap:6px;z-index:150}
+.login-feature-icon{font-size:16px}
+.google-login-btn{background:#fff;color:#2a2a2a;border:none;border-radius:10px;padding:13px 24px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:10px;margin:0 auto;box-shadow:0 2px 8px rgba(0,0,0,0.4);transition:transform 0.2s}
+.google-login-btn:active{transform:scale(0.97)}
+.sync-indicator{position:fixed;bottom:20px;right:16px;background:#2a2a2a;border:1px solid #4caf50;border-radius:20px;padding:6px 12px;font-size:11px;color:#4caf50;display:none;align-items:center;gap:6px;z-index:150;box-shadow:0 2px 8px rgba(0,0,0,0.3)}
 .sync-indicator.show{display:flex}
 .spin{width:11px;height:11px;border:2px solid #4caf50;border-top-color:transparent;border-radius:50%;animation:spin 0.8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.empty-state{text-align:center;padding:60px 20px;color:#666;font-size:13px;line-height:2}
 .config-warn{background:#1a1a1a;border:1.5px solid #f57f17;border-radius:10px;padding:12px 14px;margin:12px 16px;display:flex;gap:10px;align-items:flex-start}
+.config-warn-icon{font-size:20px;flex-shrink:0}
+.config-warn-text{font-size:11px;color:#aaa;line-height:1.6;flex:1}
 .config-warn-text strong{color:#f9a825}
+.config-warn-close{font-size:18px;color:#666;cursor:pointer;padding-left:6px}
 </style>
-</head><body>
+</head>
+<body>
+
+<!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+
+<!-- ==========================================
+     ⚙️ Firebase 配置區 - 請填入你的資料
+     參考「Firebase設定教學.md」完成設定
+     ========================================== -->
 <script>
-const FIREBASE_CONFIG={apiKey:"AIzaSyAEw5nEJprSDz2jCJgStYj8eJkk-Ec1nYY",authDomain:"guangge-library.firebaseapp.com",databaseURL:"https://guangge-library-default-rtdb.asia-southeast1.firebasedatabase.app",projectId:"guangge-library",storageBucket:"guangge-library.firebasestorage.app",messagingSenderId:"116686086549",appId:"1:116686086549:web:e9effc43c00f0b04b9d69c"};
-const FB_READY=true;
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyAEw5nEJprSDz2jCJgStYj8eJkk-Ec1nYY",
+  authDomain: "guangge-library.firebaseapp.com",
+  databaseURL: "https://guangge-library-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "guangge-library",
+  storageBucket: "guangge-library.firebasestorage.app",
+  messagingSenderId: "116686086549",
+  appId: "1:116686086549:web:e9effc43c00f0b04b9d69c"
+};
+const FB_READY = !FIREBASE_CONFIG.apiKey.includes('請填入');
 </script>
+
+
 <div class="top-nav">
-<div class="nav-item active" data-page="home" onclick="switchPage('home')"><div class="nav-icon">📚</div><div>首頁</div></div>
-<div class="nav-item" data-page="history" onclick="switchPage('history')"><div class="nav-icon">🕒</div><div>歷史</div></div>
-<div class="nav-item" data-page="rank" onclick="switchPage('rank')"><div class="nav-icon">🏆</div><div>排行</div></div>
-<div class="nav-item" data-page="complete" onclick="switchPage('complete')"><div class="nav-icon">✅</div><div>完本</div></div>
-<div class="nav-item" data-page="master" onclick="switchPage('master')"><div class="nav-icon">👨‍🎓</div><div>大師</div></div>
-<div class="nav-item" data-page="shelf" onclick="switchPage('shelf')"><div class="nav-icon">📖</div><div>書架</div></div>
+  <div class="nav-item active" data-page="home" onclick="switchPage('home')">
+    <div class="nav-icon">📚</div><div>首頁</div>
+  </div>
+  <div class="nav-item" data-page="history" onclick="switchPage('history')">
+    <div class="nav-icon">🕒</div><div>歷史</div>
+  </div>
+  <div class="nav-item" data-page="rank" onclick="switchPage('rank')">
+    <div class="nav-icon">🏆</div><div>排行</div>
+  </div>
+  <div class="nav-item" data-page="complete" onclick="switchPage('complete')">
+    <div class="nav-icon">✅</div><div>完本</div>
+  </div>
+  <div class="nav-item" data-page="master" onclick="switchPage('master')">
+    <div class="nav-icon">👨‍🎓</div><div>大師</div>
+  </div>
+  <div class="nav-item" data-page="shelf" onclick="switchPage('shelf')">
+    <div class="nav-icon">📖</div><div>書架</div>
+  </div>
 </div>
-<div id="home-page" class="page active"><div class="main">
-<div class="logo-bar"><div class="logo">光哥<span>書蟲</span>庫</div><div class="user-badge" id="user-badge" onclick="handleUserClick()"><span id="user-badge-text">登入同步</span></div></div>
-<div class="config-warn" id="config-warn" style="display:none"><div class="config-warn-icon">⚠️</div><div class="config-warn-text"><strong>尚未設定 Firebase</strong><br>多裝置同步需完成設定。</div><div onclick="this.parentElement.style.display='none'" style="font-size:18px;color:#666;cursor:pointer;padding-left:6px">×</div></div>
-<div class="content">
-<div class="section-header"><div class="section-title">🔥 熱門推薦</div><div class="section-more" onclick="switchPage('rank')">更多 ›</div></div>
-<div id="home-books"></div>
-<div class="section-header"><div class="section-title">👨‍🎓 市場大師</div><div class="section-more" onclick="switchPage('master')">更多 ›</div></div>
-<div id="home-masters"></div>
-</div></div></div>
-<div id="history-page" class="page"><div class="main"><div class="logo-bar"><div class="logo">歷史閱讀</div></div><div class="content" id="history-content"><div class="empty-state">🕒<br>尚無閱讀記錄</div></div></div></div>
-<div id="rank-page" class="page"><div class="main"><div class="logo-bar"><div class="logo">總排行榜</div></div>
-<div class="filter-bar">
-<div style="font-size:10px;color:#f9a825;margin-bottom:6px;font-weight:600">▍ 男頻</div>
-<div class="filter-chips" id="rank-chips">
-<div class="filter-chip active" onclick="filterBooks('rank','all',this)">全部</div>
-<div class="filter-chip" onclick="filterBooks('rank','修仙玄幻',this)">修仙玄幻</div>
-<div class="filter-chip" onclick="filterBooks('rank','東方玄幻',this)">東方玄幻</div>
-<div class="filter-chip" onclick="filterBooks('rank','武俠仙俠',this)">武俠仙俠</div>
-<div class="filter-chip" onclick="filterBooks('rank','都市異能',this)">都市異能</div>
-<div class="filter-chip" onclick="filterBooks('rank','歷史軍事',this)">歷史軍事</div>
-<div class="filter-chip" onclick="filterBooks('rank','科幻未來',this)">科幻未來</div>
-<div class="filter-chip" onclick="filterBooks('rank','競技遊戲',this)">競技遊戲</div>
-<div class="filter-chip" onclick="filterBooks('rank','末世異能',this)">末世異能</div>
-<div class="filter-chip" onclick="filterBooks('rank','靈異鬼怪',this)">靈異鬼怪</div>
-<div class="filter-chip" onclick="filterBooks('rank','懸疑推理',this)">懸疑推理</div>
-<div class="filter-chip" onclick="filterBooks('rank','奇幻西方',this)">奇幻西方</div>
+
+<!-- 首頁 -->
+<div id="home-page" class="page active">
+  <div class="main">
+    <div class="logo-bar">
+      <div class="logo">光哥<span>書蟲</span>庫</div>
+      <div class="user-badge" id="user-badge" onclick="handleUserClick()">
+        <span id="user-badge-text">登入同步</span>
+      </div>
+    </div>
+    <div class="config-warn" id="config-warn">
+      <div class="config-warn-icon">⚠️</div>
+      <div class="config-warn-text">
+        <strong>尚未設定 Firebase</strong><br>
+        多裝置同步需完成設定。參考「Firebase設定教學.md」，填入 API 金鑰即可啟用。設定前資料只存本機。
+      </div>
+      <div class="config-warn-close" onclick="this.parentElement.style.display='none'">×</div>
+    </div>
+    <div class="content">
+      <div class="section-header">
+        <div class="section-title">🔥 熱門推薦</div>
+        <div class="section-more" onclick="switchPage('rank')">更多 ›</div>
+      </div>
+      <div id="home-books"></div>
+      <div class="section-header">
+        <div class="section-title">👨‍🎓 市場大師</div>
+        <div class="section-more" onclick="switchPage('master')">更多 ›</div>
+      </div>
+      <div id="home-masters"></div>
+    </div>
+  </div>
 </div>
-<div style="font-size:10px;color:#f9a825;margin:10px 0 6px;font-weight:600">▍ 女頻</div>
-<div class="filter-chips">
-<div class="filter-chip" onclick="filterBooks('rank','古言宮鬥',this)">古言宮鬥</div>
-<div class="filter-chip" onclick="filterBooks('rank','穿越重生',this)">穿越重生</div>
-<div class="filter-chip" onclick="filterBooks('rank','現代言情',this)">現代言情</div>
-<div class="filter-chip" onclick="filterBooks('rank','仙俠言情',this)">仙俠言情</div>
+
+<!-- 歷史閱讀 -->
+<div id="history-page" class="page">
+  <div class="main">
+    <div class="logo-bar"><div class="logo">歷史閱讀</div></div>
+    <div class="content" id="history-content">
+      <div class="empty-state">🕒<br>尚無閱讀記錄<br><span style="font-size:11px">開始閱讀後，記錄會顯示在這裡</span></div>
+    </div>
+  </div>
 </div>
+
+<!-- 總排行 -->
+<div id="rank-page" class="page">
+  <div class="main">
+    <div class="logo-bar"><div class="logo">總排行榜</div></div>
+    <div class="filter-bar">
+      <div style="font-size:10px;color:#f9a825;letter-spacing:1px;margin-bottom:6px;font-weight:600">▍ 男頻</div>
+      <div class="filter-chips" id="rank-chips">
+        <div class="filter-chip active" onclick="filterBooks('rank','all',this)">全部</div>
+        <div class="filter-chip" onclick="filterBooks('rank','修仙玄幻',this)">修仙玄幻</div>
+        <div class="filter-chip" onclick="filterBooks('rank','東方玄幻',this)">東方玄幻</div>
+        <div class="filter-chip" onclick="filterBooks('rank','武俠仙俠',this)">武俠仙俠</div>
+        <div class="filter-chip" onclick="filterBooks('rank','輕武俠',this)">輕武俠</div>
+        <div class="filter-chip" onclick="filterBooks('rank','都市異能',this)">都市異能</div>
+        <div class="filter-chip" onclick="filterBooks('rank','現代修真',this)">現代修真</div>
+        <div class="filter-chip" onclick="filterBooks('rank','歷史軍事',this)">歷史軍事</div>
+        <div class="filter-chip" onclick="filterBooks('rank','架空歷史',this)">架空歷史</div>
+        <div class="filter-chip" onclick="filterBooks('rank','科幻未來',this)">科幻未來</div>
+        <div class="filter-chip" onclick="filterBooks('rank','星際宇宙',this)">星際宇宙</div>
+        <div class="filter-chip" onclick="filterBooks('rank','機甲戰鬥',this)">機甲戰鬥</div>
+        <div class="filter-chip" onclick="filterBooks('rank','競技遊戲',this)">競技遊戲</div>
+        <div class="filter-chip" onclick="filterBooks('rank','網遊電競',this)">網遊電競</div>
+        <div class="filter-chip" onclick="filterBooks('rank','末世異能',this)">末世異能</div>
+        <div class="filter-chip" onclick="filterBooks('rank','靈異鬼怪',this)">靈異鬼怪</div>
+        <div class="filter-chip" onclick="filterBooks('rank','懸疑推理',this)">懸疑推理</div>
+        <div class="filter-chip" onclick="filterBooks('rank','克蘇魯',this)">克蘇魯</div>
+        <div class="filter-chip" onclick="filterBooks('rank','奇幻西方',this)">奇幻西方</div>
+        <div class="filter-chip" onclick="filterBooks('rank','無限流',this)">無限流</div>
+        <div class="filter-chip" onclick="filterBooks('rank','系統流',this)">系統流</div>
+        <div class="filter-chip" onclick="filterBooks('rank','洪荒流',this)">洪荒流</div>
+      </div>
+      <div style="font-size:10px;color:#f9a825;letter-spacing:1px;margin:10px 0 6px;font-weight:600">▍ 女頻</div>
+      <div class="filter-chips">
+        <div class="filter-chip" onclick="filterBooks('rank','古言宮鬥',this)">古言宮鬥</div>
+        <div class="filter-chip" onclick="filterBooks('rank','侯門貴女',this)">侯門貴女</div>
+        <div class="filter-chip" onclick="filterBooks('rank','穿越重生',this)">穿越重生</div>
+        <div class="filter-chip" onclick="filterBooks('rank','現代言情',this)">現代言情</div>
+        <div class="filter-chip" onclick="filterBooks('rank','豪門總裁',this)">豪門總裁</div>
+        <div class="filter-chip" onclick="filterBooks('rank','校園青春',this)">校園青春</div>
+        <div class="filter-chip" onclick="filterBooks('rank','仙俠言情',this)">仙俠言情</div>
+        <div class="filter-chip" onclick="filterBooks('rank','異能言情',this)">異能言情</div>
+        <div class="filter-chip" onclick="filterBooks('rank','星際言情',this)">星際言情</div>
+      </div>
+      <div style="font-size:10px;color:#f9a825;letter-spacing:1px;margin:10px 0 6px;font-weight:600">▍ 其他</div>
+      <div class="filter-chips">
+        <div class="filter-chip" onclick="filterBooks('rank','輕小說',this)">輕小說</div>
+        <div class="filter-chip" onclick="filterBooks('rank','同人二次元',this)">同人二次元</div>
+        <div class="filter-chip" onclick="filterBooks('rank','漫畫改編',this)">漫畫改編</div>
+        <div class="filter-chip" onclick="filterBooks('rank','體育競技',this)">體育競技</div>
+        <div class="filter-chip" onclick="filterBooks('rank','職場商戰',this)">職場商戰</div>
+        <div class="filter-chip" onclick="filterBooks('rank','美食料理',this)">美食料理</div>
+        <div class="filter-chip" onclick="filterBooks('rank','都市言情',this)">都市言情</div>
+      </div>
+    </div>
+    <div class="content" id="rank-content"></div>
+  </div>
 </div>
-<div class="content" id="rank-content"></div></div></div>
-<div id="complete-page" class="page"><div class="main"><div class="logo-bar"><div class="logo">完本排行</div></div>
-<div class="filter-bar">
-<div style="font-size:10px;color:#f9a825;margin-bottom:6px;font-weight:600">▍ 男頻</div>
-<div class="filter-chips" id="complete-chips">
-<div class="filter-chip active" onclick="filterBooks('complete','all',this)">全部</div>
-<div class="filter-chip" onclick="filterBooks('complete','修仙玄幻',this)">修仙玄幻</div>
-<div class="filter-chip" onclick="filterBooks('complete','武俠仙俠',this)">武俠仙俠</div>
-<div class="filter-chip" onclick="filterBooks('complete','都市異能',this)">都市異能</div>
-<div class="filter-chip" onclick="filterBooks('complete','歷史軍事',this)">歷史軍事</div>
-<div class="filter-chip" onclick="filterBooks('complete','科幻未來',this)">科幻未來</div>
-<div class="filter-chip" onclick="filterBooks('complete','競技遊戲',this)">競技遊戲</div>
-<div class="filter-chip" onclick="filterBooks('complete','靈異鬼怪',this)">靈異鬼怪</div>
-<div class="filter-chip" onclick="filterBooks('complete','懸疑推理',this)">懸疑推理</div>
+
+<!-- 完本排行 -->
+<div id="complete-page" class="page">
+  <div class="main">
+    <div class="logo-bar"><div class="logo">完本排行</div></div>
+    <div class="filter-bar">
+      <div style="font-size:10px;color:#f9a825;letter-spacing:1px;margin-bottom:6px;font-weight:600">▍ 男頻</div>
+      <div class="filter-chips" id="complete-chips">
+        <div class="filter-chip active" onclick="filterBooks('complete','all',this)">全部</div>
+        <div class="filter-chip" onclick="filterBooks('complete','修仙玄幻',this)">修仙玄幻</div>
+        <div class="filter-chip" onclick="filterBooks('complete','東方玄幻',this)">東方玄幻</div>
+        <div class="filter-chip" onclick="filterBooks('complete','武俠仙俠',this)">武俠仙俠</div>
+        <div class="filter-chip" onclick="filterBooks('complete','輕武俠',this)">輕武俠</div>
+        <div class="filter-chip" onclick="filterBooks('complete','都市異能',this)">都市異能</div>
+        <div class="filter-chip" onclick="filterBooks('complete','現代修真',this)">現代修真</div>
+        <div class="filter-chip" onclick="filterBooks('complete','歷史軍事',this)">歷史軍事</div>
+        <div class="filter-chip" onclick="filterBooks('complete','架空歷史',this)">架空歷史</div>
+        <div class="filter-chip" onclick="filterBooks('complete','科幻未來',this)">科幻未來</div>
+        <div class="filter-chip" onclick="filterBooks('complete','星際宇宙',this)">星際宇宙</div>
+        <div class="filter-chip" onclick="filterBooks('complete','機甲戰鬥',this)">機甲戰鬥</div>
+        <div class="filter-chip" onclick="filterBooks('complete','競技遊戲',this)">競技遊戲</div>
+        <div class="filter-chip" onclick="filterBooks('complete','網遊電競',this)">網遊電競</div>
+        <div class="filter-chip" onclick="filterBooks('complete','末世異能',this)">末世異能</div>
+        <div class="filter-chip" onclick="filterBooks('complete','靈異鬼怪',this)">靈異鬼怪</div>
+        <div class="filter-chip" onclick="filterBooks('complete','懸疑推理',this)">懸疑推理</div>
+        <div class="filter-chip" onclick="filterBooks('complete','克蘇魯',this)">克蘇魯</div>
+        <div class="filter-chip" onclick="filterBooks('complete','奇幻西方',this)">奇幻西方</div>
+        <div class="filter-chip" onclick="filterBooks('complete','無限流',this)">無限流</div>
+        <div class="filter-chip" onclick="filterBooks('complete','系統流',this)">系統流</div>
+        <div class="filter-chip" onclick="filterBooks('complete','洪荒流',this)">洪荒流</div>
+      </div>
+      <div style="font-size:10px;color:#f9a825;letter-spacing:1px;margin:10px 0 6px;font-weight:600">▍ 女頻</div>
+      <div class="filter-chips">
+        <div class="filter-chip" onclick="filterBooks('complete','古言宮鬥',this)">古言宮鬥</div>
+        <div class="filter-chip" onclick="filterBooks('complete','侯門貴女',this)">侯門貴女</div>
+        <div class="filter-chip" onclick="filterBooks('complete','穿越重生',this)">穿越重生</div>
+        <div class="filter-chip" onclick="filterBooks('complete','現代言情',this)">現代言情</div>
+        <div class="filter-chip" onclick="filterBooks('complete','豪門總裁',this)">豪門總裁</div>
+        <div class="filter-chip" onclick="filterBooks('complete','校園青春',this)">校園青春</div>
+        <div class="filter-chip" onclick="filterBooks('complete','仙俠言情',this)">仙俠言情</div>
+        <div class="filter-chip" onclick="filterBooks('complete','異能言情',this)">異能言情</div>
+        <div class="filter-chip" onclick="filterBooks('complete','星際言情',this)">星際言情</div>
+      </div>
+      <div style="font-size:10px;color:#f9a825;letter-spacing:1px;margin:10px 0 6px;font-weight:600">▍ 其他</div>
+      <div class="filter-chips">
+        <div class="filter-chip" onclick="filterBooks('complete','輕小說',this)">輕小說</div>
+        <div class="filter-chip" onclick="filterBooks('complete','同人二次元',this)">同人二次元</div>
+        <div class="filter-chip" onclick="filterBooks('complete','漫畫改編',this)">漫畫改編</div>
+        <div class="filter-chip" onclick="filterBooks('complete','體育競技',this)">體育競技</div>
+        <div class="filter-chip" onclick="filterBooks('complete','職場商戰',this)">職場商戰</div>
+        <div class="filter-chip" onclick="filterBooks('complete','美食料理',this)">美食料理</div>
+        <div class="filter-chip" onclick="filterBooks('complete','都市言情',this)">都市言情</div>
+      </div>
+    </div>
+    <div class="content" id="complete-content"></div>
+  </div>
 </div>
-<div style="font-size:10px;color:#f9a825;margin:10px 0 6px;font-weight:600">▍ 女頻</div>
-<div class="filter-chips">
-<div class="filter-chip" onclick="filterBooks('complete','古言宮鬥',this)">古言宮鬥</div>
-<div class="filter-chip" onclick="filterBooks('complete','穿越重生',this)">穿越重生</div>
-<div class="filter-chip" onclick="filterBooks('complete','現代言情',this)">現代言情</div>
+
+<!-- 大師列表 -->
+<div id="master-page" class="page">
+  <div class="main">
+    <div class="logo-bar"><div class="logo">市場大師</div></div>
+    <div class="content">
+      <div class="master-list" id="master-list"></div>
+    </div>
+  </div>
 </div>
+
+<!-- 書架 -->
+<div id="shelf-page" class="page">
+  <div class="main">
+    <div class="logo-bar"><div class="logo">我的書架</div></div>
+    <div class="content" id="shelf-content">
+      <div class="empty-state">📚<br>書架空空如也</div>
+    </div>
+  </div>
 </div>
-<div class="content" id="complete-content"></div></div></div>
-<div id="master-page" class="page"><div class="main"><div class="logo-bar"><div class="logo">市場大師</div></div><div class="content"><div class="master-list" id="master-list"></div></div></div></div>
-<div id="shelf-page" class="page"><div class="main"><div class="logo-bar"><div class="logo">我的書架</div></div><div class="content" id="shelf-content"><div class="empty-state">📚<br>書架空空如也</div></div></div></div>
+
+<!-- 閱讀器 -->
 <div id="reader-page" class="page">
-<div class="reader-topbar">
-<button class="reader-back-btn" onclick="backFromReader()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg></button>
-<div class="reader-title-bar" id="reader-title-bar">書名</div>
-<button class="reader-settings-btn" onclick="toggleReaderSettings()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
+  <div class="reader-topbar">
+    <button class="reader-back" onclick="backFromReader()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <div class="reader-title" id="reader-title">書名</div>
+    <button class="reader-back" onclick="showToast('設定功能開發中')">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+    </button>
+  </div>
+  <div class="reader-content">
+    <div class="text-col">
+      <div class="ch-header">
+        <div class="ch-num" id="reader-ch-num">第一章</div>
+        <div class="ch-name" id="reader-ch-name">故事開始</div>
+      </div>
+      <div class="novel-text" id="reader-text">
+        <p>這是一個關於修仙的故事。在遙遠的東方，有一個名為玄黃大陸的世界，那裡靈氣充沛，強者如雲。無數修士在此追尋長生大道，尋求突破天地枷鎖的方法。</p>
+        <p>主角是一個平凡的少年，出身寒門，卻懷著一顆不甘平凡的心。在一次意外中，他得到了一本遠古秘籍，從此踏上了修仙之路。</p>
+        <p>修煉之路充滿艱辛，他要面對無數強敵的挑戰，要經歷生死考驗，要在絕境中尋找生機。但他從未放棄，因為心中有夢想，有執念，有不滅的信念。</p>
+        <p>這是一段波瀾壯闊的旅程，是一曲蕩氣迴腸的長歌。在這條路上，他會遇到生死之交，會遇到紅顏知己，會遇到亦敵亦友的對手。他們共同譜寫著這個時代最精彩的篇章。</p>
+        <p>天地之大，無奇不有。在這片土地上，有仙有魔，有人有妖，每一個生命都有自己的故事，每一段歷史都是一部傳奇。而這個少年的故事，才剛剛開始……</p>
+      </div>
+    </div>
+  </div>
+  <div class="reader-bottombar">
+    <button class="nav-btn" onclick="showToast('已是第一章')">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>上一章
+    </button>
+    <div style="flex:1;text-align:center;font-size:11px;color:#666">第 1 / 100 章</div>
+    <button class="nav-btn" onclick="showToast('下一章')">
+      下一章<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </div>
 </div>
-<div class="source-bar" id="source-bar"><div class="source-label">書源:</div><div class="source-chips" id="source-chips"></div></div>
-<div class="reader-body" id="reader-body">
-<div class="chapter-list-panel" id="chapter-list-panel" style="display:none"><div id="chapter-list-inner"></div></div>
-<div class="reading-area" id="reading-area" style="display:none"><div class="reading-content" id="reading-content"></div></div>
-<div class="chapter-list-panel" id="reader-loading-state"><div class="chapter-loading"><div class="spin-big"></div><div id="reader-loading-text">正在搜尋書源...</div></div></div>
-</div>
-<div class="reader-bottom" id="reader-bottom" style="display:none">
-<button class="ch-nav-btn" id="btn-prev-ch" onclick="loadPrevChapter()"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>上章</button>
-<div class="ch-progress"><span class="ch-progress-text" id="ch-progress-text">第 0 / 0 章</span><div class="ch-progress-bar"><div class="ch-progress-fill" id="ch-progress-fill" style="width:0%"></div></div></div>
-<button class="toc-btn" onclick="showTOC()">目錄</button>
-<button class="ch-nav-btn" id="btn-next-ch" onclick="loadNextChapter()">下章<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
-</div>
-</div>
-<div class="reader-settings-panel" id="reader-settings-panel">
-<div class="settings-title">閱讀設定</div>
-<div class="settings-row"><div class="settings-label">字體大小</div><div class="font-size-ctrl"><button class="font-btn" onclick="changeFontSize(-1)">－</button><div class="font-size-val" id="font-size-val">17</div><button class="font-btn" onclick="changeFontSize(1)">＋</button></div></div>
-<div class="settings-row"><div class="settings-label">背景顏色</div><div class="bg-options"><div class="bg-opt active" style="background:#f7f3eb" onclick="setBg('#f7f3eb','#2c2010',this)"></div><div class="bg-opt" style="background:#ffffff" onclick="setBg('#ffffff','#1a1a1a',this)"></div><div class="bg-opt" style="background:#1a1a1a" onclick="setBg('#1a1a1a','#cccccc',this)"></div><div class="bg-opt" style="background:#2d4a2d" onclick="setBg('#2d4a2d','#c8e6c8',this)"></div></div></div>
-<div class="settings-row"><div class="settings-label">行距</div><div class="font-size-ctrl"><button class="font-btn" onclick="changeLineHeight(-0.1)">－</button><div class="font-size-val" id="line-height-val">1.9</div><button class="font-btn" onclick="changeLineHeight(0.1)">＋</button></div></div>
-<div style="text-align:center;margin-top:8px"><button onclick="toggleReaderSettings()" style="background:#3a3a3a;color:#ccc;border:none;border-radius:8px;padding:8px 24px;font-size:13px;cursor:pointer">關閉</button></div>
-</div>
+
+<!-- 書籍詳情彈窗 -->
 <div class="modal modal-bottom" id="detail-modal" onclick="if(event.target===this)closeModal('detail-modal')">
-<div class="modal-content-bottom">
-<div class="modal-header"><div class="modal-title">書籍詳情</div><div class="modal-close" onclick="closeModal('detail-modal')">×</div></div>
-<div class="modal-body">
-<div class="detail-cover" id="detail-cover"></div>
-<div class="detail-title" id="detail-title"></div>
-<div class="detail-author" id="detail-author"></div>
-<div class="detail-stats"><div class="stat-item"><div class="stat-value" id="d-rating"></div><div class="stat-label">評分</div></div><div class="stat-item"><div class="stat-value" id="d-words"></div><div class="stat-label">字數</div></div><div class="stat-item"><div class="stat-value" id="d-fav"></div><div class="stat-label">收藏</div></div></div>
-<div class="detail-intro-box"><div class="intro-label">📖 內容簡介</div><div class="intro-text" id="d-intro"></div></div>
+  <div class="modal-content-bottom">
+    <div class="modal-header">
+      <div class="modal-title">書籍詳情</div>
+      <div class="modal-close" onclick="closeModal('detail-modal')">×</div>
+    </div>
+    <div class="modal-body">
+      <div class="detail-cover" id="detail-cover"></div>
+      <div class="detail-title" id="detail-title"></div>
+      <div class="detail-author" id="detail-author"></div>
+      <div class="detail-stats">
+        <div class="stat-item"><div class="stat-value" id="d-rating"></div><div class="stat-label">評分</div></div>
+        <div class="stat-item"><div class="stat-value" id="d-words"></div><div class="stat-label">字數</div></div>
+        <div class="stat-item"><div class="stat-value" id="d-fav"></div><div class="stat-label">收藏</div></div>
+      </div>
+      <div class="detail-intro-box">
+        <div class="intro-label">📖 內容簡介</div>
+        <div class="intro-text" id="d-intro"></div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-btn btn-secondary" onclick="closeModal('detail-modal')">關閉</button>
+      <button class="modal-btn btn-primary" id="detail-read-btn">立即閱讀</button>
+    </div>
+  </div>
 </div>
-<div class="modal-actions"><button class="modal-btn btn-secondary" onclick="closeModal('detail-modal')">關閉</button><button class="modal-btn btn-primary" id="detail-read-btn">立即閱讀</button></div>
-</div></div>
+
+<!-- 大師作品彈窗 -->
 <div class="modal modal-bottom" id="master-modal" onclick="if(event.target===this)closeModal('master-modal')">
-<div class="modal-content-bottom">
-<div class="modal-header"><div class="modal-title" id="master-modal-title">大師作品</div><div class="modal-close" onclick="closeModal('master-modal')">×</div></div>
-<div class="modal-body">
-<div style="display:flex;align-items:center;gap:14px;padding:12px;background:#2a2a2a;border-radius:12px;margin-bottom:16px;border:1px solid #333"><div class="master-avatar-lg" id="mm-avatar"></div><div><div style="font-size:16px;font-weight:600;color:#f9a825;margin-bottom:4px" id="mm-name"></div><div style="font-size:12px;color:#999;line-height:1.5" id="mm-desc"></div></div></div>
-<div style="font-size:12px;font-weight:600;color:#f9a825;margin-bottom:10px" id="mm-works-label"></div>
-<div id="mm-works-list"></div>
-</div></div></div>
+  <div class="modal-content-bottom">
+    <div class="modal-header">
+      <div class="modal-title" id="master-modal-title">大師作品</div>
+      <div class="modal-close" onclick="closeModal('master-modal')">×</div>
+    </div>
+    <div class="modal-body">
+      <div style="display:flex;align-items:center;gap:14px;padding:12px;background:#2a2a2a;border-radius:12px;margin-bottom:16px;border:1px solid #333">
+        <div class="master-avatar-lg" id="mm-avatar"></div>
+        <div>
+          <div style="font-size:16px;font-weight:600;color:#f9a825;margin-bottom:4px" id="mm-name"></div>
+          <div style="font-size:12px;color:#999;line-height:1.5" id="mm-desc"></div>
+        </div>
+      </div>
+      <div style="font-size:12px;font-weight:600;color:#f9a825;margin-bottom:10px" id="mm-works-label"></div>
+      <div id="mm-works-list"></div>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
-<div class="sync-indicator" id="sync-indicator"><div class="spin"></div><span id="sync-text">同步中...</span></div>
+
+<!-- 同步指示器 -->
+<div class="sync-indicator" id="sync-indicator">
+  <div class="spin"></div>
+  <span id="sync-text">同步中...</span>
+</div>
+
+<!-- Google 登入彈窗 -->
 <div class="login-modal-wrap" id="login-modal" onclick="if(event.target===this)closeLoginModal()">
-<div class="login-box">
-<div class="login-box-head"><div class="login-box-title">登入光哥書蟲庫</div><div class="login-box-close" onclick="closeLoginModal()">×</div></div>
-<div class="login-box-body">
-<div class="login-icon-big">📚</div>
-<div class="login-main-title">多裝置同步</div>
-<div class="login-main-desc">用 Google 帳號登入，自動同步所有裝置的閱讀狀態</div>
-<div class="login-feature-list"><div class="login-feature-item">🔄 閱讀進度同步</div><div class="login-feature-item">📖 書架同步</div><div class="login-feature-item">🕒 歷史同步</div><div class="login-feature-item">🔖 書籤同步</div></div>
-<button class="google-login-btn" onclick="loginGoogle()"><svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4285f4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34a853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#fbbc05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#ea4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>使用 Google 帳號登入</button>
-</div></div></div>
+  <div class="login-box">
+    <div class="login-box-head">
+      <div class="login-box-title">登入光哥書蟲庫</div>
+      <div class="login-box-close" onclick="closeLoginModal()">×</div>
+    </div>
+    <div class="login-box-body">
+      <div class="login-icon-big">📚</div>
+      <div class="login-main-title">多裝置同步</div>
+      <div class="login-main-desc">用 Google 帳號登入，自動同步所有裝置的閱讀狀態</div>
+      <div class="login-feature-list">
+        <div class="login-feature-item"><span class="login-feature-icon">🔄</span>閱讀進度同步</div>
+        <div class="login-feature-item"><span class="login-feature-icon">📖</span>書架同步</div>
+        <div class="login-feature-item"><span class="login-feature-icon">🕒</span>歷史同步</div>
+        <div class="login-feature-item"><span class="login-feature-icon">🔖</span>書籤同步</div>
+      </div>
+      <button class="google-login-btn" onclick="loginGoogle()">
+        <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4285f4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34a853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#fbbc05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#ea4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        使用 Google 帳號登入
+      </button>
+    </div>
+  </div>
+</div>
+
 <script>
-const booksDB=[
-{id:0,title:'遮天',author:'辰東',emoji:'⚔️',tag:'修仙玄幻',rating:9.6,words:'243萬',fav:'182萬',cover:'linear-gradient(135deg,#1a0a35,#4a1a8a)',intro:'冰冷與黑暗並存的宇宙深處，九具龐大的龍屍拉著一口青銅古棺，亙古長存。九龍拉棺，究竟是回到了上古，還是來到了星空的彼岸？'},
-{id:1,title:'完美世界',author:'辰東',emoji:'🌌',tag:'修仙玄幻',rating:9.5,words:'268萬',fav:'175萬',cover:'linear-gradient(135deg,#0a2535,#1a6a8a)',intro:'一粒塵可填海，一根草斬盡日月星辰，彈指間天翻地覆。群雄並起，萬族林立，諸聖爭霸，亂天動地。'},
-{id:2,title:'斗破蒼穹',author:'天蠶土豆',emoji:'🔥',tag:'修仙玄幻',rating:9.3,words:'197萬',fav:'168萬',cover:'linear-gradient(135deg,#351005,#a03020)',intro:'這是屬於斗氣的世界，蕭炎，從天才跌落廢人，再逆天崛起的傳奇故事。'},
-{id:3,title:'全職高手',author:'蝴蝶藍',emoji:'🎮',tag:'競技遊戲',rating:9.4,words:'271萬',fav:'192萬',cover:'linear-gradient(135deg,#0a3515,#1a8a40)',intro:'網遊榮耀中被譽為教科書級別的頂尖高手，離開職業圈後憑藉十年遊戲經驗重返巔峰之路。'},
-{id:4,title:'詭秘之主',author:'愛潛水的烏賊',emoji:'👁️',tag:'懸疑推理',rating:9.7,words:'332萬',fav:'215萬',cover:'linear-gradient(135deg,#2a1535,#6a2a8a)',intro:'蒸汽與機械的浪潮中，誰能觸及非凡？我從詭秘中醒來，睜眼看見這個世界……'},
-{id:5,title:'慶餘年',author:'貓膩',emoji:'📜',tag:'歷史軍事',rating:9.2,words:'385萬',fav:'156萬',cover:'linear-gradient(135deg,#3a2a05,#8a5a10)',intro:'積善之家，必有餘慶。一個現代靈魂穿越到古代王朝，憑藉智慧和勇氣生存並改變歷史。'},
-{id:6,title:'盜墓筆記',author:'南派三叔',emoji:'🔦',tag:'靈異鬼怪',rating:9.1,words:'298萬',fav:'203萬',cover:'linear-gradient(135deg,#1a2535,#2a5a3a)',intro:'五十年前，一群長沙土夫子挖到了一部戰國帛書，但那群土夫子在地下碰上了詭異事件，幾乎全部身亡。'},
-{id:7,title:'鬼吹燈',author:'天下霸唱',emoji:'💀',tag:'靈異鬼怪',rating:9.0,words:'267萬',fav:'195萬',cover:'linear-gradient(135deg,#151515,#3a1a1a)',intro:'三位當代摸金校尉，利用風水秘術，尋找那些失落在大地上的一處處龍樓寶殿，步步驚心。'},
-{id:8,title:'三體',author:'劉慈欣',emoji:'🌍',tag:'科幻未來',rating:9.8,words:'89萬',fav:'278萬',cover:'linear-gradient(135deg,#051535,#0a2a6a)',intro:'軍方探尋外星文明的絕秘計劃取得突破性進展。地球文明向宇宙發出的第一聲啼鳴，引來了三體文明的目光。'},
-{id:9,title:'雪中悍刀行',author:'烽火戲諸侯',emoji:'❄️',tag:'武俠仙俠',rating:9.3,words:'446萬',fav:'187萬',cover:'linear-gradient(135deg,#051a35,#1a4a6a)',intro:'江湖是一張珠簾。大人物小人物，是珠子，大故事小故事，是串線。'},
-{id:10,title:'凡人修仙傳',author:'忘語',emoji:'⚗️',tag:'修仙玄幻',rating:9.2,words:'580萬',fav:'245萬',cover:'linear-gradient(135deg,#1a3505,#3a7a10)',intro:'一個普通山村窮小子，雖然資質平庸，但依靠自身努力和合理算計最後修煉成仙的故事。'},
-{id:11,title:'武動乾坤',author:'天蠶土豆',emoji:'💥',tag:'修仙玄幻',rating:8.9,words:'289萬',fav:'194萬',cover:'linear-gradient(135deg,#351a05,#8a4a10)',intro:'修煉一途，乃竊陰陽，奪造化，轉涅槃，握生死，掌輪迴。武之極，破蒼穹，動乾坤！'},
-{id:12,title:'大主宰',author:'天蠶土豆',emoji:'⚡',tag:'修仙玄幻',rating:8.8,words:'458萬',fav:'198萬',cover:'linear-gradient(135deg,#2a1505,#6a3a10)',intro:'大千世界，位面交匯，萬族林立，群雄薈萃，追求著那主宰之路。'},
-{id:13,title:'鬥羅大陸',author:'唐家三少',emoji:'🌟',tag:'修仙玄幻',rating:9.1,words:'268萬',fav:'234萬',cover:'linear-gradient(135deg,#2a2a05,#6a6a10)',intro:'唐門外門弟子唐三，跳崖後來到斗羅大陸。這裡沒有魔法，沒有鬥氣，有的是神奇的武魂。'},
-{id:14,title:'龍族',author:'江南',emoji:'🐉',tag:'奇幻西方',rating:9.0,words:'187萬',fav:'201萬',cover:'linear-gradient(135deg,#0a1535,#1a3a6a)',intro:'少年人踏上一條不歸路，向著龍族的道路狂奔而去。'},
-{id:15,title:'將夜',author:'貓膩',emoji:'🌙',tag:'修仙玄幻',rating:9.1,words:'412萬',fav:'173萬',cover:'linear-gradient(135deg,#05152a,#0a3560)',intro:'寧缺攜著小婢女桑桑來到都城長安，成為書院大師傅的親傳弟子，展開風雲傳奇。'},
-{id:16,title:'仙逆',author:'耳根',emoji:'🌪️',tag:'修仙玄幻',rating:9.3,words:'203萬',fav:'195萬',cover:'linear-gradient(135deg,#051535,#1a4a8a)',intro:'順為凡，逆則仙，只在心中一念間……王林悟出自己的道，求索本心，坎坷前行。'},
-{id:17,title:'我欲封天',author:'耳根',emoji:'🌈',tag:'修仙玄幻',rating:9.2,words:'351萬',fav:'203萬',cover:'linear-gradient(135deg,#050a35,#1a1a8a)',intro:'我若要有，天不可無。我若要無，天不許有！'},
-{id:18,title:'一念永恆',author:'耳根',emoji:'💫',tag:'修仙玄幻',rating:8.9,words:'425萬',fav:'176萬',cover:'linear-gradient(135deg,#05351a,#0a8a4a)',intro:'一念成滄海，一念化桑田。一念斬千魔，一念誅萬仙。唯我念……永恆。'},
-{id:19,title:'星辰變',author:'我吃西紅柿',emoji:'💠',tag:'修仙玄幻',rating:8.9,words:'200萬',fav:'187萬',cover:'linear-gradient(135deg,#051a35,#0a4a8a)',intro:'主角秦羽從小就知道自己體質天賦不行，但依舊不屈不撓地修煉，開始他的傳奇之旅。'},
-{id:20,title:'盤龍',author:'我吃西紅柿',emoji:'🐲',tag:'奇幻西方',rating:9.2,words:'267萬',fav:'213萬',cover:'linear-gradient(135deg,#1a0505,#4a1010)',intro:'煉體為主的玄幻小說，書中擁有完整的等級制度以及培養制度。'},
-{id:21,title:'吞噬星空',author:'我吃西紅柿',emoji:'🌟',tag:'科幻未來',rating:9.0,words:'425萬',fav:'198萬',cover:'linear-gradient(135deg,#05051a,#0a0a4a)',intro:'宇宙文明時代，人類抵抗星獸入侵。羅峰，一個少年，開始了他吞噬星空的征途。'},
-{id:22,title:'神墓',author:'辰東',emoji:'⚰️',tag:'修仙玄幻',rating:8.9,words:'235萬',fav:'178萬',cover:'linear-gradient(135deg,#0a0a0a,#1a1a2a)',intro:'神魔陵園，埋葬著諸神萬魔，一個沉睡萬載的超級強者從遠古神墓中甦醒。'},
-{id:23,title:'聖墟',author:'辰東',emoji:'🌋',tag:'修仙玄幻',rating:8.7,words:'674萬',fav:'186萬',cover:'linear-gradient(135deg,#1a0505,#4a1010)',intro:'在破敗中崛起，在寂滅中復甦。滄海成塵，雷電枯竭，那一縷幽霧又一次臨近大地。'},
-{id:24,title:'元尊',author:'天蠶土豆',emoji:'🔮',tag:'修仙玄幻',rating:8.7,words:'312萬',fav:'165萬',cover:'linear-gradient(135deg,#05051a,#151560)',intro:'吾有一口玄黃氣，可吞天地日月星。一代驕子遭人暗算，從此逆天崛起。'},
-{id:25,title:'擇天記',author:'貓膩',emoji:'📿',tag:'修仙玄幻',rating:8.8,words:'398萬',fav:'158萬',cover:'linear-gradient(135deg,#1a1505,#4a3a10)',intro:'太始元年，有神石自太空飛來，上面鐫刻著奇怪的圖騰，人因觀其圖騰而悟道。'},
-{id:26,title:'三寸人間',author:'耳根',emoji:'🎋',tag:'修仙玄幻',rating:8.8,words:'532萬',fav:'178萬',cover:'linear-gradient(135deg,#051a05,#104a10)',intro:'在這個世界，有仙有妖，有人有鬼。一個普通的少年踏上了修仙之路。'},
-{id:27,title:'陽神',author:'夢入神機',emoji:'☀️',tag:'修仙玄幻',rating:9.1,words:'453萬',fav:'167萬',cover:'linear-gradient(135deg,#352a05,#8a6a10)',intro:'陽神之境，粉碎虛空。洪易，一介寒門之子，最終成就陽神之境。'},
-{id:28,title:'儒道至聖',author:'永恆之火',emoji:'📚',tag:'歷史軍事',rating:8.8,words:'546萬',fav:'175萬',cover:'linear-gradient(135deg,#1a0a05,#4a2010)',intro:'這是一個讀書人掌握天地權柄的世界，才氣在身，詩可殺敵，詞能滅軍，文章安天下。'},
-{id:29,title:'全球高武',author:'老鷹吃小雞',emoji:'🦅',tag:'末世異能',rating:8.6,words:'312萬',fav:'142萬',cover:'linear-gradient(135deg,#1a1a05,#4a4a10)',intro:'末日降臨，武道大興。李清風站在世界的廢墟上，成為這個時代的王者。'},
-{id:30,title:'法醫秦明',author:'秦明',emoji:'🔬',tag:'懸疑推理',rating:9.0,words:'124萬',fav:'267萬',cover:'linear-gradient(135deg,#05051a,#0a0a35)',intro:'法醫秦明，在一個個撲朔迷離的案件中，用理性和科學的方式揭開死亡的真相。'},
-{id:31,title:'暗黑者',author:'那多',emoji:'🌑',tag:'懸疑推理',rating:8.8,words:'178萬',fav:'189萬',cover:'linear-gradient(135deg,#0a0a05,#0a0a1a)',intro:'一個隱藏在暗夜中的神秘人，用自己的方式懲惡揚善，在法律無法觸及的灰色地帶中行走。'},
-{id:32,title:'琅琊榜',author:'海宴',emoji:'👑',tag:'古言宮鬥',rating:9.3,words:'112萬',fav:'367萬',cover:'linear-gradient(135deg,#1a1505,#4a3a10)',intro:'大梁朝廷中，一個被迫改名換姓的俊才，用智謀在朝野之間縱橫捭闔，為昔日冤案平反昭雪。'},
-{id:33,title:'扶搖皇后',author:'天下歸元',emoji:'🦋',tag:'古言宮鬥',rating:8.8,words:'98萬',fav:'289萬',cover:'linear-gradient(135deg,#35052a,#8a0a6a)',intro:'一代奇女子扶搖，憑藉才智與勇氣在古代宮廷中步步為營，終成一代女皇。'},
-{id:34,title:'後來的我們',author:'辛夷塢',emoji:'💕',tag:'現代言情',rating:8.9,words:'23萬',fav:'312萬',cover:'linear-gradient(135deg,#35051a,#8a104a)',intro:'林見清和方小曉，兩個異鄉人在城市中相遇，一段刻骨銘心的愛情故事。'},
-{id:35,title:'大奉打更人',author:'賣報小郎君',emoji:'🏮',tag:'懸疑推理',rating:9.2,words:'425萬',fav:'198萬',cover:'linear-gradient(135deg,#2a1a05,#6a3a0a)',intro:'架空歷史的懸疑小說，一個打更人成為了撬動整個王朝命運的關鍵棋子。'},
-{id:36,title:'武煉巔峰',author:'莫默',emoji:'⛰️',tag:'修仙玄幻',rating:8.7,words:'923萬',fav:'163萬',cover:'linear-gradient(135deg,#2a1a05,#6a4a10)',intro:'武道之途，如逆水行舟，不進則退。一路崎嶇，充滿坎坷。'},
-{id:37,title:'伏天氏',author:'淨無痕',emoji:'🌠',tag:'修仙玄幻',rating:8.7,words:'423萬',fav:'167萬',cover:'linear-gradient(135deg,#050a35,#0a1a6a)',intro:'東方神州，有人皇立道統，有聖賢宗門傳道。一個少年從神州中部走出，踏上問道之路。'},
-{id:38,title:'異常生物見聞錄',author:'遠瞳',emoji:'👽',tag:'靈異鬼怪',rating:9.1,words:'356萬',fav:'187萬',cover:'linear-gradient(135deg,#051a1a,#0a3a3a)',intro:'一個普通打工人，突然發現身邊住滿了各種來自神話傳說的異常生物，從此開始了奇妙的見聞錄。'},
-{id:39,title:'我的治癒系遊戲',author:'半隻青蛙',emoji:'🎮',tag:'競技遊戲',rating:8.6,words:'267萬',fav:'145萬',cover:'linear-gradient(135deg,#051a35,#0a3a6a)',intro:'一個普通的遊戲宅，在一款神秘的治癒系遊戲中，發現了遊戲世界與現實世界之間的秘密。'},
-{id:40,title:'滄元圖',author:'我吃西紅柿',emoji:'📜',tag:'修仙玄幻',rating:8.8,words:'264萬',fav:'158萬',cover:'linear-gradient(135deg,#1a1005,#3a2a0a)',intro:'我叫孟川，今年十五歲，是東寧府鏡湖道院的當代大師兄。在這個世界，有妖怪，有仙人，有強大的武者。'},
-{id:41,title:'末世之黑暗進化',author:'黑色禁藥',emoji:'🧟',tag:'末世異能',rating:8.6,words:'398萬',fav:'143萬',cover:'linear-gradient(135deg,#0a0a05,#1a1a0a)',intro:'末世爆發，喪屍橫行。在人類文明的廢墟上建立起新的秩序。'},
-{id:42,title:'修真四萬年',author:'卧牛真人',emoji:'🔭',tag:'科幻未來',rating:8.5,words:'478萬',fav:'132萬',cover:'linear-gradient(135deg,#05051a,#0a0a3a)',intro:'四萬年前，修真文明在星際戰爭中被摧毀；四萬年後，修真文明在廢墟中慢慢復甦。'},
-{id:43,title:'校花的貼身高手',author:'魚人二代',emoji:'🏫',tag:'都市異能',rating:8.4,words:'456萬',fav:'235萬',cover:'linear-gradient(135deg,#0a2a35,#1a5a6a)',intro:'從部隊退伍的特種兵，成為了校花的貼身保鏢，在都市中展開了一段精彩絕倫的傳奇故事。'},
-{id:44,title:'網遊之近身法師',author:'水瓶座·杰',emoji:'🧙',tag:'競技遊戲',rating:8.5,words:'345萬',fav:'167萬',cover:'linear-gradient(135deg,#05351a,#0a6a3a)',intro:'一個選擇了法師職業的玩家，卻走上了近身肉搏的路線，在遊戲世界中創造了奇蹟。'},
-{id:45,title:'逆天邪神',author:'火星引力',emoji:'🌠',tag:'修仙玄幻',rating:8.4,words:'542萬',fav:'132萬',cover:'linear-gradient(135deg,#1a0535,#4a0a8a)',intro:'重生在一個武力至上的世界，主角誓要打破命運的枷鎖，成為那個讓諸天顫抖的逆天邪神。'},
-{id:46,title:'全球廢土',author:'廢都',emoji:'🏜️',tag:'末世異能',rating:8.4,words:'456萬',fav:'128萬',cover:'linear-gradient(135deg,#2a1a05,#5a3a10)',intro:'核戰之後，地球成為廢土。一個普通的廢土居民踏上了尋找希望的旅程。'},
-{id:47,title:'盜墓筆記重啟',author:'南派三叔',emoji:'🏺',tag:'靈異鬼怪',rating:8.7,words:'156萬',fav:'134萬',cover:'linear-gradient(135deg,#1a2535,#2a5a3a)',intro:'盜墓筆記宇宙的擴展作品，延續了原著的懸疑氛圍，帶來更多關於古墓的秘密與冒險故事。'},
-{id:48,title:'仙逆外傳',author:'耳根',emoji:'🌊',tag:'修仙玄幻',rating:8.5,words:'89萬',fav:'98萬',cover:'linear-gradient(135deg,#051535,#1a4a8a)',intro:'仙逆宇宙的外傳作品，講述了王林之外那些同樣精彩的修仙故事。'},
-{id:49,title:'儒道外傳',author:'永恆之火',emoji:'✏️',tag:'歷史軍事',rating:8.6,words:'123萬',fav:'112萬',cover:'linear-gradient(135deg,#1a0a05,#3a2010)',intro:'儒道至聖世界的外傳作品，補完了原著中未詳述的精彩篇章，帶讀者重遊那個才氣縱橫的世界。'}
-];
-const mastersDB=[
-{id:'jingyong',name:'金庸',avatar:'金',desc:'武俠小說泰斗，被譽為「武林盟主」，作品流傳全球華人世界',genres:'武俠經典',works_count:'15 部',total_words:'超過 1,000 萬字',works:[
-{id:200,title:'天龍八部',emoji:'🗡️',tag:'武俠經典',rating:9.8,words:'125萬',fav:'328萬',cover:'linear-gradient(135deg,#2a1505,#6a3a10)',author:'金庸',intro:'以宋哲宗時代為背景，從哲學的高度對人生和社會進行審視和描寫。'},
-{id:201,title:'笑傲江湖',emoji:'⚔️',tag:'武俠經典',rating:9.7,words:'98萬',fav:'312萬',cover:'linear-gradient(135deg,#1a1a05,#4a4a10)',author:'金庸',intro:'通過令狐沖的經歷，反映了武林各派爭霸奪權的歷程，全書充滿政治鬥爭的隱喻。'},
-{id:202,title:'射鵰英雄傳',emoji:'🏹',tag:'武俠經典',rating:9.7,words:'93萬',fav:'318萬',cover:'linear-gradient(135deg,#352a05,#8a6a10)',author:'金庸',intro:'以宋、金、蒙古三國對峙作為背景，圍繞郭靖、黃蓉的感情經歷展開的武俠巨著。'},
-{id:203,title:'神鵰俠侶',emoji:'🦅',tag:'武俠經典',rating:9.6,words:'102萬',fav:'295萬',cover:'linear-gradient(135deg,#2a0505,#6a1010)',author:'金庸',intro:'楊過與小龍女跌宕起伏的愛情故事，感動了無數讀者。'},
-{id:204,title:'倚天屠龍記',emoji:'🗡️',tag:'武俠經典',rating:9.5,words:'96萬',fav:'287萬',cover:'linear-gradient(135deg,#05351a,#0a8a4a)',author:'金庸',intro:'射鵰三部曲第三部，以元末群雄紛起為背景，敘述武當弟子張無忌的江湖生涯。'},
-{id:205,title:'鹿鼎記',emoji:'🦌',tag:'武俠經典',rating:9.4,words:'148萬',fav:'256萬',cover:'linear-gradient(135deg,#1a3505,#3a7a10)',author:'金庸',intro:'描寫出生於揚州妓院的韋小寶，憑藉機智靈活的頭腦，在清廷、江湖中縱橫自如的故事。'},
-{id:206,title:'書劍恩仇錄',emoji:'📖',tag:'武俠經典',rating:9.2,words:'56萬',fav:'187萬',cover:'linear-gradient(135deg,#35051a,#8a104a)',author:'金庸',intro:'金庸的第一部長篇武俠小說，以清朝乾隆時期為背景，描述紅花會與清廷之間的恩怨情仇。'}
-]},
-{id:'huangyi',name:'黃易',avatar:'黃',desc:'奇幻武俠大師，開創「穿越」小說先河，影響深遠',genres:'武俠奇幻',works_count:'37 部',total_words:'超過 3,000 萬字',works:[
-{id:210,title:'尋秦記',emoji:'🌀',tag:'武俠奇幻',rating:9.5,words:'142萬',fav:'256萬',cover:'linear-gradient(135deg,#1a1505,#4a3a10)',author:'黃易',intro:'21世紀的特種部隊戰士項少龍穿越時空回到戰國時代，協助秦始皇統一天下的傳奇。'},
-{id:211,title:'大唐雙龍傳',emoji:'🐉',tag:'武俠奇幻',rating:9.4,words:'258萬',fav:'243萬',cover:'linear-gradient(135deg,#2a1a05,#6a4a10)',author:'黃易',intro:'隋末群雄割據的混亂時代，寇仲與徐子陵兩個出身卑微的少年，成為江湖中舉足輕重的人物。'},
-{id:212,title:'破碎虛空',emoji:'✨',tag:'武俠奇幻',rating:9.2,words:'86萬',fav:'198萬',cover:'linear-gradient(135deg,#05051a,#0f0f4a)',author:'黃易',intro:'黃易的成名作，傳鷹一生追求武學極致，最終破碎虛空、羽化飛仙的故事。'},
-{id:213,title:'覆雨翻雲',emoji:'☁️',tag:'武俠奇幻',rating:9.3,words:'234萬',fav:'225萬',cover:'linear-gradient(135deg,#051a35,#0a3a6a)',author:'黃易',intro:'以明朝為背景，描寫浪翻雲、龐斑等絕世高手在江湖中的愛恨情仇，氣勢磅礴。'},
-{id:214,title:'邊荒傳說',emoji:'🏜️',tag:'武俠奇幻',rating:9.0,words:'167萬',fav:'178萬',cover:'linear-gradient(135deg,#2a1a05,#5a3a10)',author:'黃易',intro:'東晉時期，南北朝的亂世之中，一個少年在邊荒之地的傳奇故事。'}
-]},
-{id:'moren',name:'莫仁',avatar:'莫',desc:'台灣輕小說大師，作品橫跨奇幻、科幻、武俠等多種類型',genres:'輕小說/奇幻',works_count:'23 部',total_words:'超過 1,500 萬字',works:[
-{id:220,title:'我是大法師',emoji:'🧙',tag:'輕小說',rating:9.2,words:'89萬',fav:'198萬',cover:'linear-gradient(135deg,#051a35,#0a3a6a)',author:'莫仁',intro:'一個普通青年突然發現自己擁有了施展魔法的能力，在現代都市中開始了大法師之旅。'},
-{id:221,title:'百分之二的天才',emoji:'🌟',tag:'輕小說',rating:9.0,words:'76萬',fav:'167萬',cover:'linear-gradient(135deg,#1a0535,#4a0a8a)',author:'莫仁',intro:'一個被歸類為天才的少年，在學習和生活中面對各種挑戰，探索著何為真正的天才。'},
-{id:222,title:'沙鹿鎮',emoji:'🏡',tag:'輕小說',rating:8.9,words:'54萬',fav:'123萬',cover:'linear-gradient(135deg,#05351a,#0a6a3a)',author:'莫仁',intro:'發生在台灣小鎮的溫馨故事，充滿了濃濃的人情味和對家鄉的眷戀。'}
-]},
-{id:'tangjiasanshao',name:'唐家三少',avatar:'唐',desc:'中國網絡文學最暢銷作家，作品改編眾多影視動漫',genres:'修仙玄幻/都市',works_count:'31 部',total_words:'超過 4,000 萬字',works:[
-{id:13,title:'鬥羅大陸',emoji:'🌟',tag:'修仙玄幻',rating:9.1,words:'268萬',fav:'234萬',cover:'linear-gradient(135deg,#2a2a05,#6a6a10)',author:'唐家三少',intro:'唐門外門弟子唐三，跳崖後來到斗羅大陸。這裡有的是神奇的武魂。'},
-{id:231,title:'絕世唐門',emoji:'⚔️',tag:'修仙玄幻',rating:9.0,words:'324萬',fav:'198萬',cover:'linear-gradient(135deg,#1a2a05,#3a6a10)',author:'唐家三少',intro:'鬥羅大陸系列第二部，現代科技與武魂世界的融合，唐三的後代在新時代書寫著新的傳奇。'},
-{id:232,title:'神印王座',emoji:'👑',tag:'修仙玄幻',rating:9.0,words:'312萬',fav:'189萬',cover:'linear-gradient(135deg,#2a1505,#6a3a10)',author:'唐家三少',intro:'神聖大陸上，人類騎士與魔族之間的史詩戰爭，一個少年成長為最強騎士的傳奇故事。'},
-{id:233,title:'冰火魔廚',emoji:'🍳',tag:'都市異能',rating:8.5,words:'178萬',fav:'143萬',cover:'linear-gradient(135deg,#051a1a,#0a3a3a)',author:'唐家三少',intro:'一個擁有神奇廚藝的少年，用美食征服了整個大陸，充滿了奇幻色彩。'}
-]},
-{id:'xuanyu',name:'玄雨',avatar:'玄',desc:'《小兵傳奇》作者，被譽為「網路三大奇書」之一，開創科幻網文類型',genres:'科幻/修仙/都市',works_count:'10 部',total_words:'超過 800 萬字',works:[
-{id:240,title:'小兵傳奇',emoji:'🚀',tag:'科幻未來',rating:9.3,words:'198萬',fav:'287萬',cover:'linear-gradient(135deg,#1a0a05,#4a2010)',author:'玄雨',intro:'唐龍高中畢業後參軍，在骷髏教官近乎殘酷的訓練後成為合格軍人，在宇宙大戰中締造傳奇。'},
-{id:241,title:'獨步天途',emoji:'🐸',tag:'修仙玄幻',rating:8.8,words:'164萬',fav:'132萬',cover:'linear-gradient(135deg,#05351a,#0a6a3a)',author:'玄雨',intro:'少年張仲軍得神蛙相助後扶搖而上，名動大陸。'},
-{id:242,title:'孤獨戰神',emoji:'⚔️',tag:'修仙玄幻',rating:8.6,words:'156萬',fav:'98萬',cover:'linear-gradient(135deg,#2a0a05,#6a2010)',author:'玄雨',intro:'在那時斷時續的戰爭歲月中，造就了許多長盛不衰的戰神傳說。'}
-]},
-{id:'chendon',name:'辰東',avatar:'辰',desc:'遮天、完美世界作者，玄幻小說殿堂級大神，宇宙級寫作規模',genres:'修仙玄幻',works_count:'12 部',total_words:'超過 3,500 萬字',works:[
-{id:0,title:'遮天',emoji:'⚔️',tag:'修仙玄幻',rating:9.6,words:'243萬',fav:'182萬',cover:'linear-gradient(135deg,#1a0a35,#4a1a8a)',author:'辰東',intro:'冰冷與黑暗並存的宇宙深處，九具龐大的龍屍拉著一口青銅古棺，亙古長存。'},
-{id:1,title:'完美世界',emoji:'🌌',tag:'修仙玄幻',rating:9.5,words:'268萬',fav:'175萬',cover:'linear-gradient(135deg,#0a2535,#1a6a8a)',author:'辰東',intro:'一粒塵可填海，一根草斬盡日月星辰，彈指間天翻地覆。'},
-{id:22,title:'神墓',emoji:'⚰️',tag:'修仙玄幻',rating:8.9,words:'235萬',fav:'178萬',cover:'linear-gradient(135deg,#0a0a0a,#1a1a2a)',author:'辰東',intro:'神魔陵園，埋葬著諸神萬魔，一個沉睡萬載的超級強者甦醒。'},
-{id:23,title:'聖墟',emoji:'🌋',tag:'修仙玄幻',rating:8.7,words:'674萬',fav:'186萬',cover:'linear-gradient(135deg,#1a0505,#4a1010)',author:'辰東',intro:'在破敗中崛起，在寂滅中復甦。滄海成塵，雷電枯竭。'}
-]},
-{id:'tiancantuodou',name:'天蠶土豆',avatar:'天',desc:'斗破蒼穹作者，鬥氣系玄幻的開山鼻祖，作品改編影視無數',genres:'修仙玄幻',works_count:'9 部',total_words:'超過 2,000 萬字',works:[
-{id:2,title:'斗破蒼穹',emoji:'🔥',tag:'修仙玄幻',rating:9.3,words:'197萬',fav:'168萬',cover:'linear-gradient(135deg,#351005,#a03020)',author:'天蠶土豆',intro:'蕭炎，從天才跌落廢人，再逆天崛起，憑藉鬥氣走遍大陸的傳奇故事。'},
-{id:11,title:'武動乾坤',emoji:'💥',tag:'修仙玄幻',rating:8.9,words:'289萬',fav:'194萬',cover:'linear-gradient(135deg,#351a05,#8a4a10)',author:'天蠶土豆',intro:'修煉一途，乃竊陰陽，奪造化，轉涅槃，握生死，掌輪迴。'},
-{id:12,title:'大主宰',emoji:'⚡',tag:'修仙玄幻',rating:8.8,words:'458萬',fav:'198萬',cover:'linear-gradient(135deg,#2a1505,#6a3a10)',author:'天蠶土豆',intro:'大千世界，位面交匯，萬族林立，追求著那主宰之路。'},
-{id:24,title:'元尊',emoji:'🔮',tag:'修仙玄幻',rating:8.7,words:'312萬',fav:'165萬',cover:'linear-gradient(135deg,#05051a,#151560)',author:'天蠶土豆',intro:'吾有一口玄黃氣，可吞天地日月星。一代驕子遭人暗算，從此逆天崛起。'}
-]},
-{id:'ergen',name:'耳根',avatar:'耳',desc:'仙逆、我欲封天作者，以逆仙之道著稱，構建了獨特的修仙哲學體系',genres:'修仙玄幻',works_count:'7 部',total_words:'超過 2,500 萬字',works:[
-{id:16,title:'仙逆',emoji:'🌪️',tag:'修仙玄幻',rating:9.3,words:'203萬',fav:'195萬',cover:'linear-gradient(135deg,#051535,#1a4a8a)',author:'耳根',intro:'順為凡，逆則仙，只在心中一念間……'},
-{id:17,title:'我欲封天',emoji:'🌈',tag:'修仙玄幻',rating:9.2,words:'351萬',fav:'203萬',cover:'linear-gradient(135deg,#050a35,#1a1a8a)',author:'耳根',intro:'我若要有，天不可無。我若要無，天不許有！'},
-{id:18,title:'一念永恆',emoji:'💫',tag:'修仙玄幻',rating:8.9,words:'425萬',fav:'176萬',cover:'linear-gradient(135deg,#05351a,#0a8a4a)',author:'耳根',intro:'一念成滄海，一念化桑田。一念斬千魔，一念誅萬仙。唯我念……永恆。'},
-{id:26,title:'三寸人間',emoji:'🎋',tag:'修仙玄幻',rating:8.8,words:'532萬',fav:'178萬',cover:'linear-gradient(135deg,#051a05,#104a10)',author:'耳根',intro:'在這個世界，有仙有妖，有人有鬼。一個普通的少年踏上了修仙之路。'}
-]},
-{id:'cangtianbaihe',name:'蒼天白鶴',avatar:'鶴',desc:'台灣玄幻小說大神，以《武神》《通天仙路》等作品著稱',genres:'修仙玄幻/科幻',works_count:'15 部',total_words:'超過 1,200 萬字',works:[
-{id:260,title:'武神',emoji:'⚡',tag:'修仙玄幻',rating:9.0,words:'267萬',fav:'198萬',cover:'linear-gradient(135deg,#2a1a05,#6a4510)',author:'蒼天白鶴',intro:'賀一鳴本為普通少年，一次奇遇後，一躍成為眾人口中天才，武神之名，以武立命！'},
-{id:261,title:'通天仙路',emoji:'🏔️',tag:'修仙玄幻',rating:8.9,words:'189萬',fav:'167萬',cover:'linear-gradient(135deg,#1a0535,#4a0a8a)',author:'蒼天白鶴',intro:'習武道，護家國，拳打乾坤，腳踏通天仙路！'},
-{id:262,title:'棋祖',emoji:'♟️',tag:'修仙玄幻',rating:8.8,words:'143萬',fav:'134萬',cover:'linear-gradient(135deg,#05051a,#0a0a4a)',author:'蒼天白鶴',intro:'少年觀想棋子，以小小棋子，成就赫赫棋祖威名！'},
-{id:263,title:'無敵喚靈',emoji:'🦋',tag:'修仙玄幻',rating:8.7,words:'156萬',fav:'112萬',cover:'linear-gradient(135deg,#051a35,#0a3a6a)',author:'蒼天白鶴',intro:'戎家弟子凱旋偶有奇遇，習得喚靈之術，從而名揚天下，成就無敵喚靈之名。'}
-]}
-];
-// ========================================
-// 閱讀系統
-// ========================================
+
 const CORS_PROXIES=['https://corsproxy.io/?','https://api.allorigins.win/raw?url=','https://thingproxy.freeboard.io/fetch/'];
 
 const BOOK_SOURCES=[
-{id:'xbiquge',name:'新筆趣閣',
- searchUrl:(t)=>'https://www.xbiquge.so/search.php?keyboard='+encodeURIComponent(t),
- chaptersUrl:(id)=>'https://www.xbiquge.so/book/'+id+'/',
- parseSearch:function(html,title){
-  const doc=new DOMParser().parseFromString(html,'text/html');
-  const r=[];
-  doc.querySelectorAll('a[href*="/book/"]').forEach(a=>{
-   const m=a.href.match(//book/(d+)/?/);
-   if(m&&a.textContent.includes(title.slice(0,3)))r.push({title:a.textContent.trim(),bookId:m[1]});
-  });
-  return r;
- },
- parseChapters:function(html){
-  const doc=new DOMParser().parseFromString(html,'text/html');
-  const chs=[];
-  doc.querySelectorAll('#list dd a,#chapter-list a').forEach((a,i)=>{
-   if(a.textContent.trim()&&a.href)chs.push({name:a.textContent.trim(),url:a.href,index:i});
-  });
-  return chs;
- },
- parseContent:function(html){
-  const doc=new DOMParser().parseFromString(html,'text/html');
-  const el=doc.querySelector('#content,#booktxt,#chaptercontent');
-  if(!el)return null;
-  return cleanText(el.innerHTML.replace(/<brs*/?>/gi,'\n').replace(/<[^>]+>/g,''));
- }
+{
+  id:'xbiquge',name:'新筆趣閣',
+  searchUrl:t=>'https://www.xbiquge.so/search.php?keyboard='+encodeURIComponent(t),
+  chaptersUrl:id=>'https://www.xbiquge.so/book/'+id+'/',
+  parseSearch(html,title){
+    var doc=new DOMParser().parseFromString(html,'text/html'),r=[];
+    doc.querySelectorAll('a[href]').forEach(a=>{
+      var m=a.href.match(/[/]book[/]([0-9]+)[/]/);
+      if(m&&a.textContent.indexOf(title.slice(0,2))>=0)r.push({title:a.textContent.trim(),bookId:m[1]});
+    });
+    return r;
+  },
+  parseChapters(html){
+    var doc=new DOMParser().parseFromString(html,'text/html'),chs=[];
+    doc.querySelectorAll('#list a,#catalog a,.chapter a').forEach(a=>{
+      if(a.textContent.trim()&&a.href)chs.push({name:a.textContent.trim(),url:a.href});
+    });
+    return chs;
+  },
+  parseContent(html){
+    var doc=new DOMParser().parseFromString(html,'text/html');
+    var el=doc.querySelector('#content,#booktxt,#chap');
+    if(!el)return null;
+    return el.innerHTML.replace(/<[^>]+>/g,' ').replace(/  +/g,' ').trim();
+  }
 },
-{id:'piaotia',name:'飄天文學',
- searchUrl:(t)=>'https://www.piaotia.com/modules/article/search.php?searchtype=articlename&searchkey='+encodeURIComponent(t),
- chaptersUrl:(id)=>'https://www.piaotia.com/html/'+id+'/',
- parseSearch:function(html,title){
-  const doc=new DOMParser().parseFromString(html,'text/html');
-  const r=[];
-  doc.querySelectorAll('a[href*="/html/"]').forEach(a=>{
-   const m=a.href.match(//html/(d+)/?/);
-   if(m&&a.textContent.trim().length>1)r.push({title:a.textContent.trim(),bookId:m[1]});
-  });
-  return r;
- },
- parseChapters:function(html){
-  const doc=new DOMParser().parseFromString(html,'text/html');
-  const chs=[];
-  doc.querySelectorAll('a[href*="/html/"]').forEach((a,i)=>{
-   if(a.textContent.trim().length>2)chs.push({name:a.textContent.trim(),url:a.href.startsWith('http')?a.href:'https://www.piaotia.com'+a.getAttribute('href'),index:i});
-  });
-  return chs;
- },
- parseContent:function(html){
-  const doc=new DOMParser().parseFromString(html,'text/html');
-  const el=doc.querySelector('#content,.content,#booktxt');
-  if(!el)return null;
-  return cleanText(el.innerHTML.replace(/<brs*/?>/gi,'\n').replace(/<[^>]+>/g,''));
- }
+{
+  id:'ptwxz',name:'飄天文学',
+  searchUrl:t=>'https://www.ptwxz.com/search/'+encodeURIComponent(t)+'.html',
+  chaptersUrl:id=>'https://www.ptwxz.com/html/'+id+'/',
+  parseSearch(html,title){
+    var doc=new DOMParser().parseFromString(html,'text/html'),r=[];
+    doc.querySelectorAll('a[href]').forEach(a=>{
+      var m=a.href.match(/[/]html[/]([0-9]+)[/]/);
+      if(m&&a.textContent.indexOf(title.slice(0,2))>=0)r.push({title:a.textContent.trim(),bookId:m[1]});
+    });
+    return r;
+  },
+  parseChapters(html){
+    var doc=new DOMParser().parseFromString(html,'text/html'),chs=[];
+    doc.querySelectorAll('a[href]').forEach(a=>{
+      if(a.textContent.trim()&&a.href&&a.href.includes('.html'))chs.push({name:a.textContent.trim(),url:a.href});
+    });
+    return chs;
+  },
+  parseContent(html){
+    var doc=new DOMParser().parseFromString(html,'text/html');
+    var el=doc.querySelector('#content,#booktxt,.content');
+    if(!el)return null;
+    return el.innerHTML.replace(/<[^>]+>/g,' ').replace(/  +/g,' ').trim();
+  }
 },
-{id:'69shuba',name:'69書吧',
- searchUrl:(t)=>'https://www.69shuba.com/search.php?keyboard='+encodeURIComponent(t),
- chaptersUrl:(id)=>'https://www.69shuba.com/book/'+id+'.htm',
- parseSearch:function(html,title){
-  const doc=new DOMParser().parseFromString(html,'text/html');
-  const r=[];
-  doc.querySelectorAll('a[href*="/book/"]').forEach(a=>{
-   const m=a.href.match(//book/(d+)/);
-   if(m&&a.textContent.trim().length>1)r.push({title:a.textContent.trim(),bookId:m[1]});
-  });
-  return r;
- },
- parseChapters:function(html){
-  const doc=new DOMParser().parseFromString(html,'text/html');
-  const chs=[];
-  doc.querySelectorAll('.catalog a,.chapter a').forEach((a,i)=>{
-   if(a.textContent.trim())chs.push({name:a.textContent.trim(),url:a.href.startsWith('http')?a.href:'https://www.69shuba.com'+a.getAttribute('href'),index:i});
-  });
-  return chs;
- },
- parseContent:function(html){
-  const doc=new DOMParser().parseFromString(html,'text/html');
-  const el=doc.querySelector('#txtnav,#content,.txtnav');
-  if(!el)return null;
-  return cleanText(el.innerHTML.replace(/<brs*/?>/gi,'\n').replace(/<[^>]+>/g,''));
- }
+{
+  id:'69shu',name:'69書吧',
+  searchUrl:t=>'https://www.69shu.com/search/?q='+encodeURIComponent(t),
+  chaptersUrl:id=>'https://www.69shu.com/'+id+'/',
+  parseSearch(html,title){
+    var doc=new DOMParser().parseFromString(html,'text/html'),r=[];
+    doc.querySelectorAll('a[href]').forEach(a=>{
+      var m=a.href.match(/[/]([0-9]+)[/]/);
+      if(m&&a.textContent.indexOf(title.slice(0,2))>=0)r.push({title:a.textContent.trim(),bookId:m[1]});
+    });
+    return r;
+  },
+  parseChapters(html){
+    var doc=new DOMParser().parseFromString(html,'text/html'),chs=[];
+    doc.querySelectorAll('.chapter a,.booklist a,a[href]').forEach(a=>{
+      if(a.textContent.trim()&&a.href&&a.href.indexOf('shu.com')>0)chs.push({name:a.textContent.trim(),url:a.href});
+    });
+    return chs;
+  },
+  parseContent(html){
+    var doc=new DOMParser().parseFromString(html,'text/html');
+    var el=doc.querySelector('.txtnav,#content,#booktxt');
+    if(!el)return null;
+    return el.innerHTML.replace(/<[^>]+>/g,' ').replace(/  +/g,' ').trim();
+  }
 }
 ];
 
-function cleanText(raw){
- const adPat=[/筆趣閣/,/piaotia/,/www./,/http/,/最新章節/,/飄天文學/,/請記住/,/收藏本站/,/手機閱讀/,/天才一秒/];
- return raw.split('\n').map(l=>l.replace(/&nbsp;/g,' ').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&').trim())
-  .filter(l=>l.length>0&&!adPat.some(p=>p.test(l))).join('\n');
+var _curBook=null,_curSrcId='',_curBookId='',_chs=[],_curChIdx=0;
+
+async function _fetchProxy(url){
+  for(var pi=0;pi<CORS_PROXIES.length;pi++){
+    try{
+      var resp=await fetch(CORS_PROXIES[pi]+encodeURIComponent(url));
+      if(resp.ok){var txt=await resp.text();if(txt&&txt.length>200)return txt;}
+    }catch(err){}
+  }
+  return null;
 }
 
-async function proxyFetch(url){
- for(const proxy of CORS_PROXIES){
-  try{
-   const r=await fetch(proxy+encodeURIComponent(url),{signal:AbortSignal.timeout(12000)});
-   if(!r.ok)continue;
-   const t=await r.text();
-   if(t.length>500)return t;
-  }catch(e){continue;}
- }
- throw new Error('所有代理均不可用');
+async function _doSearchAndLoad(book){
+  var allR=[];
+  for(var si=0;si<BOOK_SOURCES.length;si++){
+    try{
+      var html=await _fetchProxy(BOOK_SOURCES[si].searchUrl(book.title));
+      if(html){
+        var res=BOOK_SOURCES[si].parseSearch(html,book.title);
+        for(var ri=0;ri<res.length;ri++){
+          allR.push({srcId:BOOK_SOURCES[si].id,srcName:BOOK_SOURCES[si].name,bookId:res[ri].bookId,title:res[ri].title});
+        }
+      }
+    }catch(err){}
+  }
+  var rc=document.getElementById('reader-content');
+  if(allR.length===0){
+    if(rc)rc.innerHTML='<div style="padding:30px;line-height:2;color:#ccc"><b>未找到網路書源</b><p>CORS限制，建議安裝瀏覽器擴充套件解除限制。</p></div>';
+    return;
+  }
+  _curSrcId=allR[0].srcId;_curBookId=allR[0].bookId;
+  if(rc)rc.innerHTML='<div style="text-align:center;padding:50px;color:#f9a825">載入目錄...</div>';
+  var chs=await _loadChs(_curSrcId,_curBookId);
+  if(chs.length===0){
+    if(rc)rc.innerHTML='<div style="padding:30px;color:#e57373">目錄載入失敗</div>';
+    return;
+  }
+  _chs=chs;_curChIdx=0;
+  _renderTOC();
+  _loadCh(0);
 }
 
-// 閱讀器狀態
-let RS={book:null,source:null,bookId:null,chapters:[],chIdx:-1,fontSize:17,lineHeight:1.9,bgColor:'#f7f3eb',textColor:'#2c2010',progress:{}};
-try{const s=JSON.parse(localStorage.getItem('gk_rp')||'{}');Object.assign(RS,s);RS.progress=JSON.parse(localStorage.getItem('gk_rd')||'{}');}catch(e){}
-
-async function openReader(book){
- if(typeof book==='number')book=getAllBooks().find(b=>b.id===book);
- if(!book)return;
- RS.book=book;RS.chapters=[];RS.chIdx=-1;RS.source=null;RS.bookId=null;
- addHistory(book);
- document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
- document.getElementById('reader-page').classList.add('active');
- document.getElementById('reader-title-bar').textContent=book.title;
- document.getElementById('reader-loading-state').style.display='flex';
- document.getElementById('chapter-list-panel').style.display='none';
- document.getElementById('reading-area').style.display='none';
- document.getElementById('reader-bottom').style.display='none';
- document.getElementById('source-chips').innerHTML='';
- document.getElementById('reader-loading-text').textContent='正在搜尋書源：'+book.title+'...';
- await searchSources(book);
+async function _loadChs(srcId,bookId){
+  for(var i=0;i<BOOK_SOURCES.length;i++){
+    if(BOOK_SOURCES[i].id!==srcId)continue;
+    try{
+      var html=await _fetchProxy(BOOK_SOURCES[i].chaptersUrl(bookId));
+      if(html)return BOOK_SOURCES[i].parseChapters(html);
+    }catch(err){}
+  }
+  return [];
 }
 
-async function searchSources(book){
- const found=[];
- await Promise.allSettled(BOOK_SOURCES.map(async src=>{
-  try{
-   const html=await proxyFetch(src.searchUrl(book.title));
-   const res=src.parseSearch(html,book.title);
-   if(res.length>0)found.push({src,match:res[0]});
-  }catch(e){console.log(src.name,'搜尋失敗:',e.message);}
- }));
- if(!found.length){showFallback(book);return;}
- const chips=document.getElementById('source-chips');
- chips.innerHTML=found.map((f,i)=>'<div class="source-chip'+(i===0?' active':''"+" onclick="pickSource('+i+')" id="sck-'+i+'">'+f.src.name+'</div>').join('');
- window._RS_found=found;
- await loadChapters(found[0]);
+function _renderTOC(){
+  var el=document.getElementById('chapter-list');
+  if(!el)return;
+  el.innerHTML='';
+  for(var i=0;i<_chs.length;i++){
+    (function(idx){
+      var d=document.createElement('div');
+      d.className='chapter-item'+(idx===_curChIdx?' active':'');
+      d.textContent=_chs[idx].name;
+      d.onclick=function(){_loadCh(idx);};
+      el.appendChild(d);
+    })(i);
+  }
 }
 
-window.pickSource=async function(i){
- document.querySelectorAll('.source-chip').forEach((c,j)=>c.classList.toggle('active',j===i));
- await loadChapters(window._RS_found[i]);
+async function _loadCh(idx){
+  if(idx<0||idx>=_chs.length)return;
+  _curChIdx=idx;
+  var ch=_chs[idx];
+  var rc=document.getElementById('reader-content');
+  var ct=document.getElementById('chapter-title');
+  if(rc)rc.innerHTML='<div style="text-align:center;padding:50px;color:#888">載入中...</div>';
+  if(ct)ct.textContent=ch.name;
+  document.querySelectorAll('.chapter-item').forEach(function(el,i){el.classList.toggle('active',i===idx);});
+  for(var si=0;si<BOOK_SOURCES.length;si++){
+    if(BOOK_SOURCES[si].id!==_curSrcId)continue;
+    try{
+      var html=await _fetchProxy(ch.url);
+      if(html){
+        var txt=BOOK_SOURCES[si].parseContent(html);
+        if(txt&&txt.length>50){
+          var rs=JSON.parse(localStorage.getItem('gk_rs')||'{"fontSize":18,"lineHeight":1.8,"bgColor":"#1a1a1a"}');
+          var ps=txt.split(/  +/).filter(function(l){return l.trim().length>0;});
+          if(rc){
+            rc.innerHTML='<div class="chapter-content" style="font-size:'+rs.fontSize+'px;line-height:'+rs.lineHeight+';background:'+rs.bgColor+';padding:20px"><h3 style="margin-bottom:20px">'+ch.name+'</h3>'+ps.map(function(p){return '<p style="margin-bottom:12px">'+p.trim()+'</p>';}).join('')+'</div>';
+            rc.scrollTop=0;
+          }
+          try{
+            var prog=JSON.parse(localStorage.getItem('gk_prog')||'{}');
+            prog[_curBook.id]={idx:idx,name:ch.name,srcId:_curSrcId};
+            localStorage.setItem('gk_prog',JSON.stringify(prog));
+          }catch(e){}
+          return;
+        }
+      }
+    }catch(err){}
+  }
+  if(rc)rc.innerHTML='<div style="text-align:center;padding:50px;color:#e57373">載入失敗，請試其他章節</div>';
+}
+
+function networkReadBook(book){
+  _curBook=book;
+  var rc=document.getElementById('reader-content');
+  var cl=document.getElementById('chapter-list');
+  if(rc)rc.innerHTML='<div style="text-align:center;padding:50px;color:#f9a825">搜尋書源中...</div>';
+  if(cl)cl.innerHTML='';
+  _doSearchAndLoad(book);
+}
+
+</script>
+<script>
+
+// ==========================================
+// 書籍資料庫（50本）
+// ==========================================
+const booksDB = [
+{id:0,title:'遮天',author:'辰東',emoji:'⚔️',tag:'修仙玄幻',rating:9.6,words:'243萬',fav:'182萬',cover:'linear-gradient(135deg,#1a0a35,#4a1a8a)',intro:'冰冷與黑暗並存的宇宙深處，九具龐大的龍屍拉著一口青銅古棺，亙古長存。這是太空探測器在枯寂的宇宙中捕捉到的一幅極其震撼的畫面。九龍拉棺，究竟是回到了上古，還是來到了星空的彼岸？一個浩大的仙俠世界，光怪陸離，神秘無盡。'},
+{id:1,title:'完美世界',author:'辰東',emoji:'🌌',tag:'修仙玄幻',rating:9.5,words:'268萬',fav:'175萬',cover:'linear-gradient(135deg,#0a2535,#1a6a8a)',intro:'一粒塵可填海，一根草斬盡日月星辰，彈指間天翻地覆。群雄並起，萬族林立，諸聖爭霸，亂天動地。問蒼茫大地，誰主沉浮？一個少年從大荒中走出，一切從這裡開始……'},
+{id:2,title:'斗破蒼穹',author:'天蠶土豆',emoji:'🔥',tag:'修仙玄幻',rating:9.3,words:'197萬',fav:'168萬',cover:'linear-gradient(135deg,#351005,#a03020)',intro:'這是屬於斗氣的世界，沒有花俏豔麗的魔法，有的，僅僅是繁衍到巔峰的斗氣！蕭炎，從天才跌落廢人，再逆天崛起的傳奇故事。'},
+{id:3,title:'全職高手',author:'蝴蝶藍',emoji:'🎮',tag:'競技遊戲',rating:9.4,words:'271萬',fav:'192萬',cover:'linear-gradient(135deg,#0a3515,#1a8a40)',intro:'網遊榮耀中被譽為教科書級別的頂尖高手，因種種原因遭到俱樂部驅逐，離開職業圈的他寄身於一家網吧成了小小的網管，憑藉十年遊戲經驗重返巔峰之路。'},
+{id:4,title:'詭秘之主',author:'愛潛水的烏賊',emoji:'👁️',tag:'懸疑推理',rating:9.7,words:'332萬',fav:'215萬',cover:'linear-gradient(135deg,#2a1535,#6a2a8a)',intro:'蒸汽與機械的浪潮中，誰能觸及非凡？歷史和黑暗的迷霧裡，又是誰在耳語？我從詭秘中醒來，睜眼看見這個世界……'},
+{id:5,title:'慶餘年',author:'貓膩',emoji:'📜',tag:'歷史軍事',rating:9.2,words:'385萬',fav:'156萬',cover:'linear-gradient(135deg,#3a2a05,#8a5a10)',intro:'積善之家，必有餘慶。一個現代靈魂穿越到古代王朝，在充滿危機的宮廷中如何憑藉智慧和勇氣生存並改變歷史。'},
+{id:6,title:'盜墓筆記',author:'南派三叔',emoji:'🔦',tag:'靈異鬼怪',rating:9.1,words:'298萬',fav:'203萬',cover:'linear-gradient(135deg,#1a2535,#2a5a3a)',intro:'五十年前，一群長沙土夫子挖到了一部戰國帛書，殘篇中記載了一座奇特的戰國古墓的位置，但那群土夫子在地下碰上了詭異事件，幾乎全部身亡。'},
+{id:7,title:'鬼吹燈',author:'天下霸唱',emoji:'💀',tag:'靈異鬼怪',rating:9.0,words:'267萬',fav:'195萬',cover:'linear-gradient(135deg,#151515,#3a1a1a)',intro:'三位當代摸金校尉，利用風水秘術，解讀天下大山大川的脈搏，尋找那些失落在大地上的一處處龍樓寶殿，步步驚心，環環緊扣。'},
+{id:8,title:'三體',author:'劉慈欣',emoji:'🌍',tag:'科幻未來',rating:9.8,words:'89萬',fav:'278萬',cover:'linear-gradient(135deg,#051535,#0a2a6a)',intro:'軍方探尋外星文明的絕秘計劃"紅岸工程"取得突破性進展。地球文明向宇宙發出的第一聲啼鳴，引來了三體文明的目光。'},
+{id:9,title:'雪中悍刀行',author:'烽火戲諸侯',emoji:'❄️',tag:'武俠仙俠',rating:9.3,words:'446萬',fav:'187萬',cover:'linear-gradient(135deg,#051a35,#1a4a6a)',intro:'江湖是一張珠簾。大人物小人物，是珠子，大故事小故事，是串線。情義二字，則是那些珠子的精氣神。'},
+{id:10,title:'凡人修仙傳',author:'忘語',emoji:'⚗️',tag:'修仙玄幻',rating:9.2,words:'580萬',fav:'245萬',cover:'linear-gradient(135deg,#1a3505,#3a7a10)',intro:'一個普通山村窮小子，偶然之下，跨入到一個江湖小門派，雖然資質平庸，但依靠自身努力和合理算計最後修煉成仙的故事。'},
+{id:11,title:'武動乾坤',author:'天蠶土豆',emoji:'💥',tag:'修仙玄幻',rating:8.9,words:'289萬',fav:'194萬',cover:'linear-gradient(135deg,#351a05,#8a4a10)',intro:'修煉一途，乃竊陰陽，奪造化，轉涅槃，握生死，掌輪迴。武之極，破蒼穹，動乾坤！'},
+{id:12,title:'大主宰',author:'天蠶土豆',emoji:'⚡',tag:'修仙玄幻',rating:8.8,words:'458萬',fav:'198萬',cover:'linear-gradient(135deg,#2a1505,#6a3a10)',intro:'大千世界，位面交匯，萬族林立，群雄薈萃，一位位來自下位面的天之至尊演繹著傳奇，追求著那主宰之路。'},
+{id:13,title:'鬥羅大陸',author:'唐家三少',emoji:'🌟',tag:'修仙玄幻',rating:9.1,words:'268萬',fav:'234萬',cover:'linear-gradient(135deg,#2a2a05,#6a6a10)',intro:'唐門外門弟子唐三，跳崖後以另一個身份來到了另一個世界——斗羅大陸。這裡沒有魔法，沒有鬥氣，有的是神奇的武魂。'},
+{id:14,title:'龍族',author:'江南',emoji:'🐉',tag:'奇幻西方',rating:9.0,words:'187萬',fav:'201萬',cover:'linear-gradient(135deg,#0a1535,#1a3a6a)',intro:'少年人踏上一條不歸路，左手高舉著彼岸花，右手鐫刻著曼珠沙華，向著龍族的道路狂奔而去。'},
+{id:15,title:'將夜',author:'貓膩',emoji:'🌙',tag:'修仙玄幻',rating:9.1,words:'412萬',fav:'173萬',cover:'linear-gradient(135deg,#05152a,#0a3560)',intro:'寧缺攜著小婢女桑桑來到都城長安，考入最高學府書院，成為書院大師傅的親傳弟子，展開風雲傳奇。'},
+{id:16,title:'仙逆',author:'耳根',emoji:'🌪️',tag:'修仙玄幻',rating:9.3,words:'203萬',fav:'195萬',cover:'linear-gradient(135deg,#051535,#1a4a8a)',intro:'順為凡，逆則仙，只在心中一念間……修真，到底是修的什麼，王林悟出自己的道，求索本心，坎坷前行。'},
+{id:17,title:'我欲封天',author:'耳根',emoji:'🌈',tag:'修仙玄幻',rating:9.2,words:'351萬',fav:'203萬',cover:'linear-gradient(135deg,#050a35,#1a1a8a)',intro:'我若要有，天不可無。我若要無，天不許有！以孟浩為主角，講述了他從一介書生意外被捲入仙俠世界的故事。'},
+{id:18,title:'一念永恆',author:'耳根',emoji:'💫',tag:'修仙玄幻',rating:8.9,words:'425萬',fav:'176萬',cover:'linear-gradient(135deg,#05351a,#0a8a4a)',intro:'一念成滄海，一念化桑田。一念斬千魔，一念誅萬仙。唯我念……永恆。'},
+{id:19,title:'星辰變',author:'我吃西紅柿',emoji:'💠',tag:'修仙玄幻',rating:8.9,words:'200萬',fav:'187萬',cover:'linear-gradient(135deg,#051a35,#0a4a8a)',intro:'主角秦羽從小就知道自己體質天賦不行，但依舊不屈不撓地修煉，在一部修煉功法的幫助下開始他的傳奇之旅。'},
+{id:20,title:'盤龍',author:'我吃西紅柿',emoji:'🐲',tag:'奇幻西方',rating:9.2,words:'267萬',fav:'213萬',cover:'linear-gradient(135deg,#1a0505,#4a1010)',intro:'煉體為主的玄幻小說，整個故事宏大，書中擁有許多強者，同時也擁有完整的等級制度以及培養制度。'},
+{id:21,title:'吞噬星空',author:'我吃西紅柿',emoji:'🌟',tag:'科幻未來',rating:9.0,words:'425萬',fav:'198萬',cover:'linear-gradient(135deg,#05051a,#0a0a4a)',intro:'宇宙文明時代，人類抵抗星獸入侵。羅峰，一個少年，在這個弱肉強食的世界裡，開始了他吞噬星空的征途。'},
+{id:22,title:'遮天外傳',author:'辰東',emoji:'🌠',tag:'修仙玄幻',rating:8.7,words:'156萬',fav:'98萬',cover:'linear-gradient(135deg,#1a0a35,#3a1a6a)',intro:'遮天世界的延伸故事，更多關於那個神秘宇宙中的傳說與秘密，以及那些未曾講述的英雄傳奇。'},
+{id:23,title:'元尊',author:'天蠶土豆',emoji:'🔮',tag:'修仙玄幻',rating:8.7,words:'312萬',fav:'165萬',cover:'linear-gradient(135deg,#05051a,#151560)',intro:'吾有一口玄黃氣，可吞天地日月星。彼蒼之上，群雄林立，一代驕子因一個賭局，遭人暗算，從此逆天崛起。'},
+{id:24,title:'擇天記',author:'貓膩',emoji:'📿',tag:'修仙玄幻',rating:8.8,words:'398萬',fav:'158萬',cover:'linear-gradient(135deg,#1a1505,#4a3a10)',intro:'太始元年，有神石自太空飛來，分散落在人間，其中落在東土大陸的神石，上面鐫刻著奇怪的圖騰，人因觀其圖騰而悟道。'},
+{id:25,title:'三寸人間',author:'耳根',emoji:'🎋',tag:'修仙玄幻',rating:8.8,words:'532萬',fav:'178萬',cover:'linear-gradient(135deg,#051a05,#104a10)',intro:'在這個世界，有仙有妖，有人有鬼。一個普通的少年，因為一縷緣分，踏上了修仙之路，開始了他不平凡的旅程。'},
+{id:26,title:'神墓',author:'辰東',emoji:'⚰️',tag:'修仙玄幻',rating:8.9,words:'235萬',fav:'178萬',cover:'linear-gradient(135deg,#0a0a0a,#1a1a2a)',intro:'神魔陵園，埋葬著諸神萬魔，遠古的戰場再一次開啟……一顆震古爍今的心臟從遠古墳墓中復活，一個沉睡萬載的超級強者從遠古神墓中甦醒。'},
+{id:27,title:'聖墟',author:'辰東',emoji:'🌋',tag:'修仙玄幻',rating:8.7,words:'674萬',fav:'186萬',cover:'linear-gradient(135deg,#1a0505,#4a1010)',intro:'在破敗中崛起，在寂滅中復甦。滄海成塵，雷電枯竭，那一縷幽霧又一次臨近大地，世間的枷鎖被打開了。'},
+{id:28,title:'陽神',author:'夢入神機',emoji:'☀️',tag:'修仙玄幻',rating:9.1,words:'453萬',fav:'167萬',cover:'linear-gradient(135deg,#352a05,#8a6a10)',intro:'陽神之境，粉碎虛空。洪易，一介寒門之子，依靠著頑強的毅力和卓越的悟性，在修行路上披荊斬棘，最終成就陽神之境。'},
+{id:29,title:'儒道至聖',author:'永恆之火',emoji:'📚',tag:'歷史軍事',rating:8.8,words:'546萬',fav:'175萬',cover:'linear-gradient(135deg,#1a0a05,#4a2010)',intro:'這是一個讀書人掌握天地權柄的世界，才氣在身，詩可殺敵，詞能滅軍，文章安天下。秀才提筆，紙上談兵。'},
+{id:30,title:'全球高武',author:'老鷹吃小雞',emoji:'🦅',tag:'末世異能',rating:8.6,words:'312萬',fav:'142萬',cover:'linear-gradient(135deg,#1a1a05,#4a4a10)',intro:'末日降臨，武道大興。李清風站在世界的廢墟上，憑藉超越常人的武道天賦，成為這個時代的王者。'},
+{id:31,title:'修真四萬年',author:'卧牛真人',emoji:'🔭',tag:'科幻未來',rating:8.5,words:'478萬',fav:'132萬',cover:'linear-gradient(135deg,#05051a,#0a0a3a)',intro:'四萬年前，修真文明在星際戰爭中被摧毀；四萬年後，修真文明在廢墟中慢慢復甦。一個孤兒，一個炸彈，一個夢想，從此改變了整個宇宙的格局。'},
+{id:32,title:'天道圖書館',author:'橫掃千軍',emoji:'📖',tag:'穿越重生',rating:8.7,words:'298萬',fav:'156萬',cover:'linear-gradient(135deg,#0a1a35,#1a3a6a)',intro:'一個普通青年，偶然獲得了一座神秘的天道圖書館，其中收藏了萬千世界的所有知識，從此走上了一條不平凡的道路。'},
+{id:33,title:'校花的貼身高手',author:'魚人二代',emoji:'🏫',tag:'都市言情',rating:8.4,words:'456萬',fav:'235萬',cover:'linear-gradient(135deg,#0a2a35,#1a5a6a)',intro:'從部隊退伍的特種兵，成為了校花的貼身保鏢，在都市中展開了一段精彩絕倫的傳奇故事。'},
+{id:34,title:'都市極品醫神',author:'葉晨',emoji:'🏥',tag:'都市言情',rating:8.3,words:'534萬',fav:'198萬',cover:'linear-gradient(135deg,#05350a,#0a8a1a)',intro:'從古墓中走出的醫術天才，回歸都市後，在保護家人的同時，憑藉神醫之術在都市中闖出一番天地。'},
+{id:35,title:'武煉巔峰',author:'莫默',emoji:'⛰️',tag:'修仙玄幻',rating:8.7,words:'923萬',fav:'163萬',cover:'linear-gradient(135deg,#2a1a05,#6a4a10)',intro:'武道之途，如逆水行舟，不進則退。一路崎嶇，充滿坎坷，能夠走到最後的人，寥寥無幾。'},
+{id:36,title:'伏天氏',author:'淨無痕',emoji:'🌠',tag:'修仙玄幻',rating:8.7,words:'423萬',fav:'167萬',cover:'linear-gradient(135deg,#050a35,#0a1a6a)',intro:'東方神州，有人皇立道統，有聖賢宗門傳道，有諸侯雄踞一方。一個少年從神州中部走出，踏上問道之路。'},
+{id:37,title:'後來的我們',author:'辛夷塢',emoji:'💕',tag:'女頻戀愛',rating:8.9,words:'23萬',fav:'312萬',cover:'linear-gradient(135deg,#35051a,#8a104a)',intro:'林見清和方小曉，兩個異鄉人在城市中相遇，從房租拼湊到情感拼湊，從北漂到各自落地生根，一段刻骨銘心的愛情故事。'},
+{id:38,title:'琅琊榜',author:'海宴',emoji:'👑',tag:'古言宮鬥',rating:9.3,words:'112萬',fav:'367萬',cover:'linear-gradient(135deg,#1a1505,#4a3a10)',intro:'大梁朝廷中，翻雲覆雨的政治陰謀，一個被迫改名換姓的俊才，用智謀在朝野之間縱橫捭闔，為昔日冤案平反昭雪。'},
+{id:39,title:'扶搖皇后',author:'天下歸元',emoji:'🦋',tag:'古言宮鬥',rating:8.8,words:'98萬',fav:'289萬',cover:'linear-gradient(135deg,#35052a,#8a0a6a)',intro:'一代奇女子扶搖，從一個卑微的身份出發，憑藉才智與勇氣在古代宮廷中步步為營，終成一代女皇。'},
+{id:40,title:'大奉打更人',author:'賣報小郎君',emoji:'🏮',tag:'懸疑推理',rating:9.2,words:'425萬',fav:'198萬',cover:'linear-gradient(135deg,#2a1a05,#6a3a0a)',intro:'架空歷史的懸疑小說，一個打更人成為了撬動整個王朝命運的關鍵棋子，在陰謀與真相中尋找著屬於自己的道路。'},
+{id:41,title:'我的治癒系遊戲',author:'半隻青蛙',emoji:'🎮',tag:'競技遊戲',rating:8.6,words:'267萬',fav:'145萬',cover:'linear-gradient(135deg,#051a35,#0a3a6a)',intro:'一個普通的遊戲宅，在一款神秘的治癒系遊戲中，發現了遊戲世界與現實世界之間的秘密。'},
+{id:42,title:'網遊之近身法師',author:'水瓶座·杰',emoji:'🧙',tag:'競技遊戲',rating:8.5,words:'345萬',fav:'167萬',cover:'linear-gradient(135deg,#05351a,#0a6a3a)',intro:'一個選擇了法師職業的玩家，卻走上了近身肉搏的路線，在遊戲世界中創造了無數個不可能完成的奇蹟。'},
+{id:43,title:'逆天邪神',author:'火星引力',emoji:'🌠',tag:'修仙玄幻',rating:8.4,words:'542萬',fav:'132萬',cover:'linear-gradient(135deg,#1a0535,#4a0a8a)',intro:'重生在一個武力至上的世界，攜帶著前世記憶，主角誓要打破命運的枷鎖，成為那個讓諸天顫抖的逆天邪神。'},
+{id:44,title:'異常生物見聞錄',author:'遠瞳',emoji:'👽',tag:'靈異鬼怪',rating:9.1,words:'356萬',fav:'187萬',cover:'linear-gradient(135deg,#051a1a,#0a3a3a)',intro:'一個普通打工人，突然發現身邊住滿了各種來自神話傳說的異常生物，從此開始了一段奇妙的見聞錄。'},
+{id:45,title:'末世之黑暗進化',author:'黑色禁藥',emoji:'🧟',tag:'末世異能',rating:8.6,words:'398萬',fav:'143萬',cover:'linear-gradient(135deg,#0a0a05,#1a1a0a)',intro:'末世爆發，喪屍橫行。唯一倖存的科學家發現了進化的秘密，在人類文明的廢墟上建立起新的秩序。'},
+{id:46,title:'全球廢土',author:'廢都',emoji:'🏜️',tag:'末世異能',rating:8.4,words:'456萬',fav:'128萬',cover:'linear-gradient(135deg,#2a1a05,#5a3a10)',intro:'核戰之後，地球成為廢土。倖存者在廢墟中掙扎求生，一個普通的廢土居民踏上了尋找希望的旅程。'},
+{id:47,title:'法醫秦明',author:'秦明',emoji:'🔬',tag:'懸疑推理',rating:9.0,words:'124萬',fav:'267萬',cover:'linear-gradient(135deg,#05051a,#0a0a35)',intro:'法醫秦明，一個冷靜專業的法醫，在一個個撲朔迷離的案件中，用理性和科學的方式揭開死亡的真相。'},
+{id:48,title:'暗黑者',author:'那多',emoji:'🌑',tag:'懸疑推理',rating:8.8,words:'178萬',fav:'189萬',cover:'linear-gradient(135deg,#0a0a05,#0a0a1a)',intro:'一個隱藏在暗夜中的神秘人，用自己的方式懲惡揚善，在法律無法觸及的灰色地帶中行走，引發了一系列連鎖事件。'},
+{id:49,title:'滄元圖',author:'我吃西紅柿',emoji:'📜',tag:'修仙玄幻',rating:8.8,words:'264萬',fav:'158萬',cover:'linear-gradient(135deg,#1a1005,#3a2a0a)',intro:'我叫孟川，今年十五歲，是東寧府鏡湖道院的當代大師兄。在這個世界，有妖怪，有仙人，有強大的武者，也有諸多秘密等待揭開。'}
+];
+
+// ==========================================
+// 大師資料庫（包含各大師作品）
+// ==========================================
+const mastersDB = [
+{
+  id:'jingyong', name:'金庸', avatar:'金', desc:'武俠小說泰斗，被譽為「武林盟主」，作品流傳全球華人世界',
+  genres:'武俠經典', works_count:'15 部', total_words:'超過 1,000 萬字',
+  works:[
+    {id:200,title:'天龍八部',emoji:'🗡️',tag:'武俠經典',rating:9.8,words:'125萬',fav:'328萬',cover:'linear-gradient(135deg,#2a1505,#6a3a10)',intro:'以宋哲宗時代為背景，通過宋、遼、大理、西夏、吐蕃等王國之間的武林恩怨和民族矛盾，從哲學的高度對人生和社會進行審視和描寫。'},
+    {id:201,title:'笑傲江湖',emoji:'⚔️',tag:'武俠經典',rating:9.7,words:'98萬',fav:'312萬',cover:'linear-gradient(135deg,#1a1a05,#4a4a10)',intro:'通過敘述華山派大弟子令狐沖的經歷，反映了武林各派爭霸奪權的歷程，全書充滿政治鬥爭的隱喻和人性的深刻思考。'},
+    {id:202,title:'射鵰英雄傳',emoji:'🏹',tag:'武俠經典',rating:9.7,words:'93萬',fav:'318萬',cover:'linear-gradient(135deg,#352a05,#8a6a10)',intro:'以宋、金、蒙古三國對峙作為背景，圍繞郭靖、黃蓉的感情經歷以及他們在江湖中的成長歷程展開的武俠巨著。'},
+    {id:203,title:'神鵰俠侶',emoji:'🦅',tag:'武俠經典',rating:9.6,words:'102萬',fav:'295萬',cover:'linear-gradient(135deg,#2a0505,#6a1010)',intro:'射鵰三部曲系列第二部，楊過與小龍女跌宕起伏的愛情故事，感動了無數讀者，成為最經典的武俠愛情故事。'},
+    {id:204,title:'倚天屠龍記',emoji:'🗡️',tag:'武俠經典',rating:9.5,words:'96萬',fav:'287萬',cover:'linear-gradient(135deg,#05351a,#0a8a4a)',intro:'射鵰三部曲第三部，以元末群雄紛起、江湖動盪為背景，敘述武當弟子張無忌的江湖生涯，最終成為明教教主。'},
+    {id:205,title:'鹿鼎記',emoji:'🦌',tag:'武俠經典',rating:9.4,words:'148萬',fav:'256萬',cover:'linear-gradient(135deg,#1a3505,#3a7a10)',intro:'以清代康熙年間為背景，描寫出生於揚州妓院的韋小寶，憑藉機智靈活的頭腦，在清廷、江湖中縱橫自如的故事。'},
+    {id:206,title:'書劍恩仇錄',emoji:'📖',tag:'武俠經典',rating:9.2,words:'56萬',fav:'187萬',cover:'linear-gradient(135deg,#35051a,#8a104a)',intro:'金庸的第一部長篇武俠小說，以清朝乾隆時期為背景，描述紅花會與清廷之間的恩怨情仇。'}
+  ]
+},
+{
+  id:'huangyi', name:'黃易', avatar:'黃', desc:'奇幻武俠大師，開創「穿越」小說先河，影響深遠',
+  genres:'武俠奇幻', works_count:'37 部', total_words:'超過 3,000 萬字',
+  works:[
+    {id:210,title:'尋秦記',emoji:'🌀',tag:'武俠奇幻',rating:9.5,words:'142萬',fav:'256萬',cover:'linear-gradient(135deg,#1a1505,#4a3a10)',intro:'21世紀的特種部隊戰士項少龍穿越時空回到戰國時代，憑藉現代人的智慧和特種兵技能，協助秦始皇統一天下的傳奇。'},
+    {id:211,title:'大唐雙龍傳',emoji:'🐉',tag:'武俠奇幻',rating:9.4,words:'258萬',fav:'243萬',cover:'linear-gradient(135deg,#2a1a05,#6a4a10)',intro:'隋末群雄割據的混亂時代，寇仲與徐子陵兩個出身卑微的少年，憑藉意外得到的武學秘笈成為江湖中舉足輕重的人物。'},
+    {id:212,title:'破碎虛空',emoji:'✨',tag:'武俠奇幻',rating:9.2,words:'86萬',fav:'198萬',cover:'linear-gradient(135deg,#05051a,#0f0f4a)',intro:'黃易的成名作，傳鷹一生追求武學極致，最終破碎虛空、羽化飛仙的故事，開創了玄幻武俠的先河。'},
+    {id:213,title:'覆雨翻雲',emoji:'☁️',tag:'武俠奇幻',rating:9.3,words:'234萬',fav:'225萬',cover:'linear-gradient(135deg,#051a35,#0a3a6a)',intro:'以明朝為背景，描寫浪翻雲、龐斑等絕世高手在江湖中的愛恨情仇，氣勢磅礴，人物性格鮮明。'},
+    {id:214,title:'星際浪子',emoji:'🌌',tag:'科幻未來',rating:8.9,words:'178萬',fav:'156萬',cover:'linear-gradient(135deg,#05051a,#0a0a3a)',intro:'黃易的科幻武俠代表作，將武道修煉融入星際時代，描述主角在宇宙中縱橫捭闔的故事。'},
+    {id:215,title:'邊荒傳說',emoji:'🏜️',tag:'武俠奇幻',rating:9.0,words:'167萬',fav:'178萬',cover:'linear-gradient(135deg,#2a1a05,#5a3a10)',intro:'東晉時期，南北朝的亂世之中，一個少年在邊荒之地的傳奇故事，充滿了武道與謀略的激烈碰撞。'}
+  ]
+},
+{
+  id:'moren', name:'莫仁', avatar:'莫', desc:'台灣輕小說大師，作品橫跨奇幻、科幻、武俠等多種類型',
+  genres:'輕小說/奇幻', works_count:'23 部', total_words:'超過 1,500 萬字',
+  works:[
+    {id:220,title:'我是大法師',emoji:'🧙',tag:'輕小說',rating:9.2,words:'89萬',fav:'198萬',cover:'linear-gradient(135deg,#051a35,#0a3a6a)',intro:'一個普通青年突然發現自己擁有了施展魔法的能力，在現代都市中開始了一段奇妙的大法師之旅。'},
+    {id:221,title:'百分之二的天才',emoji:'🌟',tag:'輕小說',rating:9.0,words:'76萬',fav:'167萬',cover:'linear-gradient(135deg,#1a0535,#4a0a8a)',intro:'一個被歸類為天才的少年，在學習和生活中面對各種挑戰，探索著何為真正的天才。'},
+    {id:222,title:'魔法少女養成計劃',emoji:'✨',tag:'輕小說',rating:8.8,words:'65萬',fav:'145萬',cover:'linear-gradient(135deg,#35051a,#8a104a)',intro:'一個尋常的故事設定，卻有著令人意想不到的深刻內涵，魔法少女的背後是殘酷的現實。'},
+    {id:223,title:'電磁炮',emoji:'⚡',tag:'科幻未來',rating:8.7,words:'98萬',fav:'134萬',cover:'linear-gradient(135deg,#051a35,#0a3a6a)',intro:'在一個超能力者與科技並存的世界中，一個擁有電磁炮能力的少女與各種陰謀周旋的故事。'},
+    {id:224,title:'沙鹿鎮',emoji:'🏡',tag:'輕小說',rating:8.9,words:'54萬',fav:'123萬',cover:'linear-gradient(135deg,#05351a,#0a6a3a)',intro:'發生在台灣小鎮的溫馨故事，充滿了濃濃的人情味和對家鄉的眷戀，是莫仁最具個人色彩的作品。'}
+  ]
+},
+{
+  id:'tangjiasanshao', name:'唐家三少', avatar:'唐', desc:'中國網絡文學最暢銷作家，斗羅大陸作者，作品改編眾多影視動漫',
+  genres:'修仙玄幻/都市', works_count:'31 部', total_words:'超過 4,000 萬字',
+  works:[
+    {id:230,title:'鬥羅大陸',emoji:'🌟',tag:'修仙玄幻',rating:9.1,words:'268萬',fav:'234萬',cover:'linear-gradient(135deg,#2a2a05,#6a6a10)',intro:'唐門外門弟子唐三，跳崖後以另一個身份來到了另一個世界——斗羅大陸。這裡沒有魔法，沒有鬥氣，有的是神奇的武魂。'},
+    {id:231,title:'絕世唐門',emoji:'⚔️',tag:'修仙玄幻',rating:9.0,words:'324萬',fav:'198萬',cover:'linear-gradient(135deg,#1a2a05,#3a6a10)',intro:'鬥羅大陸系列第二部，現代科技與武魂世界的融合，唐三的後代在新時代書寫著新的傳奇。'},
+    {id:232,title:'鬥羅大陸三部曲',emoji:'🌙',tag:'修仙玄幻',rating:8.9,words:'389萬',fav:'178萬',cover:'linear-gradient(135deg,#05051a,#0a0a4a)',intro:'鬥羅大陸系列第三部，全新的主角，全新的武魂世界，但依然是那個充滿熱血與夢想的世界。'},
+    {id:233,title:'吞噬天空',emoji:'🌌',tag:'修仙玄幻',rating:8.7,words:'267萬',fav:'156萬',cover:'linear-gradient(135deg,#0a1a35,#1a3a6a)',intro:'唐家三少早期代表作，主角在一個全新的奇幻世界中，憑藉不屈的意志和特殊的天賦不斷突破自我。'},
+    {id:234,title:'神印王座',emoji:'👑',tag:'修仙玄幻',rating:9.0,words:'312萬',fav:'189萬',cover:'linear-gradient(135deg,#2a1505,#6a3a10)',intro:'神聖大陸上，人類騎士與魔族之間的史詩戰爭，一個少年成長為最強騎士的傳奇故事。'},
+    {id:235,title:'冰火魔廚',emoji:'🍳',tag:'都市言情',rating:8.5,words:'178萬',fav:'143萬',cover:'linear-gradient(135deg,#051a1a,#0a3a3a)',intro:'一個擁有神奇廚藝的少年，用美食征服了整個大陸，成為傳奇廚師的故事，充滿了奇幻色彩。'}
+  ]
+},
+{
+  id:'xuanyu', name:'玄雨', avatar:'玄', desc:'1998年開始網路文學創作，2003年推出《小兵傳奇》，被譽為「網路三大奇書」之一，開創科幻網文類型，入選橙瓜網路文學獎百強大神',
+  genres:'科幻/修仙/都市', works_count:'10 部', total_words:'超過 800 萬字',
+  works:[
+    {id:240,title:'小兵傳奇',emoji:'🚀',tag:'科幻未來',rating:9.3,words:'198萬',fav:'287萬',cover:'linear-gradient(135deg,#1a0a05,#4a2010)',intro:'他自小就有野心，希望當一個統領天下兵馬的元帥。他認為要當元帥就要先當將軍，而要當將軍就要從小兵幹起。唐龍高中畢業後參軍，在骷髏教官近乎殘酷的訓練後成為合格軍人，並當上戰艦艦長，在宇宙大戰中締造傳奇，被譽為「網路三大奇書」之一。'},
+    {id:241,title:'獨步天途',emoji:'🐸',tag:'修仙玄幻',rating:8.8,words:'164萬',fav:'132萬',cover:'linear-gradient(135deg,#05351a,#0a6a3a)',intro:'浩渺大陸，奇珍長存，凶獸橫行，武道成仙。少年張仲軍，本應繼承父親爵位，卻因天賦驟消遭受陷害，垂死之際亂入毒雲瘴谷，結識古怪青蛙，得神蛙相助後扶搖而上，名動大陸。'},
+    {id:242,title:'星武耀',emoji:'⭐',tag:'星際宇宙',rating:8.7,words:'223萬',fav:'112萬',cover:'linear-gradient(135deg,#05051a,#0a0a4a)',intro:'少年莫名得到一個眷顧系統，在系統誘導下，開始在星空世界展現自己的能力，耀武星空，縱橫宇宙。'},
+    {id:243,title:'孤獨戰神',emoji:'⚔️',tag:'修仙玄幻',rating:8.6,words:'156萬',fav:'98萬',cover:'linear-gradient(135deg,#2a0a05,#6a2010)',intro:'世上凡是有思維的動物，都是好戰的。在那時斷時續的戰爭歲月中，造就了許多長盛不衰、家戶喻曉的戰神傳說。'},
+    {id:244,title:'夢幻空間',emoji:'🌈',tag:'奇幻冒險',rating:8.5,words:'45萬',fav:'76萬',cover:'linear-gradient(135deg,#1a0535,#4a0a8a)',intro:'具有「無中生有」神奇異能的青年，意外踏上修真之路。這裡有別樣的修真大法，有別開生面的成仙之路，讓你耳目一新。'},
+    {id:245,title:'神武飛揚',emoji:'🦅',tag:'修仙玄幻',rating:8.4,words:'189萬',fav:'87萬',cover:'linear-gradient(135deg,#351a05,#8a4510)',intro:'天真稚子沈飛，無意中得到一個神秘的探測儀，可以辨人心、尋寶物！且看一個懵懂少年如何譜寫一段鏗鏘熱血的傳奇史詩！'},
+    {id:246,title:'合租奇緣',emoji:'🏠',tag:'都市言情',rating:8.3,words:'98萬',fav:'145萬',cover:'linear-gradient(135deg,#0a2a35,#1a5a6a)',intro:'陳世豪一個山村出來的純樸少年，因機緣巧合合租進了一套除他之外全是風情各異美女的公寓，展開奇妙生活。'}
+  ]
+},
+{
+  id:'chendon', name:'辰東', avatar:'辰', desc:'遮天、完美世界作者，玄幻小說殿堂級大神，宇宙級寫作規模',
+  genres:'修仙玄幻', works_count:'12 部', total_words:'超過 3,500 萬字',
+  works:[
+    {id:0,title:'遮天',emoji:'⚔️',tag:'修仙玄幻',rating:9.6,words:'243萬',fav:'182萬',cover:'linear-gradient(135deg,#1a0a35,#4a1a8a)',intro:'冰冷與黑暗並存的宇宙深處，九具龐大的龍屍拉著一口青銅古棺，亙古長存。九龍拉棺，究竟是回到了上古，還是來到了星空的彼岸？'},
+    {id:1,title:'完美世界',emoji:'🌌',tag:'修仙玄幻',rating:9.5,words:'268萬',fav:'175萬',cover:'linear-gradient(135deg,#0a2535,#1a6a8a)',intro:'一粒塵可填海，一根草斬盡日月星辰，彈指間天翻地覆。群雄並起，萬族林立，諸聖爭霸，亂天動地。'},
+    {id:26,title:'神墓',emoji:'⚰️',tag:'修仙玄幻',rating:8.9,words:'235萬',fav:'178萬',cover:'linear-gradient(135deg,#0a0a0a,#1a1a2a)',intro:'神魔陵園，埋葬著諸神萬魔，遠古的戰場再一次開啟……一個沉睡萬載的超級強者從遠古神墓中甦醒。'},
+    {id:27,title:'聖墟',emoji:'🌋',tag:'修仙玄幻',rating:8.7,words:'674萬',fav:'186萬',cover:'linear-gradient(135deg,#1a0505,#4a1010)',intro:'在破敗中崛起，在寂滅中復甦。滄海成塵，雷電枯竭，那一縷幽霧又一次臨近大地，世間的枷鎖被打開了。'}
+  ]
+},
+{
+  id:'tiancantuodou', name:'天蠶土豆', avatar:'天', desc:'斗破蒼穹作者，鬥氣系玄幻的開山鼻祖，作品改編影視無數',
+  genres:'修仙玄幻', works_count:'9 部', total_words:'超過 2,000 萬字',
+  works:[
+    {id:2,title:'斗破蒼穹',emoji:'🔥',tag:'修仙玄幻',rating:9.3,words:'197萬',fav:'168萬',cover:'linear-gradient(135deg,#351005,#a03020)',intro:'蕭炎，從天才跌落廢人，再逆天崛起，憑藉鬥氣走遍大陸的傳奇故事。'},
+    {id:11,title:'武動乾坤',emoji:'💥',tag:'修仙玄幻',rating:8.9,words:'289萬',fav:'194萬',cover:'linear-gradient(135deg,#351a05,#8a4a10)',intro:'修煉一途，乃竊陰陽，奪造化，轉涅槃，握生死，掌輪迴。武之極，破蒼穹，動乾坤！'},
+    {id:12,title:'大主宰',emoji:'⚡',tag:'修仙玄幻',rating:8.8,words:'458萬',fav:'198萬',cover:'linear-gradient(135deg,#2a1505,#6a3a10)',intro:'大千世界，位面交匯，萬族林立，群雄薈萃，追求著那主宰之路。'},
+    {id:23,title:'元尊',emoji:'🔮',tag:'修仙玄幻',rating:8.7,words:'312萬',fav:'165萬',cover:'linear-gradient(135deg,#05051a,#151560)',intro:'吾有一口玄黃氣，可吞天地日月星。一代驕子因一個賭局遭人暗算，從此逆天崛起。'}
+  ]
+},
+{
+  id:'ergen', name:'耳根', avatar:'耳', desc:'仙逆、我欲封天作者，以逆仙之道著稱，構建了獨特的修仙哲學體系',
+  genres:'修仙玄幻', works_count:'7 部', total_words:'超過 2,500 萬字',
+  works:[
+    {id:16,title:'仙逆',emoji:'🌪️',tag:'修仙玄幻',rating:9.3,words:'203萬',fav:'195萬',cover:'linear-gradient(135deg,#051535,#1a4a8a)',intro:'順為凡，逆則仙，只在心中一念間……王林悟出自己的道，求索本心，坎坷前行，最終踏出自己的仙道！'},
+    {id:17,title:'我欲封天',emoji:'🌈',tag:'修仙玄幻',rating:9.2,words:'351萬',fav:'203萬',cover:'linear-gradient(135deg,#050a35,#1a1a8a)',intro:'我若要有，天不可無。我若要無，天不許有！孟浩從一介書生意外被捲入仙俠世界的故事。'},
+    {id:18,title:'一念永恆',emoji:'💫',tag:'修仙玄幻',rating:8.9,words:'425萬',fav:'176萬',cover:'linear-gradient(135deg,#05351a,#0a8a4a)',intro:'一念成滄海，一念化桑田。一念斬千魔，一念誅萬仙。唯我念……永恆。'},
+    {id:25,title:'三寸人間',emoji:'🎋',tag:'修仙玄幻',rating:8.8,words:'532萬',fav:'178萬',cover:'linear-gradient(135deg,#051a05,#104a10)',intro:'在這個世界，有仙有妖，有人有鬼。一個普通的少年踏上了修仙之路，開始了不平凡的旅程。'}
+  ]
+},
+{
+  id:'cangtianbaihe', name:'蒼天白鶴', avatar:'鶴', desc:'台灣玄幻小說大神，以《武神》《通天仙路》等作品著稱，擅長熱血戰鬥與武道修煉題材',
+  genres:'修仙玄幻/科幻', works_count:'15 部', total_words:'超過 1,200 萬字',
+  works:[
+    {id:260,title:'武神',emoji:'⚡',tag:'修仙玄幻',rating:9.0,words:'267萬',fav:'198萬',cover:'linear-gradient(135deg,#2a1a05,#6a4510)',intro:'什麼是天才？無論學習任何戰技都能完全領悟，只要修煉新功法就能掃除進階壁障，這才是真正的天才！賀一鳴本為普通少年，一次奇遇後，一躍成為眾人口中天才，武神之名，以武立命！'},
+    {id:261,title:'通天仙路',emoji:'🏔️',tag:'修仙玄幻',rating:8.9,words:'189萬',fav:'167萬',cover:'linear-gradient(135deg,#1a0535,#4a0a8a)',intro:'風雪交加，霜寒刺骨，一個老工匠從街上收養了一個快被凍死的孩子。得軍火，鍛兵器，一身神技，引得八方相求。習武道，護家國，拳打乾坤，腳踏通天仙路！'},
+    {id:262,title:'棋祖',emoji:'♟️',tag:'修仙玄幻',rating:8.8,words:'143萬',fav:'134萬',cover:'linear-gradient(135deg,#05051a,#0a0a4a)',intro:'一場火災，把一個少年帶到一個神奇的世界。萬物皆螻蟻，眾生靠觀想神靈獲得力量。然而少年觀想的不是神靈，而是穿越帶來的棋子，以小小棋子，成就赫赫棋祖威名！'},
+    {id:263,title:'無敵喚靈',emoji:'🦋',tag:'修仙玄幻',rating:8.7,words:'156萬',fav:'112萬',cover:'linear-gradient(135deg,#051a35,#0a3a6a)',intro:'戎家弟子凱旋偶有奇遇，習得喚靈之術，召喚永久存在的特殊靈體，從而名揚天下，成就無敵喚靈之名。'},
+    {id:264,title:'蒼天霸血',emoji:'🩸',tag:'修仙玄幻',rating:8.6,words:'134萬',fav:'98萬',cover:'linear-gradient(135deg,#2a0505,#6a1010)',intro:'一滴魔血的傳承，造就鐵血的殭屍戰士。一個小兵成為大帝的傳說，一部神秘血液的傳奇。'},
+    {id:265,title:'星際之亡靈帝國',emoji:'💀',tag:'科幻未來',rating:8.5,words:'98萬',fav:'87萬',cover:'linear-gradient(135deg,#05051a,#050540)',intro:'星際時代，人類踏足無數星系。這裡有蟲族、有異族、有光明、有黑暗，更有來自異世界的詭異力量，亡靈帝國在星際中崛起。'}
+  ]
+}
+];
+
+// ==========================================
+// 全域狀態
+// ==========================================
+let currentFilterRank = 'all';
+let currentFilterComplete = 'all';
+let historyList = JSON.parse(localStorage.getItem('gk_history') || '[]');
+let currentBookForModal = null;
+
+// ==========================================
+// 初始化
+// ==========================================
+window.onload = function(){
+  renderHome();
+  renderRank();
+  renderComplete();
+  renderMasters();
+  updateHistory();
+  if (FB_READY) document.getElementById('config-warn').style.display = 'none';
+  initFirebase();
 };
 
-async function loadChapters({src,match}){
- RS.source=src;RS.bookId=match.bookId;
- document.getElementById('reader-loading-text').textContent='載入目錄中...';
- document.getElementById('reader-loading-state').style.display='flex';
- document.getElementById('reading-area').style.display='none';
- document.getElementById('reader-bottom').style.display='none';
- try{
-  const html=await proxyFetch(src.chaptersUrl(match.bookId));
-  const chs=src.parseChapters(html);
-  if(!chs||!chs.length)throw new Error('章節列表為空');
-  RS.chapters=chs;
-  const savedIdx=RS.progress[RS.book.id]||0;
-  renderTOC();
-  await loadChapter(savedIdx);
- }catch(e){showError('目錄載入失敗：'+e.message,()=>loadChapters({src,match}));}
-}
-
-function renderTOC(){
- document.getElementById('chapter-list-inner').innerHTML=RS.chapters.map((ch,i)=>
-  '<div class="chapter-item'+(i===RS.chIdx?' current':'')+'" id="chi-'+i+'" onclick="loadChapter('+i+')">'
-  +'<span class="chapter-num-badge">'+(i+1)+'</span>'
-  +'<span class="chapter-name">'+esc(ch.name)+'</span>'
-  +(i<=(RS.progress[RS.book?.id]||0)?'<span class="chapter-read-mark">✓</span>':'')
-  +'</div>').join('');
-}
-
-async function loadChapter(idx){
- if(idx<0||idx>=RS.chapters.length)return;
- const ch=RS.chapters[idx];RS.chIdx=idx;
- if(!RS.progress[RS.book.id]||RS.progress[RS.book.id]<idx){RS.progress[RS.book.id]=idx;localStorage.setItem('gk_rd',JSON.stringify(RS.progress));}
- document.getElementById('reader-loading-state').style.display='none';
- document.getElementById('chapter-list-panel').style.display='none';
- document.getElementById('reading-area').style.display='flex';
- document.getElementById('reading-area').style.background=RS.bgColor;
- document.getElementById('reading-content').innerHTML='<div class="text-loading"><div class="spin-big"></div><div>載入章節內容中...</div></div>';
- document.getElementById('reader-bottom').style.display='none';
- try{
-  const html=await proxyFetch(ch.url);
-  const text=RS.source.parseContent(html);
-  if(!text||text.trim().length<50)throw new Error('章節內容為空');
-  const ps=text.split('\n').filter(l=>l.trim());
-  const total=RS.chapters.length;
-  document.getElementById('reading-content').innerHTML=
-   '<div class="ch-header"><div class="ch-num-label">第 '+(idx+1)+' / '+total+' 章</div><div class="ch-name-label">'+esc(ch.name)+'</div></div>'
-   +'<div class="novel-text" id="novel-text" style="font-size:'+RS.fontSize+'px;line-height:'+RS.lineHeight+';color:'+RS.textColor+'">'
-   +ps.map(p=>'<p>'+esc(p)+'</p>').join('')+'</div>';
-  document.getElementById('reading-area').scrollTop=0;
-  document.getElementById('btn-prev-ch').disabled=idx===0;
-  document.getElementById('btn-next-ch').disabled=idx>=total-1;
-  document.getElementById('ch-progress-text').textContent='第 '+(idx+1)+' / '+total+' 章';
-  document.getElementById('ch-progress-fill').style.width=Math.round((idx+1)/total*100)+'%';
-  document.getElementById('reader-bottom').style.display='flex';
-  document.querySelectorAll('.chapter-item').forEach((el,i)=>el.classList.toggle('current',i===idx));
- }catch(e){showError('章節載入失敗：'+e.message,()=>loadChapter(idx));}
-}
-
-function loadPrevChapter(){if(RS.chIdx>0)loadChapter(RS.chIdx-1);}
-function loadNextChapter(){if(RS.chIdx<RS.chapters.length-1)loadChapter(RS.chIdx+1);}
-
-function showTOC(){
- renderTOC();
- document.getElementById('reading-area').style.display='none';
- document.getElementById('chapter-list-panel').style.display='flex';
- document.getElementById('reader-bottom').style.display='none';
- setTimeout(()=>{const el=document.getElementById('chi-'+RS.chIdx);if(el)el.scrollIntoView({block:'center'});},100);
-}
-
-function showError(msg,retryFn){
- document.getElementById('reader-loading-state').style.display='none';
- document.getElementById('reading-area').style.display='flex';
- document.getElementById('reading-content').innerHTML='<div class="text-error"><div class="text-error-icon">📡</div><div class="text-error-msg">'+msg+'</div><button class="retry-btn" onclick="('+retryFn.toString()+')()">重試</button></div>';
-}
-
-function showFallback(book){
- document.getElementById('reader-loading-state').style.display='none';
- document.getElementById('reading-area').style.display='flex';
- document.getElementById('source-chips').innerHTML='<div class="source-chip active">示範模式</div>';
- const intro=book.intro||'';
- document.getElementById('reading-content').innerHTML=
-  '<div class="ch-header"><div class="ch-num-label">第 1 章(示範)</div><div class="ch-name-label">'+esc(book.title)+'</div></div>'
-  +'<div class="text-error"><div class="text-error-icon">🌐</div><div class="text-error-msg">無法連接到書源網站<br><small>可能是網路限制，請稍後再試</small></div></div>'
-  +'<div class="novel-text" style="font-size:'+RS.fontSize+'px;line-height:'+RS.lineHeight+'">'
-  +'<p>《'+esc(book.title)+'》— '+esc(book.author||'')+'</p>'
-  +(intro?'<p>'+esc(intro)+'</p>':'')
-  +'<p>天地初開，萬物肇始。在那遙遠的時代，天地之間靈氣充沛，修士以精、氣、神為根基，踏上了一條通往無盡巔峰的道路。</p>'
-  +'<p>主角誕生在一個平凡的家族，自幼便展現出不同尋常的天賦。然而命運多舛，一場突如其來的變故，打破了他原本平靜的生活。</p>'
-  +'<p>他站在廢墟之上，握緊了雙拳。從這一刻起，他知道，自己必須變強，強到可以保護一切想要保護的人。</p>'
-  +'<p>修行之路從不平坦，但他從未退縮。每一次跌倒，都是為了更有力地站起來。每一次失敗，都是通向成功的墊腳石。</p>'
-  +'<p>這，只是一個傳奇的開始……</p>'
-  +'</div>';
- document.getElementById('ch-progress-text').textContent='示範模式';
- document.getElementById('reader-bottom').style.display='flex';
- document.getElementById('btn-prev-ch').disabled=true;
- document.getElementById('btn-next-ch').disabled=true;
-}
-
-function toggleReaderSettings(){document.getElementById('reader-settings-panel').classList.toggle('open');}
-function changeFontSize(d){RS.fontSize=Math.max(12,Math.min(26,RS.fontSize+d));document.getElementById('font-size-val').textContent=RS.fontSize;const nt=document.getElementById('novel-text');if(nt)nt.style.fontSize=RS.fontSize+'px';saveRP();}
-function changeLineHeight(d){RS.lineHeight=Math.round((RS.lineHeight+d)*10)/10;RS.lineHeight=Math.max(1.2,Math.min(3,RS.lineHeight));document.getElementById('line-height-val').textContent=RS.lineHeight.toFixed(1);const nt=document.getElementById('novel-text');if(nt)nt.style.lineHeight=RS.lineHeight;saveRP();}
-function setBg(bg,tc,el){RS.bgColor=bg;RS.textColor=tc;document.querySelectorAll('.bg-opt').forEach(o=>o.classList.remove('active'));el.classList.add('active');document.getElementById('reading-area').style.background=bg;const nt=document.getElementById('novel-text');if(nt)nt.style.color=tc;saveRP();}
-function saveRP(){localStorage.setItem('gk_rp',JSON.stringify({fontSize:RS.fontSize,lineHeight:RS.lineHeight,bgColor:RS.bgColor,textColor:RS.textColor}));}
-function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-function backFromReader(){document.getElementById('reader-settings-panel').classList.remove('open');document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('home-page').classList.add('active');document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));document.querySelector('[data-page="home"]').classList.add('active');}
-// ========================================
-// 主畫面邏輯
-// ========================================
-let historyList=JSON.parse(localStorage.getItem('gk_history')||'[]');
-
-function getAllBooks(){
- const all=[...booksDB];
- mastersDB.forEach(m=>m.works.forEach(w=>{if(!all.find(b=>b.id===w.id))all.push({...w,author:w.author||m.name});}));
- return all;
-}
-
 function renderHome(){
- renderBookList('home-books',booksDB.slice(0,3),false);
- const homeM=document.getElementById('home-masters');
- homeM.innerHTML=mastersDB.slice(0,3).map(m=>'<div class="master-row" onclick="openMasterModal(''+m.id+'')"><div class="master-avatar-lg">'+m.avatar+'</div><div class="master-info"><div class="master-name-lg">'+m.name+'</div><div class="master-desc">'+m.genres+'</div><div class="master-stats"><span>'+m.works_count+'</span><span>'+m.total_words+'</span></div></div><div class="master-arrow">›</div></div>').join('');
-}
-function renderRank(f='all'){renderBookList('rank-content',f==='all'?booksDB:booksDB.filter(b=>b.tag===f),true);}
-function renderComplete(f='all'){renderBookList('complete-content',f==='all'?booksDB:booksDB.filter(b=>b.tag===f),true);}
-function renderMasters(){
- document.getElementById('master-list').innerHTML=mastersDB.map(m=>'<div class="master-row" onclick="openMasterModal(''+m.id+'')"><div class="master-avatar-lg">'+m.avatar+'</div><div class="master-info"><div class="master-name-lg">'+m.name+'</div><div class="master-desc">'+m.desc+'</div><div class="master-stats"><span>📚 '+m.works_count+'</span><span>✍️ '+m.total_words+'</span></div></div><div class="master-arrow">›</div></div>').join('');
-}
-function renderBookList(cid,books,showRank){
- const c=document.getElementById(cid);
- if(!books.length){c.innerHTML='<div class="empty-state">此分類暫無書籍</div>';return;}
- c.innerHTML=books.map((b,i)=>'<div class="book-card" onclick="showBookDetail('+b.id+')">'+(showRank?'<div class="rank-badge"><div class="rank-num'+(i===0?' top1':i===1?' top2':i===2?' top3':'')+'>'+(i+1)+'</div></div>':'')+'<div class="book-cover" style="background:'+(b.cover||'linear-gradient(135deg,#8B1A1A,#c0392b)')+'">'+b.emoji+'</div><div class="book-info"><div class="book-title">'+esc(b.title)+'</div><div class="book-author">'+esc(b.author||'')+' · <span class="book-status">已完本</span></div><div class="book-tag">'+esc(b.tag)+'</div><div class="book-meta"><span>⭐ '+b.rating+'</span><span>'+b.words+'字</span></div></div><div class="book-actions"><button class="btn-read" onclick="event.stopPropagation();openReader('+JSON.stringify(b).replace(/"/g,"'")+')" >閱讀</button></div></div>').join('');
+  renderBookList('home-books', booksDB.slice(0,3), false);
+  const homeM = document.getElementById('home-masters');
+  homeM.innerHTML = mastersDB.slice(0,3).map(m => `
+    <div class="master-row" onclick="openMasterModal('${m.id}')">
+      <div class="master-avatar-lg">${m.avatar}</div>
+      <div class="master-info">
+        <div class="master-name-lg">${m.name}</div>
+        <div class="master-desc">${m.genres}</div>
+        <div class="master-stats"><span>${m.works_count}</span><span>${m.total_words}</span></div>
+      </div>
+      <div class="master-arrow">›</div>
+    </div>
+  `).join('');
 }
 
-function openMasterModal(mid){
- const m=mastersDB.find(x=>x.id===mid);if(!m)return;
- document.getElementById('master-modal-title').textContent=m.name+' 作品集';
- document.getElementById('mm-avatar').textContent=m.avatar;
- document.getElementById('mm-name').textContent=m.name;
- document.getElementById('mm-desc').textContent=m.desc;
- document.getElementById('mm-works-label').textContent='📚 全部作品('+m.works.length+' 部)';
- document.getElementById('mm-works-list').innerHTML=m.works.map(b=>'<div class="book-card" onclick="showBookDetail('+b.id+')" style="margin-bottom:8px"><div class="book-cover" style="background:'+(b.cover||'linear-gradient(135deg,#8B1A1A,#c0392b)')+'">'+b.emoji+'</div><div class="book-info"><div class="book-title">'+esc(b.title)+'</div><div class="book-tag">'+esc(b.tag)+'</div><div class="book-meta"><span>⭐ '+b.rating+'</span><span>'+b.words+'字</span></div></div><div class="book-actions"><button class="btn-read" onclick="event.stopPropagation();closeModal('master-modal');openReader('+JSON.stringify({...b,author:m.name}).replace(/"/g,"'")+')" >閱讀</button></div></div>').join('');
- document.getElementById('master-modal').classList.add('active');
+function renderRank(filter='all'){
+  const books = filter === 'all' ? booksDB : booksDB.filter(b => b.tag === filter);
+  renderBookList('rank-content', books, true);
+}
+
+function renderComplete(filter='all'){
+  const books = filter === 'all' ? booksDB : booksDB.filter(b => b.tag === filter);
+  renderBookList('complete-content', books, true);
+}
+
+function renderMasters(){
+  const list = document.getElementById('master-list');
+  list.innerHTML = mastersDB.map(m => `
+    <div class="master-row" onclick="openMasterModal('${m.id}')">
+      <div class="master-avatar-lg">${m.avatar}</div>
+      <div class="master-info">
+        <div class="master-name-lg">${m.name}</div>
+        <div class="master-desc">${m.desc}</div>
+        <div class="master-stats">
+          <span>📚 ${m.works_count}</span>
+          <span>✍️ ${m.total_words}</span>
+        </div>
+      </div>
+      <div class="master-arrow">›</div>
+    </div>
+  `).join('');
+}
+
+function renderBookList(containerId, books, showRank){
+  const c = document.getElementById(containerId);
+  if (!books.length){
+    c.innerHTML = '<div class="empty-state">此分類暫無書籍</div>';
+    return;
+  }
+  c.innerHTML = books.map((b,i) => `
+    <div class="book-card" onclick="showBookDetail(${b.id ?? b.id})">
+      ${showRank ? `<div class="rank-badge"><div class="rank-num ${i===0?'top1':i===1?'top2':i===2?'top3':''}">${i+1}</div></div>` : ''}
+      <div class="book-cover" style="background:${b.cover || 'linear-gradient(135deg,#8B1A1A,#c0392b)'}">${b.emoji}</div>
+      <div class="book-info">
+        <div class="book-title">${b.title}</div>
+        <div class="book-author">${b.author} · <span class="book-status">已完本</span></div>
+        <div class="book-tag">${b.tag}</div>
+        <div class="book-meta"><span>⭐ ${b.rating}</span><span>${b.words}字</span></div>
+      </div>
+      <div class="book-actions">
+        <button class="btn-read" onclick="event.stopPropagation();openReader(${JSON.stringify(b).replace(/"/g,'&quot;')})">閱讀</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ==========================================
+// 大師彈窗
+// ==========================================
+function openMasterModal(masterId){
+  const m = mastersDB.find(x => x.id === masterId);
+  if (!m) return;
+  document.getElementById('master-modal-title').textContent = m.name + ' 作品集';
+  document.getElementById('mm-avatar').textContent = m.avatar;
+  document.getElementById('mm-name').textContent = m.name;
+  document.getElementById('mm-desc').textContent = m.desc;
+  document.getElementById('mm-works-label').textContent = `📚 全部作品（${m.works.length} 部）`;
+  document.getElementById('mm-works-list').innerHTML = m.works.map(b => `
+    <div class="book-card" onclick="showBookDetail(${b.id})" style="margin-bottom:8px">
+      <div class="book-cover" style="background:${b.cover || 'linear-gradient(135deg,#8B1A1A,#c0392b)'}">${b.emoji}</div>
+      <div class="book-info">
+        <div class="book-title">${b.title}</div>
+        <div class="book-tag">${b.tag}</div>
+        <div class="book-meta"><span>⭐ ${b.rating}</span><span>${b.words}字</span></div>
+      </div>
+      <div class="book-actions">
+        <button class="btn-read" onclick="event.stopPropagation();closeModal('master-modal');openReader(${JSON.stringify(b).replace(/"/g,'&quot;')})">閱讀</button>
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('master-modal').classList.add('active');
+}
+
+// ==========================================
+// 書籍詳情
+// ==========================================
+function getAllBooks(){
+  const all = [...booksDB];
+  mastersDB.forEach(m => m.works.forEach(w => {
+    if (!all.find(b => b.id === w.id)) all.push(w);
+  }));
+  return all;
 }
 
 function showBookDetail(id){
- const book=getAllBooks().find(b=>b.id===id);if(!book)return;
- document.getElementById('detail-cover').textContent=book.emoji;
- document.getElementById('detail-cover').style.background=book.cover||'linear-gradient(135deg,#8B1A1A,#c0392b)';
- document.getElementById('detail-title').textContent=book.title;
- document.getElementById('detail-author').textContent=(book.author||'')+' · 已完本';
- document.getElementById('d-rating').textContent=book.rating;
- document.getElementById('d-words').textContent=book.words;
- document.getElementById('d-fav').textContent=book.fav||'—';
- document.getElementById('d-intro').textContent=book.intro||'暫無簡介';
- document.getElementById('detail-read-btn').onclick=()=>{closeModal('detail-modal');openReader(book);};
- document.getElementById('detail-modal').classList.add('active');
+  const book = getAllBooks().find(b => b.id === id);
+  if (!book) return;
+  currentBookForModal = book;
+  document.getElementById('detail-cover').textContent = book.emoji;
+  document.getElementById('detail-cover').style.background = book.cover || 'linear-gradient(135deg,#8B1A1A,#c0392b)';
+  document.getElementById('detail-title').textContent = book.title;
+  document.getElementById('detail-author').textContent = book.author + ' · 已完本';
+  document.getElementById('d-rating').textContent = book.rating;
+  document.getElementById('d-words').textContent = book.words;
+  document.getElementById('d-fav').textContent = book.fav || '—';
+  document.getElementById('d-intro').textContent = book.intro || '暫無簡介';
+  document.getElementById('detail-read-btn').onclick = () => {
+    closeModal('detail-modal');
+    openReader(book);
+  };
+  document.getElementById('detail-modal').classList.add('active');
 }
-function filterBooks(page,cat,chip){
- const cid=page==='rank'?'rank-chips':'complete-chips';
- document.querySelectorAll('#'+cid+' .filter-chip').forEach(c=>c.classList.remove('active'));
- chip.classList.add('active');
- if(page==='rank')renderRank(cat);else renderComplete(cat);
+
+// ==========================================
+// 閱讀器
+// ==========================================
+function openReader(book){
+  if (typeof book === 'number') book = getAllBooks().find(b => b.id === book);
+  if (!book) return;
+  document.getElementById('reader-title').textContent = book.title;
+  document.getElementById('reader-ch-num').textContent = '第一章';
+  document.getElementById('reader-ch-name').textContent = book.title + ' · 開始';
+  addHistory(book);
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('reader-page').classList.add('active');
+  showToast(`開始閱讀《${book.title}》`);
 }
-function switchPage(page){
- document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
- document.getElementById(page+'-page').classList.add('active');
- document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
- document.querySelector('[data-page="'+page+'"]')?.classList.add('active');
+
+function backFromReader(){
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('home-page').classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.querySelector('[data-page="home"]').classList.add('active');
 }
-function closeModal(id){document.getElementById(id).classList.remove('active');}
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+
+// ==========================================
+// 歷史記錄
+// ==========================================
 function addHistory(book){
- historyList=historyList.filter(b=>b.id!==book.id);
- historyList.unshift({...book,time:new Date().toLocaleString('zh-TW')});
- if(historyList.length>30)historyList=historyList.slice(0,30);
- localStorage.setItem('gk_history',JSON.stringify(historyList));
- saveCloud('history',historyList);
- updateHistory();
+  historyList = historyList.filter(b => b.id !== book.id);
+  historyList.unshift({id:book.id, title:book.title, author:book.author, emoji:book.emoji, cover:book.cover, tag:book.tag, rating:book.rating, words:book.words, fav:book.fav, intro:book.intro, time:new Date().toLocaleString('zh-TW')});
+  if (historyList.length > 30) historyList = historyList.slice(0,30);
+  localStorage.setItem('gk_history', JSON.stringify(historyList));
+  saveCloud('history', historyList);
+  updateHistory();
 }
+
 function updateHistory(){
- const c=document.getElementById('history-content');
- if(!historyList.length){c.innerHTML='<div class="empty-state">🕒<br>尚無閱讀記錄</div>';return;}
- c.innerHTML=historyList.map(b=>'<div class="book-card" onclick="openReader('+JSON.stringify(b).replace(/"/g,"'")+')" ><div class="book-cover" style="background:'+(b.cover||'linear-gradient(135deg,#8B1A1A,#c0392b)')+'">'+b.emoji+'</div><div class="book-info"><div class="book-title">'+esc(b.title)+'</div><div class="book-author">'+esc(b.author||'')+'</div><div class="book-meta"><span>🕒 '+b.time+'</span></div></div><div class="book-actions"><button class="btn-read" onclick="event.stopPropagation();openReader('+JSON.stringify(b).replace(/"/g,"'")+')" >繼續</button></div></div>').join('');
+  const c = document.getElementById('history-content');
+  if (!historyList.length){
+    c.innerHTML = '<div class="empty-state">🕒<br>尚無閱讀記錄<br><span style="font-size:11px">開始閱讀後，記錄會顯示在這裡</span></div>';
+    return;
+  }
+  c.innerHTML = historyList.map(b => `
+    <div class="book-card" onclick="openReader(${JSON.stringify(b).replace(/"/g,'&quot;')})">
+      <div class="book-cover" style="background:${b.cover||'linear-gradient(135deg,#8B1A1A,#c0392b)'}">${b.emoji}</div>
+      <div class="book-info">
+        <div class="book-title">${b.title}</div>
+        <div class="book-author">${b.author}</div>
+        <div class="book-meta" style="margin-top:auto"><span>🕒 ${b.time}</span></div>
+      </div>
+      <div class="book-actions">
+        <button class="btn-read" onclick="event.stopPropagation();openReader(${JSON.stringify(b).replace(/"/g,'&quot;')})">繼續</button>
+      </div>
+    </div>
+  `).join('');
 }
 
-// ========================================
-// Firebase 同步
-// ========================================
-let fbDB=null,fbUser=null;
+// ==========================================
+// 篩選
+// ==========================================
+function filterBooks(page, cat, chip){
+  const chipsId = page === 'rank' ? 'rank-chips' : 'complete-chips';
+  document.querySelectorAll(`#${chipsId} .filter-chip`).forEach(c => c.classList.remove('active'));
+  chip.classList.add('active');
+  if (page === 'rank') renderRank(cat);
+  else renderComplete(cat);
+}
+
+// ==========================================
+// 頁面切換
+// ==========================================
+function switchPage(page){
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(page+'-page').classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.querySelector(`[data-page="${page}"]`)?.classList.add('active');
+}
+
+function closeModal(id){
+  document.getElementById(id).classList.remove('active');
+}
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ==========================================
+// Firebase 多裝置同步
+// ==========================================
+let fbApp = null, fbDB = null, fbUser = null;
+
 function initFirebase(){
- if(!FB_READY)return;
- try{
-  firebase.initializeApp(FIREBASE_CONFIG);
-  fbDB=firebase.database();
-  firebase.auth().onAuthStateChanged(user=>{
-   if(user){fbUser=user;updateUserBadge(user);startSync();}
-   else{fbUser=null;updateUserBadge(null);}
-  });
- }catch(e){console.error('Firebase init:',e);}
+  if (!FB_READY){
+    // 未設定，僅使用 localStorage
+    return;
+  }
+  try {
+    fbApp = firebase.initializeApp(FIREBASE_CONFIG);
+    fbDB  = firebase.database();
+    firebase.auth().onAuthStateChanged(user => {
+      if (user){
+        fbUser = user;
+        updateUserBadge(user);
+        document.getElementById('config-warn').style.display = 'none';
+        startSync();
+      } else {
+        fbUser = null;
+        updateUserBadge(null);
+      }
+    });
+  } catch(e){
+    console.error('Firebase init error:', e);
+  }
 }
-async function loginGoogle(){
- if(!FB_READY){showToast('Firebase未設定');return;}
- try{await firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());closeLoginModal();}
- catch(e){showToast('登入失敗，請重試');}
-}
-async function logoutUser(){if(!fbUser)return;if(!confirm('確定要登出嗎？'))return;await firebase.auth().signOut();showToast('已登出');}
-function updateUserBadge(user){
- const b=document.getElementById('user-badge');
- if(user){b.innerHTML=(user.photoURL?'<img src="'+user.photoURL+'" class="user-avatar">':'')+' <span>'+((user.displayName||'').split(' ')[0]||'已登入')+'</span>';}
- else{b.innerHTML='<span id="user-badge-text">登入同步</span>';}
-}
-function handleUserClick(){if(fbUser)logoutUser();else openLoginModal();}
-function openLoginModal(){document.getElementById('login-modal').classList.add('active');}
-function closeLoginModal(){document.getElementById('login-modal').classList.remove('active');}
-function startSync(){
- if(!fbDB||!fbUser)return;
- const ref=fbDB.ref('users/'+fbUser.uid);
- showSyncIndicator('拉取雲端資料...');
- ref.once('value').then(snap=>{
-  const d=snap.val();
-  if(d?.history?.length){historyList=d.history;localStorage.setItem('gk_history',JSON.stringify(historyList));updateHistory();}
-  hideSyncIndicator('✓ 同步完成');
-  ref.on('value',snap=>{const d=snap.val();if(d?.history){historyList=d.history;localStorage.setItem('gk_history',JSON.stringify(historyList));updateHistory();}});
- });
-}
-function saveCloud(type,data){if(!fbDB||!fbUser)return;fbDB.ref('users/'+fbUser.uid+'/'+type).set(data).catch(console.error);}
-function showSyncIndicator(msg){document.getElementById('sync-text').textContent=msg;document.getElementById('sync-indicator').classList.add('show');}
-function hideSyncIndicator(msg){if(msg)document.getElementById('sync-text').textContent=msg;setTimeout(()=>document.getElementById('sync-indicator').classList.remove('show'),2000);}
 
-window.onload=function(){
- renderHome();renderRank();renderComplete();renderMasters();updateHistory();
- if(!FB_READY)document.getElementById('config-warn').style.display='flex';
- initFirebase();
- document.getElementById('font-size-val').textContent=RS.fontSize;
- document.getElementById('line-height-val').textContent=RS.lineHeight.toFixed(1);
-};
+async function loginGoogle(){
+  if (!FB_READY){ showToast('請先完成 Firebase 設定'); return; }
+  try {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    await firebase.auth().signInWithPopup(provider);
+    closeLoginModal();
+  } catch(e){
+    showToast('登入失敗，請重試');
+  }
+}
+
+async function logoutUser(){
+  if (!FB_READY || !fbUser) return;
+  if (!confirm('確定要登出嗎？')) return;
+  await firebase.auth().signOut();
+  showToast('已登出');
+}
+
+function updateUserBadge(user){
+  const badge = document.getElementById('user-badge');
+  const text  = document.getElementById('user-badge-text');
+  if (user){
+    text.textContent = user.displayName?.split(' ')[0] || '已登入';
+    if (user.photoURL){
+      badge.innerHTML = `<img src="${user.photoURL}" class="user-avatar" onerror="this.remove()"><span>${user.displayName?.split(' ')[0] || '已登入'}</span>`;
+    }
+    badge.style.borderColor = '#4caf50';
+  } else {
+    badge.innerHTML = '<span id="user-badge-text">登入同步</span>';
+    badge.style.borderColor = '#4caf50';
+  }
+}
+
+function handleUserClick(){
+  if (fbUser) logoutUser();
+  else openLoginModal();
+}
+
+function openLoginModal(){
+  document.getElementById('login-modal').classList.add('active');
+}
+function closeLoginModal(){
+  document.getElementById('login-modal').classList.remove('active');
+}
+
+// 即時同步
+function startSync(){
+  if (!fbDB || !fbUser) return;
+  const ref = fbDB.ref(`users/${fbUser.uid}`);
+  showSyncIndicator('拉取雲端資料...');
+
+  // 先拉一次雲端
+  ref.once('value').then(snap => {
+    const data = snap.val();
+    if (data){
+      if (data.history && data.history.length){
+        historyList = data.history;
+        localStorage.setItem('gk_history', JSON.stringify(historyList));
+        updateHistory();
+      }
+    }
+    hideSyncIndicator('✓ 同步完成');
+    // 之後監聽即時變化
+    ref.on('value', snap => {
+      const d = snap.val();
+      if (!d) return;
+      if (d.history){
+        historyList = d.history;
+        localStorage.setItem('gk_history', JSON.stringify(historyList));
+        updateHistory();
+      }
+    });
+  });
+}
+
+function saveCloud(type, data){
+  if (!fbDB || !fbUser) return;
+  fbDB.ref(`users/${fbUser.uid}/${type}`).set(data).catch(console.error);
+}
+
+function showSyncIndicator(msg){
+  const el = document.getElementById('sync-indicator');
+  document.getElementById('sync-text').textContent = msg || '同步中...';
+  el.classList.add('show');
+}
+function hideSyncIndicator(msg){
+  if (msg){ document.getElementById('sync-text').textContent = msg; }
+  setTimeout(() => document.getElementById('sync-indicator').classList.remove('show'), 2000);
+}
+
 </script>
 </body>
 </html>
-
