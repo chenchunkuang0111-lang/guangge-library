@@ -566,9 +566,9 @@ async function loadChapters({src,match}){
 function renderTOC(){
  document.getElementById('chapter-list-inner').innerHTML=RS.chapters.map((ch,i)=>
   '<div class="chapter-item'+(i===RS.chIdx?' current':'')+'" id="chi-'+i+'" onclick="loadChapter('+i+')">'
-  +'<span class="chapter-num-badge">'+（i+1)+'</span>'
+  +'<span class="chapter-num-badge">'+(i+1)+'</span>'
   +'<span class="chapter-name">'+esc(ch.name)+'</span>'
-  +(i<=(RS.progress[RS.book?.id]||0)?'<span class="chapter-read-mark">✓</span>':''）
+  +(i<=(RS.progress[RS.book?.id]||0)?'<span class="chapter-read-mark">✓</span>':'')
   +'</div>').join('');
 }
 
@@ -625,7 +625,7 @@ function showFallback(book){
  document.getElementById('source-chips').innerHTML='<div class="source-chip active">示範模式</div>';
  const intro=book.intro||'';
  document.getElementById('reading-content').innerHTML=
-  '<div class="ch-header"><div class="ch-num-label">第 1 章（示範）</div><div class="ch-name-label">'+esc(book.title)+'</div></div>'
+  '<div class="ch-header"><div class="ch-num-label">第 1 章(示範)</div><div class="ch-name-label">'+esc(book.title)+'</div></div>'
   +'<div class="text-error"><div class="text-error-icon">🌐</div><div class="text-error-msg">無法連接到書源網站<br><small>可能是網路限制，請稍後再試</small></div></div>'
   +'<div class="novel-text" style="font-size:'+RS.fontSize+'px;line-height:'+RS.lineHeight+'">'
   +'<p>《'+esc(book.title)+'》— '+esc(book.author||'')+'</p>'
@@ -682,7 +682,7 @@ function openMasterModal(mid){
  document.getElementById('mm-avatar').textContent=m.avatar;
  document.getElementById('mm-name').textContent=m.name;
  document.getElementById('mm-desc').textContent=m.desc;
- document.getElementById('mm-works-label').textContent='📚 全部作品（'+m.works.length+' 部）';
+ document.getElementById('mm-works-label').textContent='📚 全部作品('+m.works.length+' 部)';
  document.getElementById('mm-works-list').innerHTML=m.works.map(b=>'<div class="book-card" onclick="showBookDetail('+b.id+')" style="margin-bottom:8px"><div class="book-cover" style="background:'+(b.cover||'linear-gradient(135deg,#8B1A1A,#c0392b)')+'">'+b.emoji+'</div><div class="book-info"><div class="book-title">'+esc(b.title)+'</div><div class="book-tag">'+esc(b.tag)+'</div><div class="book-meta"><span>⭐ '+b.rating+'</span><span>'+b.words+'字</span></div></div><div class="book-actions"><button class="btn-read" onclick="event.stopPropagation();closeModal('master-modal');openReader('+JSON.stringify({...b,author:m.name}).replace(/"/g,"'")+')" >閱讀</button></div></div>').join('');
  document.getElementById('master-modal').classList.add('active');
 }
