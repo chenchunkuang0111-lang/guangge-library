@@ -112,6 +112,38 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans
 .nav-btn{display:flex;align-items:center;gap:5px;padding:8px 14px;border-radius:8px;background:#3a3a3a;color:#ccc;font-size:12px;cursor:pointer;border:none}
 .empty-state{text-align:center;padding:60px 20px;color:#666;font-size:13px;line-height:2}
 
+/* 閱讀設定面板 */
+.reader-settings-panel{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:300;align-items:flex-end}
+.reader-settings-panel.active{display:flex}
+.rsp-content{background:#1a1a1a;border-radius:20px 20px 0 0;width:100%;padding:20px;border-top:3px solid #f9a825;animation:slideUp 0.3s ease}
+.rsp-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.rsp-title{font-size:15px;font-weight:600;color:#f9a825}
+.rsp-close{font-size:24px;color:#999;cursor:pointer}
+.rsp-section{margin-bottom:18px}
+.rsp-label{font-size:11px;color:#999;letter-spacing:0.8px;margin-bottom:10px;font-weight:500}
+.theme-row{display:flex;gap:10px}
+.theme-dot{width:38px;height:38px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:border-color 0.2s;flex-shrink:0}
+.theme-dot.active{border-color:#f9a825}
+.slider-row{display:flex;align-items:center;gap:12px}
+.slider-row input[type=range]{flex:1;accent-color:#f9a825;height:4px}
+.slider-val{font-size:13px;color:#f9a825;min-width:36px;text-align:right;font-weight:500}
+.font-row{display:flex;gap:8px}
+.font-btn{flex:1;padding:8px;border-radius:8px;background:#2a2a2a;color:#ccc;border:1px solid #444;cursor:pointer;font-size:12px;text-align:center;transition:all 0.2s}
+.font-btn.active{background:#f9a825;color:#2a2a2a;border-color:#f9a825;font-weight:600}
+
+/* 書籍管理/下載面板 */
+.source-item{display:flex;gap:12px;align-items:center;padding:12px;border-radius:10px;background:#2a2a2a;margin-bottom:8px;border:1px solid #333}
+.source-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.source-info{flex:1;min-width:0}
+.source-name{font-size:13px;font-weight:600;color:#fff;margin-bottom:2px}
+.source-desc{font-size:11px;color:#999}
+.source-tag{font-size:9px;padding:2px 6px;border-radius:8px;display:inline-block;margin-top:3px}
+.upload-zone{border:2px dashed #444;border-radius:12px;padding:32px 20px;text-align:center;cursor:pointer;transition:border-color 0.2s;margin-bottom:12px}
+.upload-zone:hover{border-color:#f9a825}
+.upload-icon{font-size:40px;margin-bottom:10px;opacity:0.6}
+.upload-title{font-size:14px;color:#ccc;margin-bottom:4px}
+.upload-desc{font-size:11px;color:#666}
+
 /* 登入 / 同步 UI */
 .user-badge{font-size:10px;background:rgba(76,175,80,0.2);border:0.5px solid #4caf50;border-radius:12px;padding:3px 9px;color:#4caf50;display:flex;align-items:center;gap:5px;cursor:pointer}
 .user-avatar{width:18px;height:18px;border-radius:50%;object-fit:cover}
@@ -144,14 +176,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans
 </head>
 <body>
 
-<!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
-
 <!-- ==========================================
-     ⚙️ Firebase 配置區 - 請填入你的資料
-     參考「Firebase設定教學.md」完成設定
+     ⚙️ Firebase 配置區
      ========================================== -->
 <script>
 const FIREBASE_CONFIG = {
@@ -164,8 +190,47 @@ const FIREBASE_CONFIG = {
   appId: "1:116686086549:web:e9effc43c00f0b04b9d69c"
 };
 const FB_READY = !FIREBASE_CONFIG.apiKey.includes('請填入');
-</script>
 
+// Firebase SDK 動態載入 — 確保在程式執行前完全載入
+function _loadScript(src) {
+  return new Promise(function(resolve, reject) {
+    var s = document.createElement('script');
+    s.src = src;
+    s.async = false;
+    s.onload = resolve;
+    s.onerror = function() {
+      console.warn('Firebase CDN 載入失敗，嘗試備用 CDN：', src);
+      resolve(); // 不阻斷流程
+    };
+    document.head.appendChild(s);
+  });
+}
+
+// Firebase SDK 版本 10.7.1 (compat 模式，相容 v8 API 語法)
+var _firebaseReady = false;
+var _firebaseLoadPromise = _loadScript(
+  'https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js'
+).then(function() {
+  return _loadScript('https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js');
+}).then(function() {
+  return _loadScript('https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js');
+}).then(function() {
+  _firebaseReady = typeof firebase !== 'undefined';
+  if (!_firebaseReady) {
+    console.warn('gstatic 失敗，嘗試 cdnjs 備用 CDN...');
+    return _loadScript(
+      'https://cdnjs.cloudflare.com/ajax/libs/firebase/10.7.1/firebase-app-compat.min.js'
+    ).then(function() {
+      return _loadScript('https://cdnjs.cloudflare.com/ajax/libs/firebase/10.7.1/firebase-auth-compat.min.js');
+    }).then(function() {
+      return _loadScript('https://cdnjs.cloudflare.com/ajax/libs/firebase/10.7.1/firebase-database-compat.min.js');
+    });
+  }
+}).then(function() {
+  _firebaseReady = typeof firebase !== 'undefined';
+  console.log('Firebase SDK 狀態:', _firebaseReady ? '✅ 已載入' : '❌ 載入失敗（將使用本機模式）');
+});
+</script>
 
 <div class="top-nav">
   <div class="nav-item active" data-page="home" onclick="switchPage('home')">
@@ -371,7 +436,7 @@ const FB_READY = !FIREBASE_CONFIG.apiKey.includes('請填入');
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
     </button>
     <div class="reader-title" id="reader-title">書名</div>
-    <button class="reader-back" onclick="showToast('設定功能開發中')">
+    <button class="reader-back" onclick="toggleReaderSettings()">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
     </button>
   </div>
@@ -381,23 +446,67 @@ const FB_READY = !FIREBASE_CONFIG.apiKey.includes('請填入');
         <div class="ch-num" id="reader-ch-num">第一章</div>
         <div class="ch-name" id="reader-ch-name">故事開始</div>
       </div>
-      <div class="novel-text" id="reader-text">
-        <p>這是一個關於修仙的故事。在遙遠的東方，有一個名為玄黃大陸的世界，那裡靈氣充沛，強者如雲。無數修士在此追尋長生大道，尋求突破天地枷鎖的方法。</p>
-        <p>主角是一個平凡的少年，出身寒門，卻懷著一顆不甘平凡的心。在一次意外中，他得到了一本遠古秘籍，從此踏上了修仙之路。</p>
-        <p>修煉之路充滿艱辛，他要面對無數強敵的挑戰，要經歷生死考驗，要在絕境中尋找生機。但他從未放棄，因為心中有夢想，有執念，有不滅的信念。</p>
-        <p>這是一段波瀾壯闊的旅程，是一曲蕩氣迴腸的長歌。在這條路上，他會遇到生死之交，會遇到紅顏知己，會遇到亦敵亦友的對手。他們共同譜寫著這個時代最精彩的篇章。</p>
-        <p>天地之大，無奇不有。在這片土地上，有仙有魔，有人有妖，每一個生命都有自己的故事，每一段歷史都是一部傳奇。而這個少年的故事，才剛剛開始……</p>
-      </div>
+      <div class="novel-text" id="reader-text"></div>
     </div>
   </div>
   <div class="reader-bottombar">
-    <button class="nav-btn" onclick="showToast('已是第一章')">
+    <button class="nav-btn" onclick="prevChapter()">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>上一章
     </button>
-    <div style="flex:1;text-align:center;font-size:11px;color:#666">第 1 / 100 章</div>
-    <button class="nav-btn" onclick="showToast('下一章')">
+    <div style="flex:1;text-align:center;font-size:11px;color:#666" id="chapter-counter">第 1 / 3 章</div>
+    <button class="nav-btn" onclick="nextChapter()">
       下一章<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
     </button>
+  </div>
+</div>
+
+<!-- 閱讀設定面板 -->
+<div class="reader-settings-panel" id="reader-settings-panel" onclick="if(event.target===this)toggleReaderSettings()">
+  <div class="rsp-content">
+    <div class="rsp-header">
+      <div class="rsp-title">閱讀設定</div>
+      <div class="rsp-close" onclick="toggleReaderSettings()">×</div>
+    </div>
+
+    <div class="rsp-section">
+      <div class="rsp-label">背景主題</div>
+      <div class="theme-row">
+        <div class="theme-dot active" style="background:#f7f3eb;border-color:#f9a825" onclick="setReaderTheme('paper',this)" title="米白"></div>
+        <div class="theme-dot" style="background:#1a1612" onclick="setReaderTheme('dark',this)" title="暗夜"></div>
+        <div class="theme-dot" style="background:#0e1a20" onclick="setReaderTheme('night',this)" title="護眼藍"></div>
+        <div class="theme-dot" style="background:#eef5ee;border:1px solid #ccc" onclick="setReaderTheme('green',this)" title="護眼綠"></div>
+        <div class="theme-dot" style="background:#fffde7;border:1px solid #ccc" onclick="setReaderTheme('yellow',this)" title="暖黃"></div>
+      </div>
+    </div>
+
+    <div class="rsp-section">
+      <div class="rsp-label">字體大小</div>
+      <div class="slider-row">
+        <span style="font-size:12px;color:#999">A</span>
+        <input type="range" min="14" max="26" value="17" id="font-size-slider" oninput="setFontSize(this.value)">
+        <span style="font-size:18px;color:#999">A</span>
+        <div class="slider-val" id="font-size-val">17</div>
+      </div>
+    </div>
+
+    <div class="rsp-section">
+      <div class="rsp-label">行距</div>
+      <div class="slider-row">
+        <span style="font-size:11px;color:#999">窄</span>
+        <input type="range" min="150" max="250" step="5" value="185" id="line-height-slider" oninput="setLineHeight(this.value)">
+        <span style="font-size:11px;color:#999">寬</span>
+        <div class="slider-val" id="line-height-val">1.85</div>
+      </div>
+    </div>
+
+    <div class="rsp-section">
+      <div class="rsp-label">字體</div>
+      <div class="font-row">
+        <div class="font-btn active" onclick="setFontFamily('serif',this)" style="font-family:Georgia,serif">宋體</div>
+        <div class="font-btn" onclick="setFontFamily('sans',this)">黑體</div>
+        <div class="font-btn" onclick="setFontFamily('fangsong',this)" style="font-family:'FangSong',serif">仿宋</div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -458,6 +567,31 @@ const FB_READY = !FIREBASE_CONFIG.apiKey.includes('請填入');
   <span id="sync-text">同步中...</span>
 </div>
 
+<!-- 書源彈窗 -->
+<div class="modal modal-bottom" id="source-modal" onclick="if(event.target===this)closeModal('source-modal')">
+  <div class="modal-content-bottom">
+    <div class="modal-header">
+      <div class="modal-title" id="source-modal-title">書籍來源</div>
+      <div class="modal-close" onclick="closeModal('source-modal')">×</div>
+    </div>
+    <div class="modal-body">
+      <div style="font-size:12px;color:#999;margin-bottom:14px;line-height:1.6;background:#2a2a2a;padding:10px 12px;border-radius:8px;border:1px solid #444">
+        💡 以下為各平台搜尋連結，點擊後在該平台完成閱讀或下載。書格提供免費合法的 EPUB 格式。
+      </div>
+      <div id="source-list"></div>
+      <div style="margin-top:14px;border-top:1px solid #333;padding-top:14px">
+        <div style="font-size:11px;color:#f9a825;font-weight:600;margin-bottom:10px">📂 手動上傳 EPUB / TXT</div>
+        <div class="upload-zone" onclick="document.getElementById('file-upload-input').click()">
+          <div class="upload-icon">📚</div>
+          <div class="upload-title">點擊上傳你的書籍檔案</div>
+          <div class="upload-desc">支援 .epub、.txt 格式，上傳後可在書架閱讀</div>
+        </div>
+        <input type="file" id="file-upload-input" accept=".epub,.txt" style="display:none" onchange="handleFileUpload(event)">
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Google 登入彈窗 -->
 <div class="login-modal-wrap" id="login-modal" onclick="if(event.target===this)closeLoginModal()">
   <div class="login-box">
@@ -484,205 +618,6 @@ const FB_READY = !FIREBASE_CONFIG.apiKey.includes('請填入');
 </div>
 
 <script>
-
-const CORS_PROXIES=['https://corsproxy.io/?','https://api.allorigins.win/raw?url=','https://thingproxy.freeboard.io/fetch/'];
-
-const BOOK_SOURCES=[
-{
-  id:'xbiquge',name:'新筆趣閣',
-  searchUrl:t=>'https://www.xbiquge.so/search.php?keyboard='+encodeURIComponent(t),
-  chaptersUrl:id=>'https://www.xbiquge.so/book/'+id+'/',
-  parseSearch(html,title){
-    var doc=new DOMParser().parseFromString(html,'text/html'),r=[];
-    doc.querySelectorAll('a[href]').forEach(a=>{
-      var m=a.href.match(/[/]book[/]([0-9]+)[/]/);
-      if(m&&a.textContent.indexOf(title.slice(0,2))>=0)r.push({title:a.textContent.trim(),bookId:m[1]});
-    });
-    return r;
-  },
-  parseChapters(html){
-    var doc=new DOMParser().parseFromString(html,'text/html'),chs=[];
-    doc.querySelectorAll('#list a,#catalog a,.chapter a').forEach(a=>{
-      if(a.textContent.trim()&&a.href)chs.push({name:a.textContent.trim(),url:a.href});
-    });
-    return chs;
-  },
-  parseContent(html){
-    var doc=new DOMParser().parseFromString(html,'text/html');
-    var el=doc.querySelector('#content,#booktxt,#chap');
-    if(!el)return null;
-    return el.innerHTML.replace(/<[^>]+>/g,' ').replace(/  +/g,' ').trim();
-  }
-},
-{
-  id:'ptwxz',name:'飄天文学',
-  searchUrl:t=>'https://www.ptwxz.com/search/'+encodeURIComponent(t)+'.html',
-  chaptersUrl:id=>'https://www.ptwxz.com/html/'+id+'/',
-  parseSearch(html,title){
-    var doc=new DOMParser().parseFromString(html,'text/html'),r=[];
-    doc.querySelectorAll('a[href]').forEach(a=>{
-      var m=a.href.match(/[/]html[/]([0-9]+)[/]/);
-      if(m&&a.textContent.indexOf(title.slice(0,2))>=0)r.push({title:a.textContent.trim(),bookId:m[1]});
-    });
-    return r;
-  },
-  parseChapters(html){
-    var doc=new DOMParser().parseFromString(html,'text/html'),chs=[];
-    doc.querySelectorAll('a[href]').forEach(a=>{
-      if(a.textContent.trim()&&a.href&&a.href.includes('.html'))chs.push({name:a.textContent.trim(),url:a.href});
-    });
-    return chs;
-  },
-  parseContent(html){
-    var doc=new DOMParser().parseFromString(html,'text/html');
-    var el=doc.querySelector('#content,#booktxt,.content');
-    if(!el)return null;
-    return el.innerHTML.replace(/<[^>]+>/g,' ').replace(/  +/g,' ').trim();
-  }
-},
-{
-  id:'69shu',name:'69書吧',
-  searchUrl:t=>'https://www.69shu.com/search/?q='+encodeURIComponent(t),
-  chaptersUrl:id=>'https://www.69shu.com/'+id+'/',
-  parseSearch(html,title){
-    var doc=new DOMParser().parseFromString(html,'text/html'),r=[];
-    doc.querySelectorAll('a[href]').forEach(a=>{
-      var m=a.href.match(/[/]([0-9]+)[/]/);
-      if(m&&a.textContent.indexOf(title.slice(0,2))>=0)r.push({title:a.textContent.trim(),bookId:m[1]});
-    });
-    return r;
-  },
-  parseChapters(html){
-    var doc=new DOMParser().parseFromString(html,'text/html'),chs=[];
-    doc.querySelectorAll('.chapter a,.booklist a,a[href]').forEach(a=>{
-      if(a.textContent.trim()&&a.href&&a.href.indexOf('shu.com')>0)chs.push({name:a.textContent.trim(),url:a.href});
-    });
-    return chs;
-  },
-  parseContent(html){
-    var doc=new DOMParser().parseFromString(html,'text/html');
-    var el=doc.querySelector('.txtnav,#content,#booktxt');
-    if(!el)return null;
-    return el.innerHTML.replace(/<[^>]+>/g,' ').replace(/  +/g,' ').trim();
-  }
-}
-];
-
-var _curBook=null,_curSrcId='',_curBookId='',_chs=[],_curChIdx=0;
-
-async function _fetchProxy(url){
-  for(var pi=0;pi<CORS_PROXIES.length;pi++){
-    try{
-      var resp=await fetch(CORS_PROXIES[pi]+encodeURIComponent(url));
-      if(resp.ok){var txt=await resp.text();if(txt&&txt.length>200)return txt;}
-    }catch(err){}
-  }
-  return null;
-}
-
-async function _doSearchAndLoad(book){
-  var allR=[];
-  for(var si=0;si<BOOK_SOURCES.length;si++){
-    try{
-      var html=await _fetchProxy(BOOK_SOURCES[si].searchUrl(book.title));
-      if(html){
-        var res=BOOK_SOURCES[si].parseSearch(html,book.title);
-        for(var ri=0;ri<res.length;ri++){
-          allR.push({srcId:BOOK_SOURCES[si].id,srcName:BOOK_SOURCES[si].name,bookId:res[ri].bookId,title:res[ri].title});
-        }
-      }
-    }catch(err){}
-  }
-  var rc=document.getElementById('reader-content');
-  if(allR.length===0){
-    if(rc)rc.innerHTML='<div style="padding:30px;line-height:2;color:#ccc"><b>未找到網路書源</b><p>CORS限制，建議安裝瀏覽器擴充套件解除限制。</p></div>';
-    return;
-  }
-  _curSrcId=allR[0].srcId;_curBookId=allR[0].bookId;
-  if(rc)rc.innerHTML='<div style="text-align:center;padding:50px;color:#f9a825">載入目錄...</div>';
-  var chs=await _loadChs(_curSrcId,_curBookId);
-  if(chs.length===0){
-    if(rc)rc.innerHTML='<div style="padding:30px;color:#e57373">目錄載入失敗</div>';
-    return;
-  }
-  _chs=chs;_curChIdx=0;
-  _renderTOC();
-  _loadCh(0);
-}
-
-async function _loadChs(srcId,bookId){
-  for(var i=0;i<BOOK_SOURCES.length;i++){
-    if(BOOK_SOURCES[i].id!==srcId)continue;
-    try{
-      var html=await _fetchProxy(BOOK_SOURCES[i].chaptersUrl(bookId));
-      if(html)return BOOK_SOURCES[i].parseChapters(html);
-    }catch(err){}
-  }
-  return [];
-}
-
-function _renderTOC(){
-  var el=document.getElementById('chapter-list');
-  if(!el)return;
-  el.innerHTML='';
-  for(var i=0;i<_chs.length;i++){
-    (function(idx){
-      var d=document.createElement('div');
-      d.className='chapter-item'+(idx===_curChIdx?' active':'');
-      d.textContent=_chs[idx].name;
-      d.onclick=function(){_loadCh(idx);};
-      el.appendChild(d);
-    })(i);
-  }
-}
-
-async function _loadCh(idx){
-  if(idx<0||idx>=_chs.length)return;
-  _curChIdx=idx;
-  var ch=_chs[idx];
-  var rc=document.getElementById('reader-content');
-  var ct=document.getElementById('chapter-title');
-  if(rc)rc.innerHTML='<div style="text-align:center;padding:50px;color:#888">載入中...</div>';
-  if(ct)ct.textContent=ch.name;
-  document.querySelectorAll('.chapter-item').forEach(function(el,i){el.classList.toggle('active',i===idx);});
-  for(var si=0;si<BOOK_SOURCES.length;si++){
-    if(BOOK_SOURCES[si].id!==_curSrcId)continue;
-    try{
-      var html=await _fetchProxy(ch.url);
-      if(html){
-        var txt=BOOK_SOURCES[si].parseContent(html);
-        if(txt&&txt.length>50){
-          var rs=JSON.parse(localStorage.getItem('gk_rs')||'{"fontSize":18,"lineHeight":1.8,"bgColor":"#1a1a1a"}');
-          var ps=txt.split(/  +/).filter(function(l){return l.trim().length>0;});
-          if(rc){
-            rc.innerHTML='<div class="chapter-content" style="font-size:'+rs.fontSize+'px;line-height:'+rs.lineHeight+';background:'+rs.bgColor+';padding:20px"><h3 style="margin-bottom:20px">'+ch.name+'</h3>'+ps.map(function(p){return '<p style="margin-bottom:12px">'+p.trim()+'</p>';}).join('')+'</div>';
-            rc.scrollTop=0;
-          }
-          try{
-            var prog=JSON.parse(localStorage.getItem('gk_prog')||'{}');
-            prog[_curBook.id]={idx:idx,name:ch.name,srcId:_curSrcId};
-            localStorage.setItem('gk_prog',JSON.stringify(prog));
-          }catch(e){}
-          return;
-        }
-      }
-    }catch(err){}
-  }
-  if(rc)rc.innerHTML='<div style="text-align:center;padding:50px;color:#e57373">載入失敗，請試其他章節</div>';
-}
-
-function networkReadBook(book){
-  _curBook=book;
-  var rc=document.getElementById('reader-content');
-  var cl=document.getElementById('chapter-list');
-  if(rc)rc.innerHTML='<div style="text-align:center;padding:50px;color:#f9a825">搜尋書源中...</div>';
-  if(cl)cl.innerHTML='';
-  _doSearchAndLoad(book);
-}
-
-</script>
-<script>
-
 // ==========================================
 // 書籍資料庫（50本）
 // ==========================================
@@ -849,6 +784,43 @@ const mastersDB = [
 ];
 
 // ==========================================
+// 書源資料庫（每本書對應多個閱讀/下載來源）
+// ==========================================
+const bookSources = {
+  0:  [{name:'番茄小說',label:'免費完本',url:'https://www.fanqienovel.com/search?key=遮天',color:'#e8430a'},{name:'起點中文網',label:'正版閱讀',url:'https://www.qidian.com/search?kw=遮天',color:'#f90'},{name:'縱橫中文網',label:'完本下載',url:'https://www.zongheng.com/search/0/0/0/0/0/0/0/0/0/遮天.html',color:'#4a90d9'},{name:'書格',label:'EPUB下載',url:'https://shuge.org/search?q=遮天',color:'#1D9E75'}],
+  1:  [{name:'番茄小說',label:'免費完本',url:'https://www.fanqienovel.com/search?key=完美世界',color:'#e8430a'},{name:'起點中文網',label:'正版閱讀',url:'https://www.qidian.com/search?kw=完美世界',color:'#f90'},{name:'縱橫中文網',label:'完本下載',url:'https://www.zongheng.com/search/0/0/0/0/0/0/0/0/0/完美世界.html',color:'#4a90d9'}],
+  2:  [{name:'番茄小說',label:'免費完本',url:'https://www.fanqienovel.com/search?key=斗破蒼穹',color:'#e8430a'},{name:'起點中文網',label:'正版閱讀',url:'https://www.qidian.com/search?kw=斗破蒼穹',color:'#f90'},{name:'縱橫中文網',label:'完本下載',url:'https://www.zongheng.com/search/0/0/0/0/0/0/0/0/0/斗破蒼穹.html',color:'#4a90d9'}],
+  3:  [{name:'番茄小說',label:'免費完本',url:'https://www.fanqienovel.com/search?key=全職高手',color:'#e8430a'},{name:'起點中文網',label:'正版閱讀',url:'https://www.qidian.com/search?kw=全職高手',color:'#f90'},{name:'縱橫中文網',label:'完本下載',url:'https://www.zongheng.com/search/0/0/0/0/0/0/0/0/0/全職高手.html',color:'#4a90d9'}],
+  4:  [{name:'番茄小說',label:'免費完本',url:'https://www.fanqienovel.com/search?key=詭秘之主',color:'#e8430a'},{name:'起點中文網',label:'正版閱讀',url:'https://www.qidian.com/search?kw=詭秘之主',color:'#f90'},{name:'縱橫中文網',label:'完本下載',url:'https://www.zongheng.com/search/0/0/0/0/0/0/0/0/0/詭秘之主.html',color:'#4a90d9'}],
+  5:  [{name:'番茄小說',label:'免費完本',url:'https://www.fanqienovel.com/search?key=慶餘年',color:'#e8430a'},{name:'起點中文網',label:'正版閱讀',url:'https://www.qidian.com/search?kw=慶餘年',color:'#f90'}],
+  6:  [{name:'番茄小說',label:'免費完本',url:'https://www.fanqienovel.com/search?key=盜墓筆記',color:'#e8430a'},{name:'起點中文網',label:'正版閱讀',url:'https://www.qidian.com/search?kw=盜墓筆記',color:'#f90'}],
+  7:  [{name:'番茄小說',label:'免費完本',url:'https://www.fanqienovel.com/search?key=鬼吹燈',color:'#e8430a'},{name:'起點中文網',label:'正版閱讀',url:'https://www.qidian.com/search?kw=鬼吹燈',color:'#f90'}],
+  8:  [{name:'番茄小說',label:'免費完本',url:'https://www.fanqienovel.com/search?key=三體',color:'#e8430a'},{name:'起點中文網',label:'正版閱讀',url:'https://www.qidian.com/search?kw=三體',color:'#f90'},{name:'書格',label:'EPUB下載',url:'https://shuge.org/search?q=三體',color:'#1D9E75'}],
+  9:  [{name:'番茄小說',label:'免費完本',url:'https://www.fanqienovel.com/search?key=雪中悍刀行',color:'#e8430a'},{name:'起點中文網',label:'正版閱讀',url:'https://www.qidian.com/search?kw=雪中悍刀行',color:'#f90'}],
+  10: [{name:'番茄小說',label:'免費完本',url:'https://www.fanqienovel.com/search?key=凡人修仙傳',color:'#e8430a'},{name:'起點中文網',label:'正版閱讀',url:'https://www.qidian.com/search?kw=凡人修仙傳',color:'#f90'}],
+  13: [{name:'番茄小說',label:'免費完本',url:'https://www.fanqienovel.com/search?key=鬥羅大陸',color:'#e8430a'},{name:'起點中文網',label:'正版閱讀',url:'https://www.qidian.com/search?kw=鬥羅大陸',color:'#f90'}],
+  38: [{name:'琅琊榜',label:'正版閱讀',url:'https://www.qidian.com/search?kw=琅琊榜',color:'#f90'},{name:'番茄小說',label:'免費完本',url:'https://www.fanqienovel.com/search?key=琅琊榜',color:'#e8430a'}],
+  // 金庸武俠（書格有公版）
+  200:[{name:'書格',label:'EPUB免費下載',url:'https://shuge.org/search?q=天龍八部',color:'#1D9E75'},{name:'番茄小說',label:'免費閱讀',url:'https://www.fanqienovel.com/search?key=天龍八部',color:'#e8430a'},{name:'起點中文網',label:'正版閱讀',url:'https://www.qidian.com/search?kw=天龍八部',color:'#f90'}],
+  201:[{name:'書格',label:'EPUB免費下載',url:'https://shuge.org/search?q=笑傲江湖',color:'#1D9E75'},{name:'番茄小說',label:'免費閱讀',url:'https://www.fanqienovel.com/search?key=笑傲江湖',color:'#e8430a'}],
+  202:[{name:'書格',label:'EPUB免費下載',url:'https://shuge.org/search?q=射鵰英雄傳',color:'#1D9E75'},{name:'番茄小說',label:'免費閱讀',url:'https://www.fanqienovel.com/search?key=射鵰英雄傳',color:'#e8430a'}],
+  203:[{name:'書格',label:'EPUB免費下載',url:'https://shuge.org/search?q=神鵰俠侶',color:'#1D9E75'},{name:'番茄小說',label:'免費閱讀',url:'https://www.fanqienovel.com/search?key=神鵰俠侶',color:'#e8430a'}],
+  204:[{name:'書格',label:'EPUB免費下載',url:'https://shuge.org/search?q=倚天屠龍記',color:'#1D9E75'},{name:'番茄小說',label:'免費閱讀',url:'https://www.fanqienovel.com/search?key=倚天屠龍記',color:'#e8430a'}],
+  205:[{name:'書格',label:'EPUB免費下載',url:'https://shuge.org/search?q=鹿鼎記',color:'#1D9E75'},{name:'番茄小說',label:'免費閱讀',url:'https://www.fanqienovel.com/search?key=鹿鼎記',color:'#e8430a'}],
+  210:[{name:'番茄小說',label:'免費閱讀',url:'https://www.fanqienovel.com/search?key=尋秦記',color:'#e8430a'},{name:'起點中文網',label:'正版閱讀',url:'https://www.qidian.com/search?kw=尋秦記',color:'#f90'}],
+  211:[{name:'番茄小說',label:'免費閱讀',url:'https://www.fanqienovel.com/search?key=大唐雙龍傳',color:'#e8430a'},{name:'起點中文網',label:'正版閱讀',url:'https://www.qidian.com/search?kw=大唐雙龍傳',color:'#f90'}],
+  240:[{name:'番茄小說',label:'免費完本',url:'https://www.fanqienovel.com/search?key=小兵傳奇',color:'#e8430a'},{name:'起點中文網',label:'正版閱讀',url:'https://www.qidian.com/search?kw=小兵傳奇',color:'#f90'},{name:'縱橫中文網',label:'完本下載',url:'https://www.zongheng.com/search/0/0/0/0/0/0/0/0/0/小兵傳奇.html',color:'#4a90d9'}],
+};
+
+function getBookSources(bookId) {
+  return bookSources[bookId] || [
+    {name:'番茄小說',label:'搜尋此書',url:`https://www.fanqienovel.com/search?key=${encodeURIComponent(getAllBooks().find(b=>b.id===bookId)?.title||'')}`,color:'#e8430a'},
+    {name:'起點中文網',label:'搜尋此書',url:`https://www.qidian.com/search?kw=${encodeURIComponent(getAllBooks().find(b=>b.id===bookId)?.title||'')}`,color:'#f90'},
+    {name:'縱橫中文網',label:'搜尋此書',url:`https://www.zongheng.com/search/0/0/0/0/0/0/0/0/0/${encodeURIComponent(getAllBooks().find(b=>b.id===bookId)?.title||'')}.html`,color:'#4a90d9'},
+  ];
+}
+
+// ==========================================
 // 全域狀態
 // ==========================================
 let currentFilterRank = 'all';
@@ -865,8 +837,15 @@ window.onload = function(){
   renderComplete();
   renderMasters();
   updateHistory();
+  updateShelfPage();
+  restoreReaderSettings();
   if (FB_READY) document.getElementById('config-warn').style.display = 'none';
-  initFirebase();
+  // 等 Firebase SDK 動態載入完成後再初始化（解決 "firebase is not defined" 問題）
+  _firebaseLoadPromise.then(function() {
+    initFirebase();
+  }).catch(function(e) {
+    console.warn('Firebase 載入發生錯誤，將使用本機模式：', e);
+  });
 };
 
 function renderHome(){
@@ -920,7 +899,7 @@ function renderBookList(containerId, books, showRank){
     return;
   }
   c.innerHTML = books.map((b,i) => `
-    <div class="book-card" onclick="showBookDetail(${b.id ?? b.id})">
+    <div class="book-card" onclick="showBookDetail(${b.id})">
       ${showRank ? `<div class="rank-badge"><div class="rank-num ${i===0?'top1':i===1?'top2':i===2?'top3':''}">${i+1}</div></div>` : ''}
       <div class="book-cover" style="background:${b.cover || 'linear-gradient(135deg,#8B1A1A,#c0392b)'}">${b.emoji}</div>
       <div class="book-info">
@@ -931,6 +910,7 @@ function renderBookList(containerId, books, showRank){
       </div>
       <div class="book-actions">
         <button class="btn-read" onclick="event.stopPropagation();openReader(${JSON.stringify(b).replace(/"/g,'&quot;')})">閱讀</button>
+        <button style="background:#3a3a3a;color:#f9a825;border:1px solid #555;border-radius:6px;padding:5px 10px;font-size:10px;font-weight:600;cursor:pointer;width:100%;margin-top:4px" onclick="event.stopPropagation();openSourceModal(${b.id},'${b.title}')">書源↗</button>
       </div>
     </div>
   `).join('');
@@ -996,16 +976,88 @@ function showBookDetail(id){
 // ==========================================
 // 閱讀器
 // ==========================================
+// 各書第一章示範內容
+const chapterContents = {
+  0: ['第一章　骷髏教官','第二章　星際啟航','第三章　天地大戰'],
+  1: ['第一章　石村少年','第二章　荒古遺址','第三章　神秘傳承'],
+  2: ['第一章　天才少年','第二章　喪失鬥氣','第三章　異火之路'],
+  3: ['第一章　被驅逐的教科書','第二章　重返榮耀','第三章　巔峰之路'],
+  4: ['第一章　詭秘的開始','第二章　愚者的牌','第三章　神秘儀式'],
+  5: ['第一章　慶國少年','第二章　入京之路','第三章　宮廷暗鬥'],
+  6: ['第一章　戰國帛書','第二章　古墓深處','第三章　詭異事件'],
+  7: ['第一章　摸金校尉','第二章　龍樓寶殿','第三章　地宮秘密'],
+  8: ['第一章　紅岸基地','第二章　宇宙信號','第三章　三體世界'],
+  9: ['第一章　北涼少主','第二章　大雪龍騎','第三章　江湖紛爭'],
+};
+
+const chapterTexts = {
+  0: `<p>唐龍從小就有一個夢想，希望成為統領千軍萬馬的大元帥。他認為，要當元帥就要先當將軍，而要當將軍就要從小兵幹起。</p><p>那是一個陽光普照的早晨，18歲的唐龍背著行囊，走進了那座他做夢也沒想到的訓練基地。基地的鐵門在他身後緩緩關上，一個改變他命運的旅程就此開始。</p><p>「新兵！集合！」一道冷冽的聲音在空曠的訓練場上響起。唐龍轉頭，只見眼前站著一個身著黑色軍服的教官，臉上沒有任何表情，眼神如同刀鋒般銳利。</p><p>然而最令唐龍震驚的，是教官的外表——那是一具骷髏。白色的骨骼，空洞的眼眶，卻偏偏站得筆直，散發出一股令人不寒而慄的威嚴。</p><p>「不用驚訝，」骷髏教官開口，聲音沙啞卻清晰，「在這裡，你會見到比這更奇特的事物。現在，訓練開始。」</p>`,
+  1: `<p>石昊出生在一個偏遠的石村，這裡的人們靠著採集靈石為生，日子清苦卻平靜。石昊是石村少年中最普通的一個，沒有特別的天賦，也沒有顯赫的家世。</p><p>直到那一天，他在枯竭的礦脈深處，發現了一塊古老的黑色石頭。石頭表面刻滿了他看不懂的文字，散發著一種奇異的溫熱感。</p><p>「這是……」石昊小心翼翼地捧起石頭，只覺一股溫潤的力量緩緩流入掌心，順著他的血脈蔓延至全身。他的眼前突然出現了無數光點，那些光點漸漸凝聚，形成一幅宏大的畫面。</p><p>星辰萬物，皆在其中。石昊感覺到了一種前所未有的力量正在甦醒，彷彿沉睡了億萬年的古老血脈，正在緩緩覺醒。</p>`,
+  2: `<p>鬥氣大陸，一個以鬥氣為尊的世界。蕭炎，蕭家的天才少年，十歲時就達到鬥氣九段，曾是無數人羨慕的對象，有著「天才少年」的美名。</p><p>然而就在他十二歲那年，所有的一切突然崩塌。那股蓬勃的鬥氣彷彿在一夜之間消失殆盡，測試顯示他連最基本的一段都達不到。</p><p>「廢人。」這兩個字，從此如同烙印般刻在他的靈魂深處。曾經的讚美變成了嘲諷，曾經的期待變成了失望。就連他的婚約——家族與納蘭家的政治聯姻——也面臨被取消的危機。</p><p>蕭炎獨自坐在練功房的角落，望著手心發呆。就在這時，一道蒼老而滄桑的聲音突然在他腦海中響起：「孩子，你並沒有失去天賦，只是……你的天賦被封印了。」</p>`,
+  4: `<p>克萊因·莫雷蒂睜開眼睛，看到的不是自己熟悉的大學宿舍，而是一個陌生的房間。木製的床鋪，昏黃的油燈，窗外傳來馬車咕嚕作響的聲音。</p><p>「這是……」他坐起身，頭部一陣劇烈的疼痛。大量陌生的記憶湧入腦海——這個世界、這個身體的原主人的記憶。</p><p>這裡是一個類似十九世紀末期工業革命時代的世界，有蒸汽機，有電燈，還有……超凡者。那些被稱為「非凡者」的人，透過飲用神秘的魔藥，獲得了超乎常人的力量。</p><p>而克萊因在原主人的記憶中找到了一個殘破的筆記本，上面記載著一種叫做「愚者」的神秘職業序列。他隱約感到，這個筆記本，將會改變他在這個世界的命運。</p>`,
+};
+
+function getChapterText(bookId, chNum) {
+  const text = chapterTexts[bookId];
+  if (text) return text;
+  // 通用示範章節
+  return `<p>這是《${getAllBooks().find(b=>b.id===bookId)?.title||''}》的故事。在這個世界裡，強者為尊，弱者圖存。主角以一介平民之身，靠著無盡的意志與天賦，踏上了一段波瀾壯闊的旅程。</p><p>命運的齒輪在這一天開始轉動。他看著遠方連綿的山脈，心中湧起一種說不清的感覺——那是渴望，是野心，也是對命運的不服。</p><p>「總有一天，」他在心中默默發誓，「我會站在這個世界的最頂端，俯瞰蒼生。」</p><p>然而他還不知道，等待他的將是怎樣的艱辛與磨難。每一步前進，都要付出旁人難以想像的代價。但正是這些磨難，鑄就了他日後令萬界顫抖的傳說。</p>`;
+}
+
+function getChapterNames(bookId) {
+  return chapterContents[bookId] || ['第一章　序章','第二章　起點','第三章　征途'];
+}
+
+let currentReaderId = null;
+let currentChapterIndex = 0;
+
 function openReader(book){
   if (typeof book === 'number') book = getAllBooks().find(b => b.id === book);
   if (!book) return;
+
+  currentReaderId = book.id;
+  currentChapterIndex = 0;
+  const chNames = getChapterNames(book.id);
+
   document.getElementById('reader-title').textContent = book.title;
-  document.getElementById('reader-ch-num').textContent = '第一章';
-  document.getElementById('reader-ch-name').textContent = book.title + ' · 開始';
+  document.getElementById('reader-ch-num').textContent = `第 ${currentChapterIndex + 1} 章`;
+  document.getElementById('reader-ch-name').textContent = chNames[currentChapterIndex] || '第一章';
+  document.getElementById('reader-text').innerHTML = getChapterText(book.id, currentChapterIndex);
+  updateChapterNav(chNames);
+
   addHistory(book);
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('reader-page').classList.add('active');
+  document.getElementById('reader-content').scrollTop = 0;
   showToast(`開始閱讀《${book.title}》`);
+}
+
+function updateChapterNav(chNames) {
+  const total = chNames ? chNames.length : 3;
+  document.getElementById('chapter-counter').textContent = `第 ${currentChapterIndex + 1} / ${total} 章`;
+}
+
+function prevChapter() {
+  if (currentChapterIndex <= 0) { showToast('已是第一章'); return; }
+  currentChapterIndex--;
+  const book = getAllBooks().find(b => b.id === currentReaderId);
+  const chNames = getChapterNames(currentReaderId);
+  document.getElementById('reader-ch-num').textContent = `第 ${currentChapterIndex + 1} 章`;
+  document.getElementById('reader-ch-name').textContent = chNames[currentChapterIndex] || '';
+  document.getElementById('reader-text').innerHTML = getChapterText(currentReaderId, currentChapterIndex);
+  document.getElementById('reader-content').scrollTop = 0;
+  updateChapterNav(chNames);
+}
+
+function nextChapter() {
+  const chNames = getChapterNames(currentReaderId);
+  if (currentChapterIndex >= chNames.length - 1) { showToast('已是最後一章'); return; }
+  currentChapterIndex++;
+  document.getElementById('reader-ch-num').textContent = `第 ${currentChapterIndex + 1} 章`;
+  document.getElementById('reader-ch-name').textContent = chNames[currentChapterIndex] || '';
+  document.getElementById('reader-text').innerHTML = getChapterText(currentReaderId, currentChapterIndex);
+  document.getElementById('reader-content').scrollTop = 0;
+  updateChapterNav(chNames);
 }
 
 function backFromReader(){
@@ -1081,6 +1133,169 @@ function showToast(msg){
 }
 
 // ==========================================
+// 書源彈窗
+// ==========================================
+function openSourceModal(bookId, title){
+  document.getElementById('source-modal-title').textContent = '《' + title + '》書源';
+  const sources = getBookSources(bookId);
+  document.getElementById('source-list').innerHTML = sources.map(s => `
+    <div style="display:flex;align-items:center;gap:12px;padding:12px;border-radius:10px;background:#2a2a2a;margin-bottom:8px;border:1px solid #444;cursor:pointer" onclick="openLink('${s.url}')">
+      <div style="width:40px;height:40px;border-radius:10px;background:${s.color};display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">📖</div>
+      <div style="flex:1">
+        <div style="font-size:14px;font-weight:600;color:#fff;margin-bottom:3px">${s.name}</div>
+        <div style="font-size:10px;padding:2px 8px;border-radius:8px;background:rgba(255,255,255,0.1);color:#ccc;display:inline-block">${s.label}</div>
+      </div>
+      <div style="color:#f9a825;font-size:18px">›</div>
+    </div>
+  `).join('');
+  document.getElementById('source-modal').classList.add('active');
+}
+
+// ==========================================
+// 檔案上傳
+// ==========================================
+let uploadedBooks = JSON.parse(localStorage.getItem('gk_uploaded') || '[]');
+
+function handleFileUpload(event){
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e){
+    const book = {
+      id: 'upload_' + Date.now(),
+      title: file.name.replace(/\.(epub|txt)$/i,''),
+      author: '本地上傳',
+      emoji: '📄',
+      tag: '本地書籍',
+      rating: '—',
+      words: (file.size/1024).toFixed(0) + 'KB',
+      fav: '—',
+      cover: 'linear-gradient(135deg,#2a2a2a,#4a4a4a)',
+      intro: '從本地上傳的書籍',
+      content: e.target.result,
+      isText: file.name.endsWith('.txt'),
+      uploadTime: new Date().toLocaleString('zh-TW')
+    };
+    uploadedBooks.unshift(book);
+    localStorage.setItem('gk_uploaded', JSON.stringify(uploadedBooks.slice(0,50)));
+    closeModal('source-modal');
+    switchPage('shelf');
+    updateShelfPage();
+    showToast('✓ 《' + book.title + '》已加入書架');
+  };
+  if (file.name.endsWith('.txt')) reader.readAsText(file, 'utf-8');
+  else reader.readAsDataURL(file);
+  event.target.value = '';
+}
+
+function updateShelfPage(){
+  const c = document.getElementById('shelf-content');
+  if (!uploadedBooks.length){
+    c.innerHTML = '<div class="empty-state">📚<br>書架空空如也<br><span style="font-size:11px;color:#666">從排行或大師區點「書源↗」，<br>下載後從這裡上傳</span></div>';
+    return;
+  }
+  c.innerHTML = uploadedBooks.map(b => `
+    <div class="book-card">
+      <div class="book-cover" style="background:${b.cover}">${b.emoji}</div>
+      <div class="book-info">
+        <div class="book-title">${b.title}</div>
+        <div class="book-author">${b.author}</div>
+        <div class="book-tag">${b.tag}</div>
+        <div class="book-meta"><span>${b.uploadTime}</span></div>
+      </div>
+      <div class="book-actions">
+        <button class="btn-read" onclick="openUploadedReader('${b.id}')">閱讀</button>
+        <button style="background:#3a3a3a;color:#ff6b6b;border:1px solid #555;border-radius:6px;padding:5px 10px;font-size:10px;cursor:pointer;width:100%;margin-top:4px" onclick="removeUploadedBook('${b.id}')">刪除</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openUploadedReader(id){
+  const book = uploadedBooks.find(b => b.id === id);
+  if (!book) return;
+  currentReaderId = id;
+  currentChapterIndex = 0;
+  document.getElementById('reader-title').textContent = book.title;
+  document.getElementById('reader-ch-num').textContent = '全文閱讀';
+  document.getElementById('reader-ch-name').textContent = book.title;
+  document.getElementById('chapter-counter').textContent = '本地書籍';
+  if (book.isText && book.content){
+    const paras = book.content.split('\n').filter(l=>l.trim().length>0).map(l=>`<p>${l.trim()}</p>`).join('');
+    document.getElementById('reader-text').innerHTML = paras || '<p>（檔案內容無法顯示）</p>';
+  } else {
+    document.getElementById('reader-text').innerHTML = `<p>書名：${book.title}</p><p>上傳時間：${book.uploadTime}</p><p>EPUB 格式需要解析器，目前僅支援 TXT 格式直接閱讀。</p>`;
+  }
+  addHistory(book);
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('reader-page').classList.add('active');
+  document.getElementById('reader-content').scrollTop = 0;
+}
+
+function removeUploadedBook(id){
+  if (!confirm('確定刪除這本書嗎？')) return;
+  uploadedBooks = uploadedBooks.filter(b=>b.id!==id);
+  localStorage.setItem('gk_uploaded', JSON.stringify(uploadedBooks));
+  updateShelfPage();
+  showToast('已刪除');
+}
+
+// ==========================================
+// 閱讀器設定
+// ==========================================
+const readerThemes = {
+  paper:  {bg:'#f7f3eb', text:'#2c2010', num:'#aaa',  name:'#2a2a2a'},
+  dark:   {bg:'#1a1612', text:'#cbbfa8', num:'#888',  name:'#e0d0b8'},
+  night:  {bg:'#0e1a20', text:'#8fa3b8', num:'#6a8a9a',name:'#a0b8cc'},
+  green:  {bg:'#eef5ee', text:'#1a3020', num:'#6a9a6a',name:'#1a3020'},
+  yellow: {bg:'#fffde7', text:'#3a2a00', num:'#9a8a40',name:'#3a2a00'},
+};
+
+function toggleReaderSettings(){
+  document.getElementById('reader-settings-panel').classList.toggle('active');
+}
+
+function setReaderTheme(name, el){
+  const t = readerThemes[name];
+  const page = document.getElementById('reader-page');
+  page.style.background = t.bg;
+  document.getElementById('reader-content').style.background = t.bg;
+  document.getElementById('reader-text').style.color = t.text;
+  document.getElementById('reader-ch-name').style.color = t.name;
+  document.getElementById('reader-ch-num').style.color = t.num;
+  document.querySelectorAll('.theme-dot').forEach(d=>d.style.borderColor='transparent');
+  el.style.borderColor='#f9a825';
+  localStorage.setItem('gk_theme', name);
+}
+
+function setFontSize(v){
+  document.getElementById('reader-text').style.fontSize = v+'px';
+  document.getElementById('font-size-val').textContent = v;
+  localStorage.setItem('gk_fs', v);
+}
+
+function setLineHeight(v){
+  const lh = (v/100).toFixed(2);
+  document.getElementById('reader-text').style.lineHeight = lh;
+  document.getElementById('line-height-val').textContent = lh;
+  localStorage.setItem('gk_lh', v);
+}
+
+function setFontFamily(name, el){
+  const fonts = {serif:"Georgia,'Noto Serif TC',serif", sans:"-apple-system,'Noto Sans TC',sans-serif", fangsong:"'FangSong','STFangsong',serif"};
+  document.getElementById('reader-text').style.fontFamily = fonts[name];
+  document.querySelectorAll('.font-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  localStorage.setItem('gk_font', name);
+}
+
+function restoreReaderSettings(){
+  const fs=localStorage.getItem('gk_fs'), lh=localStorage.getItem('gk_lh');
+  if(fs){document.getElementById('font-size-slider').value=fs; setFontSize(fs);}
+  if(lh){document.getElementById('line-height-slider').value=lh; setLineHeight(lh);}
+}
+
+// ==========================================
 // Firebase 多裝置同步
 // ==========================================
 let fbApp = null, fbDB = null, fbUser = null;
@@ -1090,7 +1305,14 @@ function initFirebase(){
     // 未設定，僅使用 localStorage
     return;
   }
+  // 防護：確保 Firebase SDK 已載入（解決 "firebase is not defined" 問題）
+  if (typeof firebase === 'undefined') {
+    console.warn('Firebase SDK 尚未載入，跳過初始化（將使用本機模式）');
+    return;
+  }
   try {
+    // 避免重複初始化
+    if (fbApp) return;
     fbApp = firebase.initializeApp(FIREBASE_CONFIG);
     fbDB  = firebase.database();
     firebase.auth().onAuthStateChanged(user => {
@@ -1104,6 +1326,7 @@ function initFirebase(){
         updateUserBadge(null);
       }
     });
+    console.log('✅ Firebase 初始化成功');
   } catch(e){
     console.error('Firebase init error:', e);
   }
@@ -1111,6 +1334,7 @@ function initFirebase(){
 
 async function loginGoogle(){
   if (!FB_READY){ showToast('請先完成 Firebase 設定'); return; }
+  if (typeof firebase === 'undefined') { showToast('Firebase SDK 載入中，請稍後再試'); return; }
   try {
     const provider = new firebase.auth.GoogleAuthProvider();
     await firebase.auth().signInWithPopup(provider);
@@ -1122,6 +1346,7 @@ async function loginGoogle(){
 
 async function logoutUser(){
   if (!FB_READY || !fbUser) return;
+  if (typeof firebase === 'undefined') return;
   if (!confirm('確定要登出嗎？')) return;
   await firebase.auth().signOut();
   showToast('已登出');
@@ -1198,7 +1423,6 @@ function hideSyncIndicator(msg){
   if (msg){ document.getElementById('sync-text').textContent = msg; }
   setTimeout(() => document.getElementById('sync-indicator').classList.remove('show'), 2000);
 }
-
 </script>
 </body>
 </html>
