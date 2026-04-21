@@ -11,10 +11,10 @@
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif;background:#1a1a1a;color:#e0e0e0;min-height:100vh}
 .page{display:none;min-height:100vh;flex-direction:column}
 .page.active{display:flex}
-.top-nav{background:#f9a825;padding:10px 0;display:flex;justify-content:space-around;align-items:center;position:sticky;top:0;z-index:100}
-.nav-item{display:flex;flex-direction:column;align-items:center;gap:1px;font-size:9px;color:#1a1a1a;font-weight:600;cursor:pointer;padding:4px 8px;border-radius:8px;transition:background 0.2s}
+.top-nav{background:#f9a825;padding:8px 0;display:flex;justify-content:space-around;align-items:center;position:sticky;top:0;z-index:100}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:1px;font-size:9px;color:#1a1a1a;font-weight:600;cursor:pointer;padding:4px 6px;border-radius:8px}
 .nav-item.active{background:rgba(0,0,0,0.15)}
-.nav-icon{font-size:17px}
+.nav-icon{font-size:16px}
 .main{flex:1;overflow-y:auto;background:#1a1a1a}
 .logo-bar{background:#2a2a2a;padding:12px 16px;display:flex;align-items:center;gap:10px}
 .logo{font-size:19px;font-weight:700;letter-spacing:1px;color:#f9a825;flex:1}
@@ -22,8 +22,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans
 .btn-login{background:#f9a825;color:#1a1a1a;border:none;padding:7px 14px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer}
 .section-title{padding:16px 16px 8px;font-size:16px;font-weight:700;display:flex;justify-content:space-between;align-items:center}
 .more-link{font-size:12px;color:#f9a825;cursor:pointer}
-.book-card{background:#2a2a2a;margin:0 12px 10px;border-radius:12px;padding:12px;display:flex;gap:12px;align-items:center}
-.book-cover{width:52px;height:70px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.book-card{background:#2a2a2a;margin:0 12px 10px;border-radius:12px;padding:12px;display:flex;gap:12px;align-items:center;cursor:pointer}
+.book-cover{width:52px;height:70px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
 .book-info{flex:1;min-width:0}
 .book-title{font-size:16px;font-weight:700;color:#fff;margin-bottom:3px}
 .book-author{font-size:12px;color:#aaa;margin-bottom:5px}
@@ -38,120 +38,90 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans
 .master-name{font-size:16px;font-weight:700;color:#fff;margin-bottom:2px}
 .master-sub{font-size:12px;color:#aaa}
 .chevron{color:#555;font-size:18px}
-/* Modal */
 .modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.8);z-index:200;align-items:flex-end;justify-content:center}
 .modal-overlay.active{display:flex}
-.modal{background:#2a2a2a;width:100%;max-width:600px;border-radius:20px 20px 0 0;padding:20px;max-height:90vh;overflow-y:auto}
+.modal{background:#2a2a2a;width:100%;max-width:600px;border-radius:20px 20px 0 0;padding:20px;max-height:88vh;overflow-y:auto}
 .modal-title{font-size:18px;font-weight:700;margin-bottom:16px;color:#fff;display:flex;justify-content:space-between;align-items:center}
 .modal-close{background:none;border:none;color:#aaa;font-size:22px;cursor:pointer;padding:4px}
-/* Reading page */
 #page-reader{background:#1a1a1a;position:fixed;top:0;left:0;right:0;bottom:0;z-index:300;display:none;flex-direction:column}
-#page-reader.active{display:flex}
+#page-reader.open{display:flex}
 .reader-header{background:#2a2a2a;padding:10px 16px;display:flex;align-items:center;gap:10px;flex-shrink:0}
 .reader-back{background:none;border:none;color:#f9a825;font-size:22px;cursor:pointer}
 .reader-title{flex:1;font-size:14px;font-weight:600;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.reader-settings-btn{background:none;border:none;color:#aaa;font-size:20px;cursor:pointer}
-.reader-chapter-title{background:#222;padding:8px 16px;font-size:12px;color:#aaa;flex-shrink:0;display:flex;align-items:center;gap:8px}
-.reader-content-area{flex:1;overflow:hidden;position:relative}
-.reader-iframe{width:100%;height:100%;border:none;background:#fff}
-.reader-iframe.dark{filter:invert(1) hue-rotate(180deg)}
-.reader-text-content{padding:20px 16px;line-height:1.9;font-size:17px;color:#ddd;overflow-y:auto;height:100%;background:#1a1a1a}
-.reader-text-content.light{background:#f5f0e8;color:#333}
-.reader-text-content p{margin-bottom:1em;text-indent:2em}
-.reader-fallback{display:none;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:16px;padding:20px;text-align:center}
-.reader-fallback.show{display:flex}
-.btn-open-source{background:#f9a825;color:#1a1a1a;border:none;padding:12px 24px;border-radius:24px;font-size:15px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block}
+.reader-chapter-bar{background:#222;padding:8px 16px;font-size:12px;color:#aaa;flex-shrink:0;display:flex;align-items:center}
+.reader-area{flex:1;overflow:hidden;position:relative}
+.r-iframe{width:100%;height:100%;border:none}
+.r-text{padding:20px 16px;line-height:1.9;font-size:17px;color:#ddd;overflow-y:auto;height:100%;background:#1a1a1a;display:none}
+.r-text.light{background:#f5f0e8;color:#333}
+.r-text p{margin-bottom:1em;text-indent:2em}
+.r-fallback{display:none;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:16px;padding:20px;text-align:center}
+.r-fallback.show{display:flex}
+.btn-open-new{background:#f9a825;color:#1a1a1a;border:none;padding:12px 24px;border-radius:24px;font-size:15px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block}
 .reader-nav{background:#2a2a2a;padding:10px 16px;display:flex;gap:10px;flex-shrink:0}
-.btn-prev-chapter,.btn-next-chapter{flex:1;background:#333;color:#f9a825;border:1px solid #444;padding:10px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer}
-.btn-next-chapter{background:#f9a825;color:#1a1a1a;border:none}
-.btn-prev-chapter:disabled,.btn-next-chapter:disabled{opacity:0.4;cursor:not-allowed}
-/* TOC */
+.btn-prev,.btn-next{flex:1;padding:10px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;border:none}
+.btn-prev{background:#333;color:#f9a825;border:1px solid #444}
+.btn-next{background:#f9a825;color:#1a1a1a}
+.btn-prev:disabled,.btn-next:disabled{opacity:0.4;cursor:not-allowed}
 .toc-list{list-style:none}
-.toc-item{border-bottom:1px solid #333;cursor:pointer}
+.toc-item{border-bottom:1px solid #333}
+.toc-item a{display:block;padding:12px 16px;color:#e0e0e0;text-decoration:none;font-size:14px;cursor:pointer}
 .toc-item:hover{background:#333}
-.toc-item a{display:block;padding:12px 16px;color:#e0e0e0;text-decoration:none;font-size:14px}
-.toc-item a span{color:#888;font-size:12px;margin-left:8px}
 .toc-item.current a{color:#f9a825;font-weight:700}
-/* Settings panel */
 .settings-panel{display:none;position:fixed;bottom:0;left:0;right:0;background:#2a2a2a;border-radius:16px 16px 0 0;padding:20px;z-index:400}
 .settings-panel.show{display:block}
 .settings-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #333}
 .settings-label{color:#ccc;font-size:14px}
 .size-btns{display:flex;gap:8px}
-.size-btn{background:#333;color:#f9a825;border:1px solid #444;width:36px;height:36px;border-radius:8px;font-size:16px;cursor:pointer}
-.toggle-theme{background:#333;color:#f9a825;border:1px solid #444;padding:8px 16px;border-radius:8px;font-size:13px;cursor:pointer}
-/* Upload page */
+.size-btn{background:#333;color:#f9a825;border:1px solid #444;width:36px;height:36px;border-radius:8px;font-size:16px;cursor:pointer;font-weight:700}
+.theme-btn{background:#333;color:#f9a825;border:1px solid #444;padding:8px 16px;border-radius:8px;font-size:13px;cursor:pointer}
 .upload-zone{background:#2a2a2a;border:2px dashed #444;border-radius:12px;margin:16px;padding:32px;text-align:center;cursor:pointer}
 .upload-zone:hover{border-color:#f9a825}
-.upload-icon{font-size:40px;margin-bottom:12px}
-.upload-hint{color:#aaa;font-size:14px;margin-top:8px}
-.upload-list{margin:0 16px}
 .upload-item{background:#2a2a2a;border-radius:10px;padding:12px 16px;margin-bottom:8px;display:flex;align-items:center;gap:12px;cursor:pointer}
-.upload-item-icon{font-size:24px}
-.upload-item-info{flex:1}
-.upload-item-name{font-size:14px;color:#fff;font-weight:600}
-.upload-item-size{font-size:12px;color:#aaa}
-/* Login modal */
 .login-features{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}
-.login-feature{background:#333;padding:12px;border-radius:10px;text-align:center;font-size:12px;color:#aaa}
-.login-feature .icon{font-size:20px;margin-bottom:4px}
+.login-feat{background:#333;padding:12px;border-radius:10px;text-align:center;font-size:12px;color:#aaa}
+.login-feat .icon{font-size:20px;margin-bottom:4px}
 .btn-google{width:100%;background:#fff;color:#333;border:none;padding:14px;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;margin-top:8px}
-/* Toast */
-.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:10px 20px;border-radius:20px;font-size:13px;z-index:1000;opacity:0;transition:opacity 0.3s;pointer-events:none}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:10px 20px;border-radius:20px;font-size:13px;z-index:1000;opacity:0;transition:opacity 0.3s;pointer-events:none;white-space:nowrap}
 .toast.show{opacity:1}
-/* Tabs for TOC/details */
-.tab-bar{display:flex;border-bottom:1px solid #333;margin-bottom:0}
+.tab-bar{display:flex;border-bottom:1px solid #333}
 .tab-btn{flex:1;padding:12px;background:none;border:none;color:#888;font-size:14px;cursor:pointer;border-bottom:2px solid transparent}
 .tab-btn.active{color:#f9a825;border-bottom-color:#f9a825}
-.tab-content{display:none;padding:0}
-.tab-content.active{display:block}
-/* Source selector */
-.source-selector{padding:16px}
-.source-item{background:#333;border-radius:10px;padding:12px 16px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;cursor:pointer}
-.source-item.selected{border:1px solid #f9a825}
-.source-name{font-size:14px;color:#fff}
-.source-status{font-size:11px;color:#aaa}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+.source-item{background:#333;border-radius:10px;padding:12px 16px;margin:8px 0;display:flex;align-items:center;justify-content:space-between;cursor:pointer;border:1px solid transparent}
+.source-item.selected{border-color:#f9a825}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
-.loading{animation:pulse 1.5s infinite;color:#aaa;text-align:center;padding:40px}
+.loading-text{animation:pulse 1.5s infinite;color:#aaa;text-align:center;padding:40px;font-size:14px}
 </style>
 </head>
 <body>
-<!-- TOP NAV -->
-<nav class="top-nav">
-  <div class="nav-item active" onclick="showPage('home',this)"><span class="nav-icon">🏠</span>首頁</div>
-  <div class="nav-item" onclick="showPage('history',this)"><span class="nav-icon">🕐</span>歷史</div>
-  <div class="nav-item" onclick="showPage('rank',this)"><span class="nav-icon">🏆</span>排行</div>
-  <div class="nav-item" onclick="showPage('complete',this)"><span class="nav-icon">✅</span>完本</div>
-  <div class="nav-item" onclick="showPage('master',this)"><span class="nav-icon">🎓</span>大師</div>
-  <div class="nav-item" onclick="showPage('bookshelf',this)"><span class="nav-icon">📚</span>書架</div>
-  <div class="nav-item" onclick="showPage('upload',this)"><span class="nav-icon">📁</span>上傳</div>
+<nav class="top-nav" id="main-nav">
+  <div class="nav-item active" data-page="home"><span class="nav-icon">🏠</span>首頁</div>
+  <div class="nav-item" data-page="history"><span class="nav-icon">🕐</span>歷史</div>
+  <div class="nav-item" data-page="rank"><span class="nav-icon">🏆</span>排行</div>
+  <div class="nav-item" data-page="complete"><span class="nav-icon">✅</span>完本</div>
+  <div class="nav-item" data-page="master"><span class="nav-icon">🎓</span>大師</div>
+  <div class="nav-item" data-page="bookshelf"><span class="nav-icon">📚</span>書架</div>
+  <div class="nav-item" data-page="upload"><span class="nav-icon">📁</span>上傳</div>
 </nav>
 
-<!-- HOME PAGE -->
 <div id="page-home" class="page active">
   <div class="main">
-    <div class="logo-bar">
-      <div class="logo">光哥<span>書蟲庫</span></div>
-      <button class="btn-login" onclick="showLoginModal()">登入同步</button>
-    </div>
-    <div class="section-title">🔥 熱門推薦 <span class="more-link" onclick="showPage('rank',document.querySelector('.nav-item:nth-child(3)'))">更多 ›</span></div>
+    <div class="logo-bar"><div class="logo">光哥<span>書蟲庫</span></div><button class="btn-login" id="btn-login-top">登入同步</button></div>
+    <div class="section-title">🔥 熱門推薦 <span class="more-link" data-goto="rank">更多 ›</span></div>
     <div id="hot-books"></div>
-    <div class="section-title">🎖 市場大師 <span class="more-link" onclick="showPage('master',document.querySelector('.nav-item:nth-child(5)'))">更多 ›</span></div>
+    <div class="section-title">🎖 市場大師 <span class="more-link" data-goto="master">更多 ›</span></div>
     <div id="masters-preview"></div>
   </div>
 </div>
 
-<!-- HISTORY PAGE -->
 <div id="page-history" class="page">
   <div class="main">
     <div class="logo-bar"><div class="logo">📖 閱讀<span>歷史</span></div></div>
-    <div id="history-list" style="padding:16px">
-      <div style="text-align:center;color:#666;padding:40px">登入後自動同步閱讀歷史</div>
-    </div>
+    <div id="history-list" style="padding:16px"><div class="loading-text">暫無閱讀歷史</div></div>
   </div>
 </div>
 
-<!-- RANK PAGE -->
 <div id="page-rank" class="page">
   <div class="main">
     <div class="logo-bar"><div class="logo">🏆 排行<span>榜</span></div></div>
@@ -159,7 +129,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans
   </div>
 </div>
 
-<!-- COMPLETE PAGE -->
 <div id="page-complete" class="page">
   <div class="main">
     <div class="logo-bar"><div class="logo">✅ 完本<span>精選</span></div></div>
@@ -167,7 +136,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans
   </div>
 </div>
 
-<!-- MASTER PAGE -->
 <div id="page-master" class="page">
   <div class="main">
     <div class="logo-bar"><div class="logo">🎓 市場<span>大師</span></div></div>
@@ -175,797 +143,589 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans
   </div>
 </div>
 
-<!-- BOOKSHELF PAGE -->
 <div id="page-bookshelf" class="page">
   <div class="main">
     <div class="logo-bar"><div class="logo">📚 我的<span>書架</span></div></div>
-    <div id="bookshelf-list" style="padding:16px">
-      <div style="text-align:center;color:#666;padding:40px">書架空空如也，快去加入你喜愛的書吧！</div>
-    </div>
+    <div id="shelf-list" style="padding:16px"><div class="loading-text">書架空空如也</div></div>
   </div>
 </div>
 
-<!-- UPLOAD PAGE -->
 <div id="page-upload" class="page">
   <div class="main">
     <div class="logo-bar"><div class="logo">📁 上傳<span>書本</span></div></div>
-    <div class="upload-zone" onclick="document.getElementById('file-input').click()">
-      <div class="upload-icon">📖</div>
-      <div style="font-size:16px;color:#fff;font-weight:600">上傳 TXT / EPUB</div>
-      <div class="upload-hint">支援 .txt .epub 格式，本地閱讀不上傳雲端</div>
-    </div>
-    <input type="file" id="file-input" accept=".txt,.epub" style="display:none" onchange="handleFileUpload(event)">
-    <div style="padding:0 16px 8px;font-size:14px;color:#aaa">已上傳書本</div>
-    <div class="upload-list" id="upload-list">
-      <div style="text-align:center;color:#555;padding:20px;font-size:13px">尚未上傳任何書本</div>
-    </div>
+    <div class="upload-zone" id="upload-zone"><div style="font-size:36px">📖</div><div style="font-size:15px;color:#fff;font-weight:600;margin-top:8px">上傳 TXT / EPUB</div><div style="font-size:12px;color:#aaa;margin-top:6px">支援 .txt .epub，本地閱讀不上傳雲端</div></div>
+    <input type="file" id="file-input" accept=".txt,.epub" style="display:none">
+    <div style="padding:8px 16px;font-size:13px;color:#888">已上傳書本</div>
+    <div id="upload-list" style="padding:0 12px"><div style="text-align:center;color:#555;padding:16px;font-size:13px">尚未上傳任何書本</div></div>
   </div>
 </div>
 
-<!-- READER PAGE (full screen overlay) -->
 <div id="page-reader">
   <div class="reader-header">
-    <button class="reader-back" onclick="closeReader()">←</button>
+    <button class="reader-back" id="reader-back-btn">←</button>
     <div class="reader-title" id="reader-book-title">書名</div>
-    <button class="reader-settings-btn" onclick="toggleSettings()">⚙️</button>
+    <button style="background:none;border:none;color:#aaa;font-size:20px;cursor:pointer" id="settings-btn">⚙️</button>
   </div>
-  <div class="reader-chapter-title" id="reader-chapter-title">
-    <span>第 - 章</span>
-    <span style="margin-left:auto;color:#f9a825;cursor:pointer" onclick="showTocModal()">目錄</span>
+  <div class="reader-chapter-bar">
+    <span id="reader-ch-title">章節標題</span>
+    <span style="margin-left:auto;color:#f9a825;cursor:pointer" id="toc-btn">目錄</span>
   </div>
-  <div class="reader-content-area" id="reader-content-area">
-    <iframe id="reader-iframe" class="reader-iframe" sandbox="allow-scripts allow-same-origin allow-forms" onload="checkIframeLoad(this)" onerror="showFallback()"></iframe>
-    <div id="reader-text-display" class="reader-text-content" style="display:none"></div>
-    <div class="reader-fallback" id="reader-fallback">
-      <div style="font-size:40px">⚠️</div>
-      <div style="font-size:16px;color:#fff;font-weight:600">網站不允許嵌入</div>
-      <div style="font-size:13px;color:#aaa;margin-top:4px">在新分頁開啟可繼續閱讀</div>
-      <a id="fallback-link" href="#" target="_blank" class="btn-open-source">🔗 在新分頁開啟閱讀</a>
-      <button onclick="tryNextSource()" style="background:#333;color:#f9a825;border:1px solid #444;padding:10px 20px;border-radius:20px;font-size:13px;cursor:pointer;margin-top:8px">嘗試其他書源</button>
+  <div class="reader-area" id="reader-area">
+    <iframe id="r-iframe" class="r-iframe" src="about:blank"></iframe>
+    <div id="r-text" class="r-text"></div>
+    <div class="r-fallback" id="r-fallback">
+      <div style="font-size:36px">⚠️</div>
+      <div style="font-size:15px;color:#fff;font-weight:600">網站限制嵌入</div>
+      <div style="font-size:12px;color:#aaa;margin-top:4px">可在新分頁開啟閱讀，或切換書源</div>
+      <a id="fallback-link" href="#" target="_blank" class="btn-open-new">🔗 在新分頁開啟</a>
+      <button id="try-next-source" style="background:#333;color:#f9a825;border:1px solid #444;padding:10px 20px;border-radius:20px;font-size:13px;cursor:pointer">嘗試其他書源</button>
     </div>
   </div>
   <div class="reader-nav">
-    <button class="btn-prev-chapter" id="btn-prev" onclick="prevChapter()">← 上一章</button>
-    <button class="btn-next-chapter" id="btn-next" onclick="nextChapter()">下一章 →</button>
+    <button class="btn-prev" id="btn-prev">← 上一章</button>
+    <button class="btn-next" id="btn-next">下一章 →</button>
   </div>
 </div>
 
-<!-- SETTINGS PANEL -->
 <div class="settings-panel" id="settings-panel">
-  <div class="modal-title">閱讀設定 <button class="modal-close" onclick="toggleSettings()">✕</button></div>
-  <div class="settings-row">
-    <span class="settings-label">字體大小</span>
-    <div class="size-btns">
-      <button class="size-btn" onclick="changeFontSize(-1)">A-</button>
-      <button class="size-btn" onclick="changeFontSize(1)">A+</button>
-    </div>
-  </div>
-  <div class="settings-row">
-    <span class="settings-label">閱讀模式</span>
-    <button class="toggle-theme" onclick="toggleReaderTheme()">🌙 切換</button>
-  </div>
-  <div class="settings-row">
-    <span class="settings-label">書源</span>
-    <button class="toggle-theme" onclick="showSourceSelector()">切換書源</button>
-  </div>
+  <div class="modal-title" style="margin-bottom:0">閱讀設定<button class="modal-close" id="close-settings">✕</button></div>
+  <div class="settings-row"><span class="settings-label">字體大小</span><div class="size-btns"><button class="size-btn" id="font-minus">A-</button><button class="size-btn" id="font-plus">A+</button></div></div>
+  <div class="settings-row"><span class="settings-label">閱讀模式</span><button class="theme-btn" id="toggle-theme">🌙 切換模式</button></div>
+  <div class="settings-row"><span class="settings-label">書源</span><button class="theme-btn" id="show-sources">切換書源</button></div>
 </div>
 
-<!-- TOC MODAL -->
 <div class="modal-overlay" id="toc-modal">
   <div class="modal">
-    <div class="modal-title">
-      <span id="toc-book-title">目錄</span>
-      <button class="modal-close" onclick="hideTocModal()">✕</button>
-    </div>
+    <div class="modal-title"><span id="toc-title">目錄</span><button class="modal-close" data-close="toc-modal">✕</button></div>
     <ul class="toc-list" id="toc-list"></ul>
   </div>
 </div>
 
-<!-- BOOK DETAIL MODAL -->
-<div class="modal-overlay" id="book-detail-modal">
+<div class="modal-overlay" id="book-modal">
   <div class="modal">
-    <div class="modal-title">
-      <span id="detail-title">書籍詳情</span>
-      <button class="modal-close" onclick="hideModal('book-detail-modal')">✕</button>
-    </div>
+    <div class="modal-title"><span id="book-modal-title">書籍詳情</span><button class="modal-close" data-close="book-modal">✕</button></div>
     <div class="tab-bar">
-      <button class="tab-btn active" onclick="switchTab('tab-info',this)">簡介</button>
-      <button class="tab-btn" onclick="switchTab('tab-toc',this)">目錄</button>
-      <button class="tab-btn" onclick="switchTab('tab-source',this)">書源</button>
+      <button class="tab-btn active" data-tab="tab-info">簡介</button>
+      <button class="tab-btn" data-tab="tab-toc">目錄</button>
+      <button class="tab-btn" data-tab="tab-src">書源</button>
     </div>
-    <div id="tab-info" class="tab-content active" style="padding:16px">
-      <div id="detail-desc" style="color:#ccc;font-size:14px;line-height:1.7"></div>
+    <div id="tab-info" class="tab-pane active" style="padding:16px">
+      <div id="book-desc"></div>
       <div style="margin-top:16px;display:flex;gap:10px">
-        <button onclick="addToShelf(currentBook)" style="flex:1;background:#333;color:#f9a825;border:1px solid #444;padding:12px;border-radius:10px;font-size:14px;cursor:pointer">+ 加入書架</button>
-        <button onclick="startReading(currentBook,0)" style="flex:1;background:#f9a825;color:#1a1a1a;border:none;padding:12px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer">▶ 開始閱讀</button>
+        <button id="btn-add-shelf" style="flex:1;background:#333;color:#f9a825;border:1px solid #444;padding:12px;border-radius:10px;font-size:14px;cursor:pointer">+ 加入書架</button>
+        <button id="btn-start-read" style="flex:1;background:#f9a825;color:#1a1a1a;border:none;padding:12px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer">▶ 開始閱讀</button>
       </div>
     </div>
-    <div id="tab-toc" class="tab-content">
-      <ul class="toc-list" id="detail-toc-list"></ul>
-    </div>
-    <div id="tab-source" class="tab-content">
-      <div class="source-selector" id="source-selector-list"></div>
-    </div>
+    <div id="tab-toc" class="tab-pane"><ul class="toc-list" id="modal-toc-list"></ul></div>
+    <div id="tab-src" class="tab-pane" style="padding:16px"><div id="src-list"></div></div>
   </div>
 </div>
 
-<!-- LOGIN MODAL -->
 <div class="modal-overlay" id="login-modal">
   <div class="modal">
-    <div class="modal-title">登入光哥書蟲庫 <button class="modal-close" onclick="hideModal('login-modal')">✕</button></div>
+    <div class="modal-title">登入光哥書蟲庫<button class="modal-close" data-close="login-modal">✕</button></div>
     <div class="login-features">
-      <div class="login-feature"><div class="icon">📖</div>閱讀進度同步</div>
-      <div class="login-feature"><div class="icon">📚</div>書架同步</div>
-      <div class="login-feature"><div class="icon">🕐</div>歷史同步</div>
-      <div class="login-feature"><div class="icon">🔖</div>書籤同步</div>
+      <div class="login-feat"><div class="icon">📖</div>閱讀進度同步</div>
+      <div class="login-feat"><div class="icon">📚</div>書架同步</div>
+      <div class="login-feat"><div class="icon">🕐</div>歷史同步</div>
+      <div class="login-feat"><div class="icon">🔖</div>書籤同步</div>
     </div>
-    <button class="btn-google" onclick="loginWithGoogle()">
+    <button class="btn-google" id="google-login-btn">
       <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M16.51 8H8.98v3h4.3c-.18 1-.74 1.48-1.6 2.04v2.01h2.6a7.8 7.8 0 002.38-5.88c0-.57-.05-.66-.15-1.18z"/><path fill="#34A853" d="M8.98 17c2.16 0 3.97-.72 5.3-1.94l-2.6-2a4.8 4.8 0 01-7.18-2.54H1.83v2.07A8 8 0 008.98 17z"/><path fill="#FBBC05" d="M4.5 10.52a4.8 4.8 0 010-3.04V5.41H1.83a8 8 0 000 7.18l2.67-2.07z"/><path fill="#EA4335" d="M8.98 4.18c1.17 0 2.23.4 3.06 1.2l2.3-2.3A8 8 0 001.83 5.4L4.5 7.49a4.77 4.77 0 014.48-3.31z"/></svg>
       使用 Google 帳號登入
     </button>
   </div>
 </div>
 
-<!-- SOURCE SELECTOR MODAL -->
-<div class="modal-overlay" id="source-modal">
-  <div class="modal">
-    <div class="modal-title">選擇書源 <button class="modal-close" onclick="hideModal('source-modal')">✕</button></div>
-    <div id="source-modal-list"></div>
-  </div>
-</div>
+<div class="toast" id="toast"></div><script>
+var BOOKS = [{"id":"zhutian","title":"遮天","author":"辰東","genre":"修仙玄幻","status":"已完本","rating":9.6,"words":"243萬字","cover":"🌌","color":"#1565C0","desc":"一部以主角葉凡為中心的仙俠小說，講述了從古至今縱橫萬古的傳奇故事。","sources":[{"name":"頂點小說","url":"https://www.b5200.net/zhutian/","quality":"高"},{"name":"書趣閣","url":"https://www.shuquge.com/txt/8659/","quality":"中"}],"chapters":[{"t":"第一章 神秘古墓","u":"https://www.b5200.net/zhutian/1.html"},{"t":"第二章 古銅棺材","u":"https://www.b5200.net/zhutian/2.html"},{"t":"第三章 葉凡的秘密","u":"https://www.b5200.net/zhutian/3.html"},{"t":"第四章 莫大機緣","u":"https://www.b5200.net/zhutian/4.html"},{"t":"第五章 修煉之道","u":"https://www.b5200.net/zhutian/5.html"},{"t":"第六章 古老傳承","u":"https://www.b5200.net/zhutian/6.html"},{"t":"第七章 踏入仙途","u":"https://www.b5200.net/zhutian/7.html"},{"t":"第八章 上古秘辛","u":"https://www.b5200.net/zhutian/8.html"},{"t":"第九章 驚天之秘","u":"https://www.b5200.net/zhutian/9.html"},{"t":"第十章 逆天改命","u":"https://www.b5200.net/zhutian/10.html"},{"t":"第十一章 萬古長存","u":"https://www.b5200.net/zhutian/11.html"},{"t":"第十二章 稱帝之路","u":"https://www.b5200.net/zhutian/12.html"}]},{"id":"wanmei","title":"完美世界","author":"辰東","genre":"修仙玄幻","status":"已完本","rating":9.5,"words":"268萬字","cover":"🌍","color":"#1B5E20","desc":"石昊從一個小村子走出，在永恆的時代成就一段傳奇。","sources":[{"name":"頂點小說","url":"https://www.b5200.net/wanmeishijie/","quality":"高"}],"chapters":[{"t":"第一章 石村少年","u":"https://www.b5200.net/wanmeishijie/1.html"},{"t":"第二章 神秘石殿","u":"https://www.b5200.net/wanmeishijie/2.html"},{"t":"第三章 莫名傳承","u":"https://www.b5200.net/wanmeishijie/3.html"},{"t":"第四章 強大對手","u":"https://www.b5200.net/wanmeishijie/4.html"},{"t":"第五章 破境而出","u":"https://www.b5200.net/wanmeishijie/5.html"},{"t":"第六章 完美境界","u":"https://www.b5200.net/wanmeishijie/6.html"},{"t":"第七章 千古不朽","u":"https://www.b5200.net/wanmeishijie/7.html"},{"t":"第八章 傲視蒼生","u":"https://www.b5200.net/wanmeishijie/8.html"},{"t":"第九章 石昊的道","u":"https://www.b5200.net/wanmeishijie/9.html"},{"t":"第十章 長生之境","u":"https://www.b5200.net/wanmeishijie/10.html"}]},{"id":"doupa","title":"斗破蒼穹","author":"天蠶土豆","genre":"修仙玄幻","status":"已完本","rating":9.3,"words":"197萬字","cover":"🔥","color":"#BF360C","desc":"蕭炎曾是天才少年，三年間力量盡失，在得到傳奇老人指導後逐漸崛起。","sources":[{"name":"頂點小說","url":"https://www.b5200.net/doupo/","quality":"高"},{"name":"起點中文","url":"https://book.qidian.com/info/460238","quality":"高"}],"chapters":[{"t":"第一章 天才的隕落","u":"https://www.b5200.net/doupo/1.html"},{"t":"第二章 廢材蕭炎","u":"https://www.b5200.net/doupo/2.html"},{"t":"第三章 神秘老人","u":"https://www.b5200.net/doupo/3.html"},{"t":"第四章 再次修煉","u":"https://www.b5200.net/doupo/4.html"},{"t":"第五章 驚人天賦","u":"https://www.b5200.net/doupo/5.html"},{"t":"第六章 斗術精通","u":"https://www.b5200.net/doupo/6.html"},{"t":"第七章 納蘭薇薇","u":"https://www.b5200.net/doupo/7.html"},{"t":"第八章 大家族之爭","u":"https://www.b5200.net/doupo/8.html"},{"t":"第九章 神秘功法","u":"https://www.b5200.net/doupo/9.html"},{"t":"第十章 蕭炎崛起","u":"https://www.b5200.net/doupo/10.html"},{"t":"第十一章 斗帝之路","u":"https://www.b5200.net/doupo/11.html"},{"t":"第十二章 煉丹大師","u":"https://www.b5200.net/doupo/12.html"}]},{"id":"panlong","title":"盤龍","author":"我吃西紅柿","genre":"西方玄幻","status":"已完本","rating":9.1,"words":"120萬字","cover":"🐉","color":"#4A148C","desc":"林雷在深山遇到傳奇老龍，開始修煉之旅，最終成為主宰世界的強者。","sources":[{"name":"頂點小說","url":"https://www.b5200.net/panlong/","quality":"高"}],"chapters":[{"t":"第一章 深山遇龍","u":"https://www.b5200.net/panlong/1.html"},{"t":"第二章 龍血覺醒","u":"https://www.b5200.net/panlong/2.html"},{"t":"第三章 強者之路","u":"https://www.b5200.net/panlong/3.html"},{"t":"第四章 盤龍大陸","u":"https://www.b5200.net/panlong/4.html"},{"t":"第五章 神秘功法","u":"https://www.b5200.net/panlong/5.html"},{"t":"第六章 主神空間","u":"https://www.b5200.net/panlong/6.html"},{"t":"第七章 盤龍稱雄","u":"https://www.b5200.net/panlong/7.html"},{"t":"第八章 神王之境","u":"https://www.b5200.net/panlong/8.html"}]},{"id":"shediao","title":"射鵰英雄傳","author":"金庸","genre":"武俠","status":"已完本","rating":9.8,"words":"100萬字","cover":"🦅","color":"#8B4513","desc":"郭靖自幼在蒙古長大，後因機緣學得絕世武功，與黃蓉相識相愛，共同為國為民的俠義故事。","sources":[{"name":"頂點小說","url":"https://www.b5200.net/shediao/","quality":"高"}],"chapters":[{"t":"第一回 風雪驚變","u":"https://www.b5200.net/shediao/1.html"},{"t":"第二回 江南七怪","u":"https://www.b5200.net/shediao/2.html"},{"t":"第三回 黃蓉出場","u":"https://www.b5200.net/shediao/3.html"},{"t":"第四回 桃花島主","u":"https://www.b5200.net/shediao/4.html"},{"t":"第五回 降龍十八掌","u":"https://www.b5200.net/shediao/5.html"},{"t":"第六回 英雄大會","u":"https://www.b5200.net/shediao/6.html"},{"t":"第七回 九陰真經","u":"https://www.b5200.net/shediao/7.html"},{"t":"第八回 郭靖的決斷","u":"https://www.b5200.net/shediao/8.html"},{"t":"第九回 東邪西毒","u":"https://www.b5200.net/shediao/9.html"},{"t":"第十回 射鵰英雄","u":"https://www.b5200.net/shediao/10.html"}]},{"id":"shendiao","title":"神鵰俠侶","author":"金庸","genre":"武俠","status":"已完本","rating":9.7,"words":"90萬字","cover":"🦅","color":"#1565C0","desc":"楊過與小龍女的愛情故事，十六年分離，終於重聚。","sources":[{"name":"頂點小說","url":"https://www.b5200.net/shendiao/","quality":"高"}],"chapters":[{"t":"第一回 風陵渡口","u":"https://www.b5200.net/shendiao/1.html"},{"t":"第二回 楊過受辱","u":"https://www.b5200.net/shendiao/2.html"},{"t":"第三回 小龍女出關","u":"https://www.b5200.net/shendiao/3.html"},{"t":"第四回 古墓派武功","u":"https://www.b5200.net/shendiao/4.html"},{"t":"第五回 情到深處","u":"https://www.b5200.net/shendiao/5.html"},{"t":"第六回 神鵰出現","u":"https://www.b5200.net/shendiao/6.html"},{"t":"第七回 黯然銷魂掌","u":"https://www.b5200.net/shendiao/7.html"},{"t":"第八回 十六年後","u":"https://www.b5200.net/shendiao/8.html"}]},{"id":"yitian","title":"倚天屠龍記","author":"金庸","genre":"武俠","status":"已完本","rating":9.6,"words":"100萬字","cover":"⚔️","color":"#1B5E20","desc":"張無忌習得九陽神功與乾坤大挪移，成為明教教主，帶領明教驅除韃虜。","sources":[{"name":"頂點小說","url":"https://www.b5200.net/yitian/","quality":"高"}],"chapters":[{"t":"第一回 天涯思君不可忘","u":"https://www.b5200.net/yitian/1.html"},{"t":"第二回 武當山頂松柏長","u":"https://www.b5200.net/yitian/2.html"},{"t":"第三回 張無忌初顯身手","u":"https://www.b5200.net/yitian/3.html"},{"t":"第四回 九陽神功","u":"https://www.b5200.net/yitian/4.html"},{"t":"第五回 明教教主","u":"https://www.b5200.net/yitian/5.html"},{"t":"第六回 武林大會","u":"https://www.b5200.net/yitian/6.html"},{"t":"第七回 屠龍刀倚天劍","u":"https://www.b5200.net/yitian/7.html"},{"t":"第八回 復國大業","u":"https://www.b5200.net/yitian/8.html"}]},{"id":"tianlong","title":"天龍八部","author":"金庸","genre":"武俠","status":"已完本","rating":9.9,"words":"120萬字","cover":"🐲","color":"#4A148C","desc":"喬峯、段譽、虛竹三人的英雄故事，天龍八部中最為波瀾壯闊的武俠史詩。","sources":[{"name":"頂點小說","url":"https://www.b5200.net/tianlong/","quality":"高"}],"chapters":[{"t":"第一回 青衫磊落險峯行","u":"https://www.b5200.net/tianlong/1.html"},{"t":"第二回 六脈神劍","u":"https://www.b5200.net/tianlong/2.html"},{"t":"第三回 段譽初現","u":"https://www.b5200.net/tianlong/3.html"},{"t":"第四回 喬峯之謎","u":"https://www.b5200.net/tianlong/4.html"},{"t":"第五回 聚賢莊大戰","u":"https://www.b5200.net/tianlong/5.html"},{"t":"第六回 少林寺之秘","u":"https://www.b5200.net/tianlong/6.html"},{"t":"第七回 蕭遠山出現","u":"https://www.b5200.net/tianlong/7.html"},{"t":"第八回 天龍八部結局","u":"https://www.b5200.net/tianlong/8.html"}]},{"id":"xiaolizhi","title":"笑傲江湖","author":"金庸","genre":"武俠","status":"已完本","rating":9.5,"words":"95萬字","cover":"🎵","color":"#E65100","desc":"令狐沖行俠仗義，不拘小節，最終與任盈盈隱居山林的故事。","sources":[{"name":"頂點小說","url":"https://www.b5200.net/xiaolizhi/","quality":"高"}],"chapters":[{"t":"第一回 滅門","u":"https://www.b5200.net/xiaolizhi/1.html"},{"t":"第二回 林平之","u":"https://www.b5200.net/xiaolizhi/2.html"},{"t":"第三回 令狐沖","u":"https://www.b5200.net/xiaolizhi/3.html"},{"t":"第四回 笑傲江湖曲","u":"https://www.b5200.net/xiaolizhi/4.html"},{"t":"第五回 東方不敗","u":"https://www.b5200.net/xiaolizhi/5.html"},{"t":"第六回 任盈盈","u":"https://www.b5200.net/xiaolizhi/6.html"},{"t":"第七回 少林武當之爭","u":"https://www.b5200.net/xiaolizhi/7.html"},{"t":"第八回 笑傲天下","u":"https://www.b5200.net/xiaolizhi/8.html"}]},{"id":"datang","title":"大唐雙龍傳","author":"黃易","genre":"武俠","status":"已完本","rating":9.6,"words":"400萬字","cover":"⚔️","color":"#8B0000","desc":"寇仲與徐子陵的大唐雙龍傳說，兩個孤兒成長為一代英雄的壯麗故事。","sources":[{"name":"頂點小說","url":"https://www.b5200.net/datang/","quality":"高"}],"chapters":[{"t":"第一章 邪帝舍利","u":"https://www.b5200.net/datang/1.html"},{"t":"第二章 江湖相逢","u":"https://www.b5200.net/datang/2.html"},{"t":"第三章 魔門高手","u":"https://www.b5200.net/datang/3.html"},{"t":"第四章 武功精進","u":"https://www.b5200.net/datang/4.html"},{"t":"第五章 爭奪天下","u":"https://www.b5200.net/datang/5.html"}]}];
+var MASTERS = [{"id":"jinyong","name":"金庸","avatar":"金","color":"#D4AF37","genre":"武俠經典","bookCount":15,"totalWords":"超過 1,000 萬字","desc":"金庸（1924-2018），本名查良鏞，著名武俠小說家。著有射鵰英雄傳、神鵰俠侶、倚天屠龍記等15部膾炙人口的作品。","bookIds":["shediao","shendiao","yitian","tianlong","xiaolizhi"]},{"id":"huangyi","name":"黃易","avatar":"黃","color":"#FF6F00","genre":"武俠奇幻","bookCount":37,"totalWords":"超過 3,000 萬字","desc":"黃易（1952-2017），本名黃祖強，香港著名武俠奇幻小說家。著有大唐雙龍傳、尋秦記、覆雨翻雲等多部作品。","bookIds":["datang"]},{"id":"chendon","name":"辰東","avatar":"辰","color":"#1565C0","genre":"修仙玄幻","bookCount":5,"totalWords":"超過 1,000 萬字","desc":"辰東，著名網絡小說家，作品以磅礴大氣著稱，代表作有遮天、完美世界、神墓等。","bookIds":["zhutian","wanmei"]}];
 
-<!-- TOAST -->
-<div class="toast" id="toast"></div>
+var curBook = null, curCh = 0, curSrc = 0, fontSize = 17, theme = 'dark';
+var shelf = JSON.parse(localStorage.getItem('ggshelf')||'[]');
+var hist = JSON.parse(localStorage.getItem('gghist')||'[]');
+var uploadedBooks = [];
 
-<script>
-// ===== DATA =====
-const BOOKS = [{"id":"zhutian","title":"遮天","author":"辰東","genre":"修仙玄幻","status":"已完本","rating":9.6,"words":"243萬字","cover":"🌌","color":"#1565C0","desc":"一部以主角葉凡為中心的仙俠小說，講述了一段從古至今、縱橫萬古的傳奇故事。","sources":[{"name":"頂點小說","url":"https://www.b5200.net/zhutian/","quality":"高"},{"name":"書趣閣","url":"https://www.shuquge.com/txt/8659/","quality":"中"},{"name":"免費小說網","url":"https://www.mianfeixiaoshuo.com/read/4/","quality":"中"}],"chapters":[{"title":"第一章 神秘古墓","url":"https://www.b5200.net/zhutian/1.html"},{"title":"第二章 古銅棺材","url":"https://www.b5200.net/zhutian/2.html"},{"title":"第三章 葉凡的秘密","url":"https://www.b5200.net/zhutian/3.html"},{"title":"第四章 莫大機緣","url":"https://www.b5200.net/zhutian/4.html"},{"title":"第五章 修煉之道","url":"https://www.b5200.net/zhutian/5.html"},{"title":"第六章 古老傳承","url":"https://www.b5200.net/zhutian/6.html"},{"title":"第七章 踏入仙途","url":"https://www.b5200.net/zhutian/7.html"},{"title":"第八章 上古秘辛","url":"https://www.b5200.net/zhutian/8.html"},{"title":"第九章 驚天之秘","url":"https://www.b5200.net/zhutian/9.html"},{"title":"第十章 逆天改命","url":"https://www.b5200.net/zhutian/10.html"},{"title":"第十一章 萬古長存","url":"https://www.b5200.net/zhutian/11.html"},{"title":"第十二章 稱帝之路","url":"https://www.b5200.net/zhutian/12.html"}]},{"id":"wanmei","title":"完美世界","author":"辰東","genre":"修仙玄幻","status":"已完本","rating":9.5,"words":"268萬字","cover":"🌍","color":"#1B5E20","desc":"石昊從一個村子裡走出，一步一步成長，在一個永恆的時代成就一段傳奇。","sources":[{"name":"頂點小說","url":"https://www.b5200.net/wanmeishijie/","quality":"高"},{"name":"書趣閣","url":"https://www.shuquge.com/txt/2/","quality":"中"}],"chapters":[{"title":"第一章 石村少年","url":"https://www.b5200.net/wanmeishijie/1.html"},{"title":"第二章 神秘石殿","url":"https://www.b5200.net/wanmeishijie/2.html"},{"title":"第三章 莫名傳承","url":"https://www.b5200.net/wanmeishijie/3.html"},{"title":"第四章 強大對手","url":"https://www.b5200.net/wanmeishijie/4.html"},{"title":"第五章 破境而出","url":"https://www.b5200.net/wanmeishijie/5.html"},{"title":"第六章 完美境界","url":"https://www.b5200.net/wanmeishijie/6.html"},{"title":"第七章 千古不朽","url":"https://www.b5200.net/wanmeishijie/7.html"},{"title":"第八章 傲視蒼生","url":"https://www.b5200.net/wanmeishijie/8.html"},{"title":"第九章 石昊的道","url":"https://www.b5200.net/wanmeishijie/9.html"},{"title":"第十章 長生之境","url":"https://www.b5200.net/wanmeishijie/10.html"}]},{"id":"doupa","title":"斗破蒼穹","author":"天蠶土豆","genre":"修仙玄幻","status":"已完本","rating":9.3,"words":"197萬字","cover":"🔥","color":"#BF360C","desc":"蕭炎，曾是天才少年，卻在三年間力量盡失，淪為廢柴。在得到傳奇老人的指導後，逐漸崛起，踏上修煉之路。","sources":[{"name":"頂點小說","url":"https://www.b5200.net/doupo/","quality":"高"},{"name":"起點中文","url":"https://book.qidian.com/info/460238","quality":"高"}],"chapters":[{"title":"第一章 天才的隕落","url":"https://www.b5200.net/doupo/1.html"},{"title":"第二章 廢材蕭炎","url":"https://www.b5200.net/doupo/2.html"},{"title":"第三章 神秘老人","url":"https://www.b5200.net/doupo/3.html"},{"title":"第四章 再次修煉","url":"https://www.b5200.net/doupo/4.html"},{"title":"第五章 驚人天賦","url":"https://www.b5200.net/doupo/5.html"},{"title":"第六章 斗術精通","url":"https://www.b5200.net/doupo/6.html"},{"title":"第七章 納蘭薇薇","url":"https://www.b5200.net/doupo/7.html"},{"title":"第八章 大家族之爭","url":"https://www.b5200.net/doupo/8.html"},{"title":"第九章 神秘功法","url":"https://www.b5200.net/doupo/9.html"},{"title":"第十章 蕭炎崛起","url":"https://www.b5200.net/doupo/10.html"},{"title":"第十一章 斗帝之路","url":"https://www.b5200.net/doupo/11.html"},{"title":"第十二章 煉丹大師","url":"https://www.b5200.net/doupo/12.html"}]},{"id":"panlong","title":"盤龍","author":"我吃西紅柿","genre":"西方玄幻","status":"已完本","rating":9.1,"words":"120萬字","cover":"🐉","color":"#4A148C","desc":"林雷，一個平凡少年，在深山中遇到傳奇老龍，開始了修煉之旅，最終成為主宰世界的強者。","sources":[{"name":"頂點小說","url":"https://www.b5200.net/panlong/","quality":"高"},{"name":"書趣閣","url":"https://www.shuquge.com/txt/3/","quality":"中"}],"chapters":[{"title":"第一章 深山遇龍","url":"https://www.b5200.net/panlong/1.html"},{"title":"第二章 龍血覺醒","url":"https://www.b5200.net/panlong/2.html"},{"title":"第三章 強者之路","url":"https://www.b5200.net/panlong/3.html"},{"title":"第四章 盤龍大陸","url":"https://www.b5200.net/panlong/4.html"},{"title":"第五章 神秘功法","url":"https://www.b5200.net/panlong/5.html"},{"title":"第六章 主神空間","url":"https://www.b5200.net/panlong/6.html"},{"title":"第七章 盤龍稱雄","url":"https://www.b5200.net/panlong/7.html"},{"title":"第八章 神王之境","url":"https://www.b5200.net/panlong/8.html"}]},{"id":"stellar","title":"星辰變","author":"我吃西紅柿","genre":"修仙玄幻","status":"已完本","rating":9,"words":"135萬字","cover":"⭐","color":"#0D47A1","desc":"秦羽自幼體質特殊，無法修煉，在一次機緣巧合下，得到神秘功法，走上了修煉的道路。","sources":[{"name":"頂點小說","url":"https://www.b5200.net/xingchenbian/","quality":"高"}],"chapters":[{"title":"第一章 廢體少年","url":"https://www.b5200.net/xingchenbian/1.html"},{"title":"第二章 雷電天賦","url":"https://www.b5200.net/xingchenbian/2.html"},{"title":"第三章 星辰之力","url":"https://www.b5200.net/xingchenbian/3.html"},{"title":"第四章 秦羽修煉","url":"https://www.b5200.net/xingchenbian/4.html"},{"title":"第五章 天才雲集","url":"https://www.b5200.net/xingchenbian/5.html"},{"title":"第六章 星辰大陸","url":"https://www.b5200.net/xingchenbian/6.html"}]},{"id":"shenmu","title":"神墓","author":"辰東","genre":"修仙玄幻","status":"已完本","rating":9.2,"words":"130萬字","cover":"🌑","color":"#263238","desc":"陳棟走入神秘古墓，踏上追尋不朽之路，跨越生死，遊歷三千世界。","sources":[{"name":"頂點小說","url":"https://www.b5200.net/shenmu/","quality":"高"}],"chapters":[{"title":"第一章 古老神墓","url":"https://www.b5200.net/shenmu/1.html"},{"title":"第二章 不朽之路","url":"https://www.b5200.net/shenmu/2.html"},{"title":"第三章 三千世界","url":"https://www.b5200.net/shenmu/3.html"},{"title":"第四章 神秘力量","url":"https://www.b5200.net/shenmu/4.html"},{"title":"第五章 長生之道","url":"https://www.b5200.net/shenmu/5.html"}]}];
-const MASTERS = [{"id":"jinyong","name":"金庸","avatar":"金","color":"#D4AF37","genre":"武俠經典","bookCount":15,"totalWords":"超過 1,000 萬字","desc":"金庸（1924-2018），本名查良鏞，著名武俠小說家。著有《射鵰英雄傳》、《神鵰俠侶》、《倚天屠龍記》等15部膾炙人口的作品。","books":[{"id":"shediao","title":"射鵰英雄傳","words":"100萬字","chapters":[{"title":"第一回 風雪驚變","url":"https://www.b5200.net/shediao/1.html"},{"title":"第二回 江南七怪","url":"https://www.b5200.net/shediao/2.html"},{"title":"第三回 黃蓉出場","url":"https://www.b5200.net/shediao/3.html"},{"title":"第四回 桃花島主","url":"https://www.b5200.net/shediao/4.html"},{"title":"第五回 降龍十八掌","url":"https://www.b5200.net/shediao/5.html"},{"title":"第六回 英雄大會","url":"https://www.b5200.net/shediao/6.html"},{"title":"第七回 九陰真經","url":"https://www.b5200.net/shediao/7.html"},{"title":"第八回 郭靖的決斷","url":"https://www.b5200.net/shediao/8.html"},{"title":"第九回 東邪西毒","url":"https://www.b5200.net/shediao/9.html"},{"title":"第十回 射鵰英雄","url":"https://www.b5200.net/shediao/10.html"}],"sources":[{"name":"頂點小說","url":"https://www.b5200.net/shediao/"}],"cover":"🦅","color":"#8B4513","genre":"武俠","status":"已完本","rating":9.8,"author":"金庸","desc":"郭靖自幼在蒙古長大，後因機緣學得絕世武功，與黃蓉相識相愛，共同為國為民的俠義故事。"},{"id":"shendiao","title":"神鵰俠侶","words":"90萬字","chapters":[{"title":"第一回 風陵渡口","url":"https://www.b5200.net/shendiao/1.html"},{"title":"第二回 楊過受辱","url":"https://www.b5200.net/shendiao/2.html"},{"title":"第三回 小龍女出關","url":"https://www.b5200.net/shendiao/3.html"},{"title":"第四回 古墓派武功","url":"https://www.b5200.net/shendiao/4.html"},{"title":"第五回 情到深處","url":"https://www.b5200.net/shendiao/5.html"},{"title":"第六回 神鵰出現","url":"https://www.b5200.net/shendiao/6.html"},{"title":"第七回 黯然銷魂掌","url":"https://www.b5200.net/shendiao/7.html"},{"title":"第八回 十六年後","url":"https://www.b5200.net/shendiao/8.html"}],"sources":[{"name":"頂點小說","url":"https://www.b5200.net/shendiao/"}],"cover":"🦅","color":"#1565C0","genre":"武俠","status":"已完本","rating":9.7,"author":"金庸","desc":"楊過與小龍女的愛情故事，十六年分離，終於重聚。"},{"id":"yitian","title":"倚天屠龍記","words":"100萬字","chapters":[{"title":"第一回 天涯思君不可忘","url":"https://www.b5200.net/yitian/1.html"},{"title":"第二回 武當山頂松柏長","url":"https://www.b5200.net/yitian/2.html"},{"title":"第三回 張無忌初顯身手","url":"https://www.b5200.net/yitian/3.html"},{"title":"第四回 九陽神功","url":"https://www.b5200.net/yitian/4.html"},{"title":"第五回 明教教主","url":"https://www.b5200.net/yitian/5.html"},{"title":"第六回 武林大會","url":"https://www.b5200.net/yitian/6.html"},{"title":"第七回 屠龍刀與倚天劍","url":"https://www.b5200.net/yitian/7.html"},{"title":"第八回 復國大業","url":"https://www.b5200.net/yitian/8.html"}],"sources":[{"name":"頂點小說","url":"https://www.b5200.net/yitian/"}],"cover":"⚔️","color":"#1B5E20","genre":"武俠","status":"已完本","rating":9.6,"author":"金庸","desc":"張無忌習得九陽神功與乾坤大挪移，成為明教教主，帶領明教驅除韃虜。"},{"id":"tianlong","title":"天龍八部","words":"120萬字","chapters":[{"title":"第一回 青衫磊落險峯行","url":"https://www.b5200.net/tianlong/1.html"},{"title":"第二回 玄鐵重劍","url":"https://www.b5200.net/tianlong/2.html"},{"title":"第三回 段譽初現","url":"https://www.b5200.net/tianlong/3.html"},{"title":"第四回 六脈神劍","url":"https://www.b5200.net/tianlong/4.html"},{"title":"第五回 喬峯之謎","url":"https://www.b5200.net/tianlong/5.html"},{"title":"第六回 聚賢莊大戰","url":"https://www.b5200.net/tianlong/6.html"},{"title":"第七回 少林寺之秘","url":"https://www.b5200.net/tianlong/7.html"},{"title":"第八回 天龍八部結局","url":"https://www.b5200.net/tianlong/8.html"}],"sources":[{"name":"頂點小說","url":"https://www.b5200.net/tianlong/"}],"cover":"🐲","color":"#4A148C","genre":"武俠","status":"已完本","rating":9.9,"author":"金庸","desc":"喬峯、段譽、虛竹三人的英雄故事，天龍八部中最為波瀾壯闊的武俠史詩。"},{"id":"xiaolizhi","title":"笑傲江湖","words":"95萬字","chapters":[{"title":"第一回 滅門","url":"https://www.b5200.net/xiaolizhi/1.html"},{"title":"第二回 林平之","url":"https://www.b5200.net/xiaolizhi/2.html"},{"title":"第三回 令狐沖","url":"https://www.b5200.net/xiaolizhi/3.html"},{"title":"第四回 笑傲江湖曲","url":"https://www.b5200.net/xiaolizhi/4.html"},{"title":"第五回 東方不敗","url":"https://www.b5200.net/xiaolizhi/5.html"},{"title":"第六回 任盈盈","url":"https://www.b5200.net/xiaolizhi/6.html"},{"title":"第七回 少林武當之爭","url":"https://www.b5200.net/xiaolizhi/7.html"},{"title":"第八回 笑傲天下","url":"https://www.b5200.net/xiaolizhi/8.html"}],"sources":[{"name":"頂點小說","url":"https://www.b5200.net/xiaolizhi/"}],"cover":"🎵","color":"#E65100","genre":"武俠","status":"已完本","rating":9.5,"author":"金庸","desc":"令狐沖行俠仗義，不拘小節，最終與任盈盈隱居山林的故事。"}]},{"id":"huangyi","name":"黃易","avatar":"黃","color":"#FF6F00","genre":"武俠奇幻","bookCount":37,"totalWords":"超過 3,000 萬字","desc":"黃易（1952-2017），本名黃祖強，香港著名武俠奇幻小說家。著有《大唐雙龍傳》、《尋秦記》、《覆雨翻雲》等多部作品。","books":[{"id":"datang","title":"大唐雙龍傳","words":"400萬字","chapters":[{"title":"第一章 邪帝舍利","url":"https://www.b5200.net/datang/1.html"},{"title":"第二章 江湖相逢","url":"https://www.b5200.net/datang/2.html"},{"title":"第三章 魔門高手","url":"https://www.b5200.net/datang/3.html"},{"title":"第四章 武功精進","url":"https://www.b5200.net/datang/4.html"},{"title":"第五章 爭奪天下","url":"https://www.b5200.net/datang/5.html"}],"sources":[{"name":"頂點小說","url":"https://www.b5200.net/datang/"}],"cover":"⚔️","color":"#8B0000","genre":"武俠","status":"已完本","rating":9.6,"author":"黃易","desc":"寇仲與徐子陵的大唐雙龍傳說。"},{"id":"xunqin","title":"尋秦記","words":"120萬字","chapters":[{"title":"第一章 穿越秦朝","url":"https://www.b5200.net/xunqin/1.html"},{"title":"第二章 項少龍","url":"https://www.b5200.net/xunqin/2.html"},{"title":"第三章 秦始皇","url":"https://www.b5200.net/xunqin/3.html"},{"title":"第四章 古代武術","url":"https://www.b5200.net/xunqin/4.html"},{"title":"第五章 六國爭霸","url":"https://www.b5200.net/xunqin/5.html"}],"sources":[{"name":"頂點小說","url":"https://www.b5200.net/xunqin/"}],"cover":"🏯","color":"#BF360C","genre":"穿越","status":"已完本","rating":9.4,"author":"黃易","desc":"現代人穿越回秦朝，介入歷史的精彩故事。"}]},{"id":"morenwu","name":"莫仁","avatar":"莫","color":"#00796B","genre":"都市網游","bookCount":8,"totalWords":"超過 800 萬字","desc":"莫仁，著名網絡小說家，代表作《我是大明星》等，擅長寫都市生活與娛樂圈故事。","books":[{"id":"dastar","title":"我是大明星","words":"100萬字","chapters":[{"title":"第一章 落魄歌手","url":"https://www.b5200.net/dastar/1.html"},{"title":"第二章 神秘系統","url":"https://www.b5200.net/dastar/2.html"},{"title":"第三章 娛樂圈","url":"https://www.b5200.net/dastar/3.html"},{"title":"第四章 走紅之路","url":"https://www.b5200.net/dastar/4.html"},{"title":"第五章 巨星夢想","url":"https://www.b5200.net/dastar/5.html"}],"sources":[{"name":"頂點小說","url":"https://www.b5200.net/dastar/"}],"cover":"⭐","color":"#F57F17","genre":"都市","status":"已完本","rating":8.9,"author":"莫仁","desc":"落魄歌手得到神秘系統，走上巨星之路。"}]}];
-
-// Flatten all books including master books
-const ALL_BOOKS = [...BOOKS];
-MASTERS.forEach(m => {
-  if (m.books) m.books.forEach(b => {
-    if (!ALL_BOOKS.find(x => x.id === b.id)) ALL_BOOKS.push(b);
+// ---- Navigation ----
+document.querySelectorAll('.nav-item').forEach(function(el){
+  el.addEventListener('click', function(){
+    var pg = el.getAttribute('data-page');
+    document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
+    el.classList.add('active');
+    document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+    var pageEl = document.getElementById('page-'+pg);
+    if(pageEl) pageEl.classList.add('active');
+    if(pg==='rank') renderRank();
+    else if(pg==='complete') renderComplete();
+    else if(pg==='master') renderMasters();
+    else if(pg==='bookshelf') renderShelf();
+    else if(pg==='history') renderHist();
   });
 });
 
-// ===== READER STATE =====
-let currentBook = null;
-let currentChapterIndex = 0;
-let currentSourceIndex = 0;
-let readerFontSize = 17;
-let readerTheme = 'dark';
-let uploadedBooks = [];
-let bookshelf = JSON.parse(localStorage.getItem('guangge_shelf') || '[]');
-let history_list = JSON.parse(localStorage.getItem('guangge_history') || '[]');
+document.querySelectorAll('[data-goto]').forEach(function(el){
+  el.addEventListener('click', function(){
+    var pg = el.getAttribute('data-goto');
+    var navEl = document.querySelector('[data-page="'+pg+'"]');
+    if(navEl) navEl.click();
+  });
+});
 
-// ===== PAGE NAVIGATION =====
-function showPage(pageId, navEl) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  const page = document.getElementById('page-' + pageId);
-  if (page) page.classList.add('active');
-  if (navEl) navEl.classList.add('active');
-  
-  if (pageId === 'home') renderHome();
-  else if (pageId === 'rank') renderRank();
-  else if (pageId === 'complete') renderComplete();
-  else if (pageId === 'master') renderMasters();
-  else if (pageId === 'bookshelf') renderBookshelf();
-  else if (pageId === 'history') renderHistory();
+// ---- Render functions ----
+function renderHome(){
+  var hotEl = document.getElementById('hot-books');
+  if(hotEl) hotEl.innerHTML = BOOKS.slice(0,4).map(function(b){return bookCard(b);}).join('');
+  var mpEl = document.getElementById('masters-preview');
+  if(mpEl) mpEl.innerHTML = MASTERS.map(function(m){return masterItem(m);}).join('');
 }
 
-// ===== RENDER HOME =====
-function renderHome() {
-  const hotEl = document.getElementById('hot-books');
-  if (hotEl) {
-    hotEl.innerHTML = BOOKS.slice(0,3).map(b => bookCardHTML(b)).join('');
-  }
-  const mastersEl = document.getElementById('masters-preview');
-  if (mastersEl) {
-    mastersEl.innerHTML = MASTERS.map(m => masterItemHTML(m)).join('');
-  }
+function bookCard(b){
+  var safe = encodeURIComponent(b.id);
+  return '<div class="book-card">' +
+    '<div class="book-cover" style="background:'+b.color+'">'+b.cover+'</div>' +
+    '<div class="book-info">' +
+      '<div class="book-title">'+b.title+'</div>' +
+      '<div class="book-author">'+b.author+' · '+b.status+'</div>' +
+      '<span class="book-tag">'+b.genre+'</span>' +
+      '<div class="book-meta">&#9733;'+b.rating+' &nbsp; '+b.words+'</div>' +
+    '</div>' +
+    '<div class="book-actions">' +
+      '<button class="btn-read" onclick="openBookModal(''+safe+'')">開讀</button>' +
+      '<button class="btn-source" onclick="quickSrc(''+safe+'')">書源↗</button>' +
+    '</div>' +
+  '</div>';
 }
 
-function bookCardHTML(book) {
-  return `<div class="book-card">
-    <div class="book-cover" style="background:${book.color}">${book.cover}</div>
-    <div class="book-info">
-      <div class="book-title">${book.title}</div>
-      <div class="book-author">${book.author} · ${book.status}</div>
-      <span class="book-tag">${book.genre}</span>
-      <div class="book-meta">⭐${book.rating} &nbsp; ${book.words}</div>
-    </div>
-    <div class="book-actions">
-      <button class="btn-read" onclick="openBookDetail(ALL_BOOKS.find(b=>b.id==='${book.id}') || ${JSON.stringify(book).replace(/'/g, '\\u0027')})">開讀</button>
-      <button class="btn-source" onclick="quickRead('${book.id}')">書源↗</button>
-    </div>
-  </div>`;
+function masterItem(m){
+  return '<div class="master-item" onclick="openMasterModal(''+m.id+'')">'+
+    '<div class="master-avatar" style="background:'+m.color+'">'+m.avatar+'</div>'+
+    '<div class="master-info"><div class="master-name">'+m.name+'</div><div class="master-sub">'+m.genre+' · '+m.bookCount+'部 · '+m.totalWords+'</div></div>'+
+    '<span class="chevron">&#8250;</span>'+
+  '</div>';
 }
 
-function masterItemHTML(m) {
-  return `<div class="master-item" onclick="openMasterDetail('${m.id}')">
-    <div class="master-avatar" style="background:${m.color}">${m.avatar}</div>
-    <div class="master-info">
-      <div class="master-name">${m.name}</div>
-      <div class="master-sub">${m.genre} &nbsp;·&nbsp; ${m.bookCount} 部 &nbsp;·&nbsp; ${m.totalWords}</div>
-    </div>
-    <span class="chevron">›</span>
-  </div>`;
-}
-
-// ===== RENDER OTHER PAGES =====
-function renderRank() {
-  const el = document.getElementById('rank-list');
-  if (!el) return;
-  const ranked = [...ALL_BOOKS].sort((a,b) => b.rating - a.rating);
-  el.innerHTML = ranked.map((b,i) => `
-    <div class="book-card" onclick="openBookDetail(ALL_BOOKS.find(x=>x.id===b.id)||b)">
-      <div style="width:30px;text-align:center;font-size:18px;font-weight:800;color:${i<3?'#f9a825':'#666'}">${i+1}</div>
-      <div class="book-cover" style="background:${b.color}">${b.cover}</div>
-      <div class="book-info">
-        <div class="book-title">${b.title}</div>
-        <div class="book-author">${b.author}</div>
-        <div class="book-meta">⭐${b.rating} · ${b.words}</div>
-      </div>
-      <button class="btn-read" onclick="event.stopPropagation();startReading(ALL_BOOKS.find(x=>x.id==='${b.id}')||${JSON.stringify(b).replace(/'/g,'\\u0027')},0)">閱讀</button>
-    </div>`).join('');
-}
-
-function renderComplete() {
-  const el = document.getElementById('complete-list');
-  if (!el) return;
-  const completed = ALL_BOOKS.filter(b => b.status === '已完本');
-  el.innerHTML = completed.map(b => bookCardHTML(b)).join('');
-}
-
-function renderMasters() {
-  const el = document.getElementById('masters-list');
-  if (!el) return;
-  el.innerHTML = MASTERS.map(m => masterItemHTML(m)).join('');
-}
-
-function renderBookshelf() {
-  const el = document.getElementById('bookshelf-list');
-  if (!el) return;
-  if (bookshelf.length === 0) {
-    el.innerHTML = '<div style="text-align:center;color:#666;padding:40px">書架空空如也，快去加入你喜愛的書吧！</div>';
-    return;
-  }
-  el.innerHTML = bookshelf.map(id => {
-    const b = ALL_BOOKS.find(x => x.id === id);
-    return b ? bookCardHTML(b) : '';
+function renderRank(){
+  var el = document.getElementById('rank-list');
+  if(!el) return;
+  var sorted = BOOKS.slice().sort(function(a,b){return b.rating-a.rating;});
+  el.innerHTML = sorted.map(function(b,i){
+    return '<div class="book-card">'+
+      '<div style="width:28px;text-align:center;font-size:17px;font-weight:800;color:'+(i<3?'#f9a825':'#555')+'">'+(i+1)+'</div>'+
+      '<div class="book-cover" style="background:'+b.color+'">'+b.cover+'</div>'+
+      '<div class="book-info"><div class="book-title">'+b.title+'</div><div class="book-meta">&#9733;'+b.rating+' · '+b.words+'</div></div>'+
+      '<button class="btn-read" onclick="startRead(''+encodeURIComponent(b.id)+'',0)">閱讀</button>'+
+    '</div>';
   }).join('');
 }
 
-function renderHistory() {
-  const el = document.getElementById('history-list');
-  if (!el) return;
-  if (history_list.length === 0) {
-    el.innerHTML = '<div style="text-align:center;color:#666;padding:40px">暫無閱讀歷史</div>';
-    return;
-  }
-  el.innerHTML = history_list.map(item => {
-    const b = ALL_BOOKS.find(x => x.id === item.bookId);
-    if (!b) return '';
-    return `<div class="book-card" onclick="startReading(ALL_BOOKS.find(x=>x.id==='${b.id}'),${item.chapterIndex||0})">
-      <div class="book-cover" style="background:${b.color}">${b.cover}</div>
-      <div class="book-info">
-        <div class="book-title">${b.title}</div>
-        <div class="book-meta">上次讀到：${b.chapters[item.chapterIndex]?.title||'第一章'}</div>
-        <div class="book-meta" style="color:#888;font-size:11px">${item.time||''}</div>
-      </div>
-      <button class="btn-read">繼續</button>
-    </div>`;
+function renderComplete(){
+  var el = document.getElementById('complete-list');
+  if(!el) return;
+  el.innerHTML = BOOKS.filter(function(b){return b.status==='已完本';}).map(function(b){return bookCard(b);}).join('');
+}
+
+function renderMasters(){
+  var el = document.getElementById('masters-list');
+  if(!el) return;
+  el.innerHTML = MASTERS.map(function(m){return masterItem(m);}).join('');
+}
+
+function renderShelf(){
+  var el = document.getElementById('shelf-list');
+  if(!el) return;
+  if(!shelf.length){el.innerHTML='<div class="loading-text">書架空空如也，快去加入書本！</div>';return;}
+  el.innerHTML = shelf.map(function(id){
+    var b = BOOKS.find(function(x){return x.id===id;});
+    return b ? bookCard(b) : '';
   }).join('');
 }
 
-// ===== BOOK DETAIL MODAL =====
-function openBookDetail(book) {
-  if (!book) return;
-  currentBook = book;
-  document.getElementById('detail-title').textContent = book.title;
-  document.getElementById('detail-desc').innerHTML = `
-    <div style="display:flex;gap:12px;margin-bottom:12px;align-items:center">
-      <div style="width:60px;height:80px;border-radius:8px;background:${book.color};display:flex;align-items:center;justify-content:center;font-size:24px">${book.cover||'📖'}</div>
-      <div>
-        <div style="font-size:18px;font-weight:700;color:#fff">${book.title}</div>
-        <div style="color:#aaa;margin:4px 0">${book.author||''} · ${book.status||''}</div>
-        <div style="color:#f9a825">⭐${book.rating||''} &nbsp; ${book.words||''}</div>
-      </div>
-    </div>
-    <p>${book.desc||'暫無簡介'}</p>`;
-  
-  // Render TOC
-  const tocEl = document.getElementById('detail-toc-list');
-  if (tocEl && book.chapters) {
-    tocEl.innerHTML = book.chapters.map((ch, i) => `
-      <li class="toc-item${i===currentChapterIndex?' current':''}">
-        <a href="javascript:void(0)" onclick="startReading(currentBook,${i});hideModal('book-detail-modal')">
-          ${ch.title}<span>章節${i+1}</span>
-        </a>
-      </li>`).join('');
-  }
-  
-  // Render sources
-  const srcEl = document.getElementById('source-selector-list');
-  if (srcEl && book.sources) {
-    srcEl.innerHTML = book.sources.map((s,i) => `
-      <div class="source-item${i===0?' selected':''}" onclick="selectSource(${i})">
-        <div><div class="source-name">${s.name}</div><div class="source-status">品質：${s.quality}</div></div>
-        <span style="color:${i===0?'#f9a825':'#555'}">${i===0?'✓':''}</span>
-      </div>`).join('');
-  }
-  
-  showModal('book-detail-modal');
+function renderHist(){
+  var el = document.getElementById('history-list');
+  if(!el) return;
+  if(!hist.length){el.innerHTML='<div class="loading-text">暫無閱讀歷史</div>';return;}
+  el.innerHTML = hist.map(function(item){
+    var b = BOOKS.find(function(x){return x.id===item.bookId;});
+    if(!b) return '';
+    var ch = b.chapters[item.chIdx||0];
+    return '<div class="book-card" onclick="startRead(''+encodeURIComponent(b.id)+'','+(item.chIdx||0)+')">'+
+      '<div class="book-cover" style="background:'+b.color+'">'+b.cover+'</div>'+
+      '<div class="book-info"><div class="book-title">'+b.title+'</div>'+
+      '<div class="book-meta">上次：'+(ch?ch.t:'第一章')+'</div>'+
+      '<div class="book-meta" style="color:#666;font-size:11px">'+(item.time||'')+'</div></div>'+
+      '<button class="btn-read">繼續</button>'+
+    '</div>';
+  }).join('');
 }
 
-function selectSource(idx) {
-  currentSourceIndex = idx;
-  if (currentBook && currentBook.sources) {
-    document.querySelectorAll('#source-selector-list .source-item').forEach((el,i) => {
-      el.classList.toggle('selected', i===idx);
-      el.querySelector('span').textContent = i===idx ? '✓' : '';
-      el.querySelector('span').style.color = i===idx ? '#f9a825' : '#555';
-    });
-  }
-  showToast('已切換書源：' + currentBook.sources[idx].name);
+// ---- Book Modal ----
+function openBookModal(safeId){
+  var id = decodeURIComponent(safeId);
+  var b = BOOKS.find(function(x){return x.id===id;});
+  if(!b) return;
+  curBook = b;
+  document.getElementById('book-modal-title').textContent = b.title;
+  document.getElementById('book-desc').innerHTML =
+    '<div style="display:flex;gap:12px;margin-bottom:12px">'+
+    '<div style="width:56px;height:76px;border-radius:8px;background:'+b.color+';display:flex;align-items:center;justify-content:center;font-size:22px">'+b.cover+'</div>'+
+    '<div><div style="font-size:17px;font-weight:700;color:#fff">'+b.title+'</div>'+
+    '<div style="color:#aaa;margin:4px 0">'+b.author+' · '+b.status+'</div>'+
+    '<div style="color:#f9a825">&#9733;'+b.rating+' &nbsp; '+b.words+'</div></div></div>'+
+    '<p style="color:#ccc;font-size:14px;line-height:1.7">'+b.desc+'</p>';
+  // TOC
+  var tocEl = document.getElementById('modal-toc-list');
+  if(tocEl) tocEl.innerHTML = (b.chapters||[]).map(function(ch,i){
+    return '<li class="toc-item"><a onclick="startReadCh('+i+')">'+ch.t+'</a></li>';
+  }).join('');
+  // Sources
+  var srcEl = document.getElementById('src-list');
+  if(srcEl) srcEl.innerHTML = (b.sources||[]).map(function(s,i){
+    return '<div class="source-item'+(i===0?' selected':'')+'" onclick="selSrc('+i+')" id="src-'+i+'">'+
+      '<div><div class="source-name">'+s.name+'</div><div style="font-size:11px;color:#aaa">品質：'+s.quality+'</div></div>'+
+      '<span style="color:'+(i===0?'#f9a825':'#555')+'">'+(i===0?'✓':'')+'</span>'+
+    '</div>';
+  }).join('');
+  showModal('book-modal');
 }
 
-// ===== READER =====
-function startReading(book, chapterIndex) {
-  if (!book) return;
-  currentBook = book;
-  currentChapterIndex = chapterIndex || 0;
-  currentSourceIndex = 0;
-  
-  // Record history
-  const now = new Date().toLocaleString('zh-TW');
-  const existing = history_list.findIndex(h => h.bookId === book.id);
-  if (existing >= 0) history_list.splice(existing, 1);
-  history_list.unshift({bookId: book.id, chapterIndex, time: now});
-  if (history_list.length > 50) history_list.pop();
-  localStorage.setItem('guangge_history', JSON.stringify(history_list));
-  
+function selSrc(i){
+  curSrc = i;
+  document.querySelectorAll('[id^="src-"]').forEach(function(el,idx){
+    el.classList.toggle('selected',idx===i);
+    var span = el.querySelector('span');
+    span.textContent = idx===i ? '✓' : '';
+    span.style.color = idx===i ? '#f9a825' : '#555';
+  });
+  showToast('書源：'+(curBook.sources[i]?curBook.sources[i].name:''));
+}
+
+function openMasterModal(id){
+  var m = MASTERS.find(function(x){return x.id===id;});
+  if(!m) return;
+  document.getElementById('book-modal-title').textContent = m.name + ' · 全集';
+  document.getElementById('book-desc').innerHTML =
+    '<div style="display:flex;gap:12px;margin-bottom:12px">'+
+    '<div style="width:50px;height:50px;border-radius:50%;background:'+m.color+';display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:#1a1a1a">'+m.avatar+'</div>'+
+    '<div><div style="font-size:18px;font-weight:700;color:#fff">'+m.name+'</div>'+
+    '<div style="color:#aaa">'+m.genre+' · '+m.bookCount+'部作品</div></div></div>'+
+    '<p style="color:#ccc;font-size:14px;line-height:1.7">'+m.desc+'</p>';
+  var tocEl = document.getElementById('modal-toc-list');
+  if(tocEl) tocEl.innerHTML = (m.bookIds||[]).map(function(bid){
+    var b = BOOKS.find(function(x){return x.id===bid;});
+    if(!b) return '';
+    return '<li class="toc-item"><a onclick="openBookModal(''+encodeURIComponent(bid)+'')">'+b.title+'<span style="color:#888;font-size:11px;margin-left:8px">'+b.words+'</span></a></li>';
+  }).join('');
+  document.getElementById('src-list').innerHTML = '';
+  showModal('book-modal');
+}
+
+// ---- Reader ----
+function startRead(safeId, chIdx){
+  var id = decodeURIComponent(safeId);
+  var b = BOOKS.find(function(x){return x.id===id;});
+  if(!b) return;
+  hideModal('book-modal');
+  curBook = b; curCh = chIdx||0; curSrc = 0;
+  saveHist(b.id, curCh);
   openReader();
 }
 
-function openReader() {
-  const reader = document.getElementById('page-reader');
-  reader.classList.add('active');
-  reader.style.display = 'flex';
-  loadChapter(currentChapterIndex);
+function startReadCh(i){
+  if(!curBook) return;
+  hideModal('book-modal');
+  curCh = i;
+  saveHist(curBook.id, i);
+  openReader();
 }
 
-function closeReader() {
-  const reader = document.getElementById('page-reader');
-  reader.classList.remove('active');
-  reader.style.display = 'none';
-  // Save progress
-  if (currentBook) {
-    const existing = history_list.findIndex(h => h.bookId === currentBook.id);
-    if (existing >= 0) history_list[existing].chapterIndex = currentChapterIndex;
-    localStorage.setItem('guangge_history', JSON.stringify(history_list));
+function saveHist(bookId, chIdx){
+  var idx = hist.findIndex(function(h){return h.bookId===bookId;});
+  if(idx>=0) hist.splice(idx,1);
+  hist.unshift({bookId:bookId,chIdx:chIdx,time:new Date().toLocaleString('zh-TW')});
+  if(hist.length>50) hist.pop();
+  localStorage.setItem('gghist',JSON.stringify(hist));
+}
+
+function openReader(){
+  var reader = document.getElementById('page-reader');
+  reader.classList.add('open');
+  loadChapter(curCh);
+}
+
+function closeReader(){
+  var reader = document.getElementById('page-reader');
+  reader.classList.remove('open');
+  if(curBook) saveHist(curBook.id, curCh);
+}
+
+function loadChapter(idx){
+  if(!curBook||!curBook.chapters) return;
+  var ch = curBook.chapters[idx];
+  if(!ch) return;
+  curCh = idx;
+  document.getElementById('reader-book-title').textContent = curBook.title;
+  document.getElementById('reader-ch-title').textContent = ch.t;
+  document.getElementById('btn-prev').disabled = idx<=0;
+  document.getElementById('btn-next').disabled = idx>=(curBook.chapters.length-1);
+  
+  var url = ch.u;
+  if(!url && curBook.sources && curBook.sources[curSrc]) {
+    url = curBook.sources[curSrc].url + (idx+1) + '.html';
+  }
+  document.getElementById('fallback-link').href = url||'#';
+  document.getElementById('r-fallback').classList.remove('show');
+  
+  if(curBook.isUpload){
+    loadUploadChapter(idx, ch);
+  } else {
+    var iframe = document.getElementById('r-iframe');
+    document.getElementById('r-text').style.display = 'none';
+    iframe.style.display = 'block';
+    iframe.src = url||'about:blank';
+    clearTimeout(window._ift);
+    window._ift = setTimeout(function(){
+      try{
+        var doc = iframe.contentDocument||iframe.contentWindow.document;
+        if(!doc.body||doc.body.innerHTML.length<50) showFallback(url);
+      }catch(e){ showFallback(url); }
+    }, 3500);
   }
 }
 
-function loadChapter(index) {
-  if (!currentBook || !currentBook.chapters) return;
-  const chapter = currentBook.chapters[index];
-  if (!chapter) return;
-  currentChapterIndex = index;
-  
-  document.getElementById('reader-book-title').textContent = currentBook.title;
-  document.getElementById('reader-chapter-title').innerHTML = 
-    `<span>${chapter.title}</span><span style="margin-left:auto;color:#f9a825;cursor:pointer" onclick="showTocModal()">目錄</span>`;
-  
-  // Update nav buttons
-  document.getElementById('btn-prev').disabled = index <= 0;
-  document.getElementById('btn-next').disabled = index >= currentBook.chapters.length - 1;
-  
-  // Determine URL
-  let url = chapter.url;
-  if (currentBook.sources && currentBook.sources[currentSourceIndex]) {
-    // Use the base source URL and append chapter path if needed
-    const baseUrl = currentBook.sources[currentSourceIndex].url;
-    if (!url && baseUrl) url = baseUrl + (index + 1) + '.html';
-  }
-  
-  // Hide fallback, show iframe
-  document.getElementById('reader-fallback').classList.remove('show');
-  document.getElementById('reader-iframe').style.display = 'block';
-  document.getElementById('reader-text-display').style.display = 'none';
-  document.getElementById('fallback-link').href = url || '#';
-  
-  // Try to load in iframe
-  const iframe = document.getElementById('reader-iframe');
-  iframe.src = url || 'about:blank';
-  
-  // Set a timeout to check if iframe loaded
-  window._iframeTimeout = setTimeout(() => {
-    try {
-      const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-      if (!iframeDoc || iframeDoc.body.innerHTML === '') {
-        showFallback(url);
-      }
-    } catch(e) {
-      // Cross-origin blocked = show fallback
-      showFallback(url);
-    }
-  }, 3000);
+function loadUploadChapter(idx, ch){
+  var iframe = document.getElementById('r-iframe');
+  iframe.style.display = 'none';
+  document.getElementById('r-fallback').classList.remove('show');
+  var textEl = document.getElementById('r-text');
+  textEl.style.display = 'block';
+  textEl.style.fontSize = fontSize + 'px';
+  textEl.innerHTML = (ch.content||'').split('\n').map(function(p){
+    return p.trim() ? '<p>'+p+'</p>' : '';
+  }).join('');
+  textEl.scrollTop = 0;
 }
 
-function checkIframeLoad(iframe) {
-  clearTimeout(window._iframeTimeout);
-  try {
-    const doc = iframe.contentDocument || iframe.contentWindow.document;
-    if (doc.body && doc.body.innerHTML.length > 100) {
-      // Loaded successfully
-      document.getElementById('reader-fallback').classList.remove('show');
-    } else {
-      showFallback(iframe.src);
-    }
-  } catch(e) {
-    showFallback(iframe.src);
-  }
+function showFallback(url){
+  clearTimeout(window._ift);
+  document.getElementById('r-iframe').style.display = 'none';
+  var fb = document.getElementById('r-fallback');
+  fb.classList.add('show');
+  if(url) document.getElementById('fallback-link').href = url;
 }
 
-function showFallback(url) {
-  document.getElementById('reader-iframe').style.display = 'none';
-  const fallback = document.getElementById('reader-fallback');
-  fallback.classList.add('show');
-  if (url) document.getElementById('fallback-link').href = url;
+function tryNextSrc(){
+  if(!curBook||!curBook.sources||!curBook.sources.length) return;
+  curSrc = (curSrc+1)%curBook.sources.length;
+  showToast('切換書源：'+curBook.sources[curSrc].name);
+  loadChapter(curCh);
 }
 
-function tryNextSource() {
-  if (!currentBook || !currentBook.sources) return;
-  currentSourceIndex = (currentSourceIndex + 1) % currentBook.sources.length;
-  showToast('嘗試書源：' + currentBook.sources[currentSourceIndex].name);
-  loadChapter(currentChapterIndex);
-}
-
-function prevChapter() {
-  if (currentChapterIndex > 0) loadChapter(currentChapterIndex - 1);
-}
-
-function nextChapter() {
-  if (currentBook && currentChapterIndex < currentBook.chapters.length - 1) {
-    loadChapter(currentChapterIndex + 1);
-  }
-}
-
-function quickRead(bookId) {
-  const book = ALL_BOOKS.find(b => b.id === bookId);
-  if (book && book.sources && book.sources[0]) {
-    window.open(book.sources[0].url, '_blank');
-  }
-}
-
-// ===== TOC MODAL =====
-function showTocModal() {
-  if (!currentBook) return;
-  document.getElementById('toc-book-title').textContent = currentBook.title + ' - 目錄';
-  const tocEl = document.getElementById('toc-list');
-  if (tocEl && currentBook.chapters) {
-    tocEl.innerHTML = currentBook.chapters.map((ch, i) => `
-      <li class="toc-item${i===currentChapterIndex?' current':''}">
-        <a href="javascript:void(0)" onclick="loadChapter(${i});hideTocModal()">
-          ${ch.title}
-        </a>
-      </li>`).join('');
-  }
+// ---- TOC Modal in reader ----
+function showToc(){
+  if(!curBook) return;
+  document.getElementById('toc-title').textContent = curBook.title+' 目錄';
+  var ul = document.getElementById('toc-list');
+  ul.innerHTML = (curBook.chapters||[]).map(function(ch,i){
+    return '<li class="toc-item'+(i===curCh?' current':'')+'"><a onclick="loadChapter('+i+');hideModal('toc-modal')">'+ch.t+'</a></li>';
+  }).join('');
   showModal('toc-modal');
-  // Scroll to current chapter
-  setTimeout(() => {
-    const current = document.querySelector('#toc-list .current');
-    if (current) current.scrollIntoView({block:'center'});
-  }, 100);
+  setTimeout(function(){
+    var cur = ul.querySelector('.current');
+    if(cur) cur.scrollIntoView({block:'center'});
+  },100);
 }
 
-function hideTocModal() {
-  hideModal('toc-modal');
+// ---- Shelf ----
+function addShelf(){
+  if(!curBook) return;
+  if(shelf.indexOf(curBook.id)<0){ shelf.push(curBook.id); localStorage.setItem('ggshelf',JSON.stringify(shelf)); showToast('已加入書架'); }
+  else showToast('已在書架中');
 }
 
-// ===== MASTER DETAIL =====
-function openMasterDetail(masterId) {
-  const master = MASTERS.find(m => m.id === masterId);
-  if (!master) return;
-  
-  document.getElementById('detail-title').textContent = master.name + ' · 全集';
-  document.getElementById('detail-desc').innerHTML = `
-    <div style="display:flex;gap:12px;margin-bottom:12px;align-items:center">
-      <div style="width:60px;height:60px;border-radius:50%;background:${master.color};display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;color:#1a1a1a">${master.avatar}</div>
-      <div>
-        <div style="font-size:20px;font-weight:700;color:#fff">${master.name}</div>
-        <div style="color:#aaa">${master.genre} · ${master.bookCount}部作品</div>
-      </div>
-    </div>
-    <p>${master.desc}</p>`;
-  
-  // Show master's books in TOC tab
-  const tocEl = document.getElementById('detail-toc-list');
-  if (tocEl && master.books) {
-    tocEl.innerHTML = master.books.map(b => `
-      <li class="toc-item" style="padding:0">
-        <a href="javascript:void(0)" onclick="openBookDetail(ALL_BOOKS.find(x=>x.id==='${b.id}')||${JSON.stringify(b).replace(/'/g,'\\u0027')});switchTab('tab-info',document.querySelector('#book-detail-modal .tab-btn'))">
-          ${b.title} <span>${b.words||''}</span>
-        </a>
-      </li>`).join('');
-  }
-  
-  showModal('book-detail-modal');
+function quickSrc(safeId){
+  var id = decodeURIComponent(safeId);
+  var b = BOOKS.find(function(x){return x.id===id;});
+  if(b&&b.sources&&b.sources[0]) window.open(b.sources[0].url,'_blank');
 }
 
-// ===== BOOKSHELF =====
-function addToShelf(book) {
-  if (!book) return;
-  if (!bookshelf.includes(book.id)) {
-    bookshelf.push(book.id);
-    localStorage.setItem('guangge_shelf', JSON.stringify(bookshelf));
-    showToast('已加入書架：' + book.title);
-  } else {
-    showToast('已在書架中');
-  }
-}
-
-// ===== SETTINGS =====
-function toggleSettings() {
-  document.getElementById('settings-panel').classList.toggle('show');
-}
-
-function changeFontSize(delta) {
-  readerFontSize = Math.max(12, Math.min(24, readerFontSize + delta));
-  const textDisplay = document.getElementById('reader-text-display');
-  if (textDisplay) textDisplay.style.fontSize = readerFontSize + 'px';
-}
-
-function toggleReaderTheme() {
-  readerTheme = readerTheme === 'dark' ? 'light' : 'dark';
-  const iframe = document.getElementById('reader-iframe');
-  const textDisplay = document.getElementById('reader-text-display');
-  if (iframe) iframe.className = 'reader-iframe' + (readerTheme === 'dark' ? ' dark' : '');
-  if (textDisplay) {
-    textDisplay.className = 'reader-text-content' + (readerTheme === 'light' ? ' light' : '');
-  }
-  const reader = document.getElementById('page-reader');
-  reader.style.background = readerTheme === 'light' ? '#f5f0e8' : '#1a1a1a';
-}
-
-function showSourceSelector() {
-  toggleSettings();
-  if (currentBook) showModal('source-modal');
-  const srcEl = document.getElementById('source-modal-list');
-  if (srcEl && currentBook && currentBook.sources) {
-    srcEl.innerHTML = currentBook.sources.map((s,i) => `
-      <div class="source-item${i===currentSourceIndex?' selected':''}" onclick="selectSource(${i});hideModal('source-modal')" style="margin:8px 16px">
-        <div><div class="source-name">${s.name}</div><div class="source-status">品質：${s.quality}</div></div>
-        <span>${i===currentSourceIndex?'✓':''}</span>
-      </div>`).join('');
-  }
-}
-
-// ===== FILE UPLOAD =====
-function handleFileUpload(event) {
-  const files = event.target.files;
-  if (!files || files.length === 0) return;
-  
-  Array.from(files).forEach(file => {
-    const reader = new FileReader();
-    const fileInfo = {
-      id: 'upload_' + Date.now(),
-      name: file.name,
-      size: (file.size / 1024).toFixed(1) + ' KB',
-      type: file.name.endsWith('.epub') ? 'epub' : 'txt'
-    };
-    
-    reader.onload = function(e) {
-      fileInfo.content = e.target.result;
-      uploadedBooks.push(fileInfo);
-      renderUploadList();
-      showToast('已上傳：' + file.name);
-    };
-    
-    if (file.name.endsWith('.txt')) {
-      reader.readAsText(file, 'UTF-8');
-    } else {
-      reader.readAsDataURL(file);
-    }
-  });
-}
-
-function renderUploadList() {
-  const el = document.getElementById('upload-list');
-  if (!el) return;
-  if (uploadedBooks.length === 0) {
-    el.innerHTML = '<div style="text-align:center;color:#555;padding:20px;font-size:13px">尚未上傳任何書本</div>';
-    return;
-  }
-  el.innerHTML = uploadedBooks.map((f, i) => `
-    <div class="upload-item" onclick="readUploadedBook(${i})">
-      <div class="upload-item-icon">${f.type==='epub'?'📗':'📄'}</div>
-      <div class="upload-item-info">
-        <div class="upload-item-name">${f.name}</div>
-        <div class="upload-item-size">${f.size} · 點擊閱讀</div>
-      </div>
-      <span style="color:#f9a825">▶</span>
-    </div>`).join('');
-}
-
-function readUploadedBook(index) {
-  const file = uploadedBooks[index];
-  if (!file) return;
-  
-  if (file.type === 'txt' && file.content) {
-    // Parse TXT into chapters
-    const lines = file.content.split(/\n/);
-    const chapters = [];
-    let currentTitle = '開始', currentContent = [];
-    
-    lines.forEach(line => {
-      const trimmed = line.trim();
-      if (trimmed.match(/^第[一二三四五六七八九十百千\d]+[章節回]/) && trimmed.length < 50) {
-        if (currentContent.length > 0) {
-          chapters.push({title: currentTitle, content: currentContent.join('\n'), url: null});
-        }
-        currentTitle = trimmed;
-        currentContent = [];
-      } else if (trimmed) {
-        currentContent.push(trimmed);
-      }
-    });
-    if (currentContent.length > 0) chapters.push({title: currentTitle, content: currentContent.join('\n'), url: null});
-    
-    if (chapters.length === 0) {
-      // No chapters found, treat whole file as one chapter
-      chapters.push({title: file.name, content: file.content, url: null});
-    }
-    
-    const uploadBook = {
-      id: file.id,
-      title: file.name.replace(/\.txt$/, ''),
-      author: '本地上傳',
-      cover: '📄',
-      color: '#555',
-      genre: '本地書籍',
-      status: '本地',
-      rating: '-',
-      words: (file.content.length / 10000).toFixed(1) + '萬字',
-      chapters: chapters,
-      sources: [],
-      isUpload: true
-    };
-    
-    currentBook = uploadBook;
-    currentChapterIndex = 0;
-    openReader();
-  } else if (file.type === 'epub') {
-    showToast('EPUB 閱讀功能開發中，請先使用 TXT 格式');
-  }
-}
-
-// Override loadChapter for uploaded books
-const _originalLoadChapter = loadChapter;
-function loadChapter(index) {
-  if (currentBook && currentBook.isUpload) {
-    const chapter = currentBook.chapters[index];
-    if (!chapter) return;
-    currentChapterIndex = index;
-    
-    document.getElementById('reader-book-title').textContent = currentBook.title;
-    document.getElementById('reader-chapter-title').innerHTML = 
-      `<span>${chapter.title}</span><span style="margin-left:auto;color:#f9a825;cursor:pointer" onclick="showTocModal()">目錄</span>`;
-    document.getElementById('btn-prev').disabled = index <= 0;
-    document.getElementById('btn-next').disabled = index >= currentBook.chapters.length - 1;
-    
-    // Show text content
-    document.getElementById('reader-iframe').style.display = 'none';
-    document.getElementById('reader-fallback').classList.remove('show');
-    const textDisplay = document.getElementById('reader-text-display');
-    textDisplay.style.display = 'block';
-    textDisplay.style.fontSize = readerFontSize + 'px';
-    textDisplay.innerHTML = chapter.content.split('\n').map(p => p.trim() ? '<p>' + p + '</p>' : '').join('');
-    textDisplay.scrollTop = 0;
-  } else {
-    _originalLoadChapter(index);
-  }
-}
-
-// ===== MODAL HELPERS =====
-function showModal(id) {
-  document.getElementById(id).classList.add('active');
-}
-function hideModal(id) {
-  document.getElementById(id).classList.remove('active');
-}
-
-function switchTab(tabId, btnEl) {
-  const modal = btnEl ? btnEl.closest('.modal') : document;
-  (modal || document).querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-  (modal || document).querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  const tabEl = document.getElementById(tabId);
-  if (tabEl) tabEl.classList.add('active');
-  if (btnEl) btnEl.classList.add('active');
-}
-
-// ===== LOGIN =====
-function showLoginModal() { showModal('login-modal'); }
-
-function loginWithGoogle() {
-  if (typeof firebase === 'undefined') {
-    showToast('Firebase 正在載入，請稍候');
-    return;
-  }
-  const provider = new firebase.auth.GoogleAuthProvider();
-  firebase.auth().signInWithPopup(provider).then(result => {
-    hideModal('login-modal');
-    showToast('歡迎 ' + result.user.displayName + '！');
-    document.querySelector('.btn-login').textContent = result.user.displayName.substring(0,4);
-  }).catch(err => {
-    showToast('登入失敗：' + err.message);
-  });
-}
-
-// ===== TOAST =====
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
-}
-
-// ===== FIREBASE =====
-const firebaseConfig = {
-  apiKey: "AIzaSyBTxxx",
-  authDomain: "guangge-library.firebaseapp.com",
-  projectId: "guangge-library",
-  databaseURL: "https://guangge-library-default-rtdb.asia-southeast1.firebasedatabase.app",
-  storageBucket: "guangge-library.appspot.com",
-  messagingSenderId: "000000000",
-  appId: "1:000000:web:000000"
-};
-
-function loadFirebase() {
-  return new Promise((resolve) => {
-    if (typeof firebase !== 'undefined') { resolve(); return; }
-    const s1 = document.createElement('script');
-    s1.src = 'https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js';
-    s1.onload = () => {
-      const s2 = document.createElement('script');
-      s2.src = 'https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js';
-      s2.onload = () => {
-        const s3 = document.createElement('script');
-        s3.src = 'https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js';
-        s3.onload = () => { if (typeof firebase !== 'undefined') firebase.initializeApp(firebaseConfig); resolve(); };
-        s3.onerror = resolve;
-        document.head.appendChild(s3);
-      };
-      s2.onerror = resolve;
-      document.head.appendChild(s2);
-    };
-    s1.onerror = () => {
-      // Fallback CDN
-      const f1 = document.createElement('script');
-      f1.src = 'https://cdnjs.cloudflare.com/ajax/libs/firebase/9.6.10/firebase-app-compat.min.js';
-      f1.onload = () => {
-        const f2 = document.createElement('script');
-        f2.src = 'https://cdnjs.cloudflare.com/ajax/libs/firebase/9.6.10/firebase-auth-compat.min.js';
-        f2.onload = () => { if (typeof firebase !== 'undefined') firebase.initializeApp(firebaseConfig); resolve(); };
-        f2.onerror = resolve;
-        document.head.appendChild(f2);
-      };
-      f1.onerror = resolve;
-      document.head.appendChild(f1);
-    };
-    document.head.appendChild(s1);
-  });
-}
-
-// ===== INIT =====
-document.addEventListener('DOMContentLoaded', function() {
-  renderHome();
-  loadFirebase();
+// ---- Upload ----
+document.getElementById('upload-zone').addEventListener('click',function(){
+  document.getElementById('file-input').click();
 });
+document.getElementById('file-input').addEventListener('change',function(e){
+  var files = e.target.files;
+  if(!files||!files.length) return;
+  Array.from(files).forEach(function(file){
+    var reader = new FileReader();
+    var info = {id:'up_'+Date.now(),name:file.name,size:(file.size/1024).toFixed(1)+' KB',type:file.name.endsWith('.epub')?'epub':'txt'};
+    reader.onload = function(ev){
+      info.content = ev.target.result;
+      uploadedBooks.push(info);
+      renderUploads();
+      showToast('已上傳：'+file.name);
+    };
+    reader.readAsText(file,'UTF-8');
+  });
+  e.target.value = '';
+});
+
+function renderUploads(){
+  var el = document.getElementById('upload-list');
+  if(!uploadedBooks.length){el.innerHTML='<div style="text-align:center;color:#555;padding:16px;font-size:13px">尚未上傳書本</div>';return;}
+  el.innerHTML = uploadedBooks.map(function(f,i){
+    return '<div class="upload-item" onclick="readUpload('+i+')">'+
+      '<div style="font-size:24px">'+(f.type==='epub'?'📗':'📄')+'</div>'+
+      '<div style="flex:1"><div style="font-size:14px;color:#fff;font-weight:600">'+f.name+'</div><div style="font-size:12px;color:#aaa">'+f.size+' · 點擊閱讀</div></div>'+
+      '<span style="color:#f9a825">&#9654;</span>'+
+    '</div>';
+  }).join('');
+}
+
+function readUpload(i){
+  var file = uploadedBooks[i];
+  if(!file) return;
+  if(file.type==='epub'){showToast('EPUB 開發中，請用 TXT');return;}
+  var lines = file.content.split('\n');
+  var chapters = [], title = '開始', content = [];
+  lines.forEach(function(line){
+    var t = line.trim();
+    if(t.match(/^第[\u4e00-\u9fa5\d]+[章節回]/) && t.length<60){
+      if(content.length) chapters.push({t:title,content:content.join('\n')});
+      title = t; content = [];
+    } else if(t) content.push(t);
+  });
+  if(content.length) chapters.push({t:title,content:content.join('\n')});
+  if(!chapters.length) chapters.push({t:file.name,content:file.content});
+  curBook = {id:file.id,title:file.name.replace(/\.txt$/,''),author:'本地',cover:'📄',color:'#555',chapters:chapters,sources:[],isUpload:true};
+  curCh = 0; openReader();
+}
+
+// ---- Settings ----
+document.getElementById('settings-btn').addEventListener('click',function(){
+  document.getElementById('settings-panel').classList.toggle('show');
+});
+document.getElementById('close-settings').addEventListener('click',function(){
+  document.getElementById('settings-panel').classList.remove('show');
+});
+document.getElementById('font-minus').addEventListener('click',function(){
+  fontSize = Math.max(12,fontSize-1);
+  document.getElementById('r-text').style.fontSize = fontSize+'px';
+});
+document.getElementById('font-plus').addEventListener('click',function(){
+  fontSize = Math.min(26,fontSize+1);
+  document.getElementById('r-text').style.fontSize = fontSize+'px';
+});
+document.getElementById('toggle-theme').addEventListener('click',function(){
+  theme = theme==='dark'?'light':'dark';
+  var iframe = document.getElementById('r-iframe');
+  iframe.style.filter = theme==='dark'?'invert(1) hue-rotate(180deg)':'none';
+  var textEl = document.getElementById('r-text');
+  if(theme==='light'){textEl.style.background='#f5f0e8';textEl.style.color='#333';}
+  else{textEl.style.background='#1a1a1a';textEl.style.color='#ddd';}
+  var reader = document.getElementById('page-reader');
+  reader.style.background = theme==='light'?'#f5f0e8':'#1a1a1a';
+});
+document.getElementById('show-sources').addEventListener('click',function(){
+  document.getElementById('settings-panel').classList.remove('show');
+  if(!curBook||!curBook.sources||!curBook.sources.length){showToast('此書無可用書源');return;}
+  var ul = document.getElementById('toc-list');
+  document.getElementById('toc-title').textContent = '選擇書源';
+  ul.innerHTML = curBook.sources.map(function(s,i){
+    return '<li class="toc-item'+(i===curSrc?' current':'')+'"><a onclick="curSrc='+i+';loadChapter(curCh);hideModal('toc-modal');showToast('書源：'+s.name+'');">'+s.name+'<span style="color:#888;font-size:11px;margin-left:8px">品質：'+s.quality+'</span></a></li>';
+  }).join('');
+  showModal('toc-modal');
+});
+
+// ---- Reader nav ----
+document.getElementById('reader-back-btn').addEventListener('click', closeReader);
+document.getElementById('btn-prev').addEventListener('click',function(){ if(curCh>0) loadChapter(curCh-1); });
+document.getElementById('btn-next').addEventListener('click',function(){ if(curBook&&curCh<curBook.chapters.length-1) loadChapter(curCh+1); });
+document.getElementById('toc-btn').addEventListener('click', showToc);
+document.getElementById('try-next-source').addEventListener('click', tryNextSrc);
+
+// ---- Book modal buttons ----
+document.getElementById('btn-add-shelf').addEventListener('click', addShelf);
+document.getElementById('btn-start-read').addEventListener('click',function(){
+  if(curBook) startReadCh(0);
+});
+
+// ---- Login ----
+document.getElementById('btn-login-top').addEventListener('click',function(){showModal('login-modal');});
+document.getElementById('google-login-btn').addEventListener('click',function(){
+  if(typeof firebase==='undefined'){showToast('Firebase 載入中...');return;}
+  var p = new firebase.auth.GoogleAuthProvider();
+  firebase.auth().signInWithPopup(p).then(function(r){
+    hideModal('login-modal');
+    showToast('歡迎 '+r.user.displayName+'！');
+    document.getElementById('btn-login-top').textContent = r.user.displayName.substring(0,4);
+  }).catch(function(e){showToast('登入失敗');});
+});
+
+// ---- Tab switching in modal ----
+document.querySelectorAll('.tab-btn').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var tabId = btn.getAttribute('data-tab');
+    var modal = btn.closest('.modal');
+    modal.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');});
+    modal.querySelectorAll('.tab-pane').forEach(function(p){p.classList.remove('active');});
+    btn.classList.add('active');
+    var pane = document.getElementById(tabId);
+    if(pane) pane.classList.add('active');
+  });
+});
+
+// ---- Modal close ----
+document.querySelectorAll('[data-close]').forEach(function(el){
+  el.addEventListener('click',function(){hideModal(el.getAttribute('data-close'));});
+});
+document.querySelectorAll('.modal-overlay').forEach(function(ov){
+  ov.addEventListener('click',function(e){if(e.target===ov) ov.classList.remove('active');});
+});
+
+function showModal(id){document.getElementById(id).classList.add('active');}
+function hideModal(id){document.getElementById(id).classList.remove('active');}
+
+// ---- Toast ----
+function showToast(msg){
+  var t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  clearTimeout(window._toastT);
+  window._toastT=setTimeout(function(){t.classList.remove('show');},2500);
+}
+
+// ---- Firebase ----
+function loadFirebase(){
+  if(typeof firebase!=='undefined') return;
+  var s = document.createElement('script');
+  s.src = 'https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js';
+  s.onload = function(){
+    var s2 = document.createElement('script');
+    s2.src = 'https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js';
+    s2.onload = function(){
+      try{ firebase.initializeApp({apiKey:'placeholder',authDomain:'guangge-library.firebaseapp.com',projectId:'guangge-library',databaseURL:'https://guangge-library-default-rtdb.asia-southeast1.firebasedatabase.app'}); }catch(e){}
+    };
+    document.head.appendChild(s2);
+  };
+  s.onerror = function(){
+    var f = document.createElement('script');
+    f.src = 'https://cdnjs.cloudflare.com/ajax/libs/firebase/9.6.10/firebase-app-compat.min.js';
+    f.onload = function(){
+      var f2 = document.createElement('script');
+      f2.src = 'https://cdnjs.cloudflare.com/ajax/libs/firebase/9.6.10/firebase-auth-compat.min.js';
+      f2.onload = function(){
+        try{ firebase.initializeApp({apiKey:'placeholder',authDomain:'guangge-library.firebaseapp.com',projectId:'guangge-library'}); }catch(e){}
+      };
+      document.head.appendChild(f2);
+    };
+    document.head.appendChild(f);
+  };
+  document.head.appendChild(s);
+}
+
+// ---- Init ----
+renderHome();
+loadFirebase();
+
 </script>
 </body>
 </html>
